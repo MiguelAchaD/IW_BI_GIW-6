@@ -1,0 +1,31 @@
+footer {
+  margin-top: var(--marginContent);
+  width: 100%;
+  height: 300px;
+  background-color: var(--color04);
+  color: black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Quitar cuando haya contenido*/
+footer div div{
+  text-align: center;
+}
+/*                             */
+
+.contact {
+  width: 70vw;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.sponsors {
+  margin-bottom: 10px;
+  width: 70vw;
+}
+
+.moreInfo {
+  width: 70vw;
+}

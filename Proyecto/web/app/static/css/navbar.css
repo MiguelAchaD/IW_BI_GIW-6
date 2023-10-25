@@ -1,0 +1,94 @@
+nav {
+  background-color: var(--color01);
+  padding: 10px 0 10px;
+}
+
+nav svg {
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+#logo #color {
+  -webkit-transition: fill var(--ease-time) ease;
+  -moz-transition: fill var(--ease-time) ease;
+  -o-transition: fill var(--ease-time) ease;
+  transition: fill var(--ease-time) ease;
+  fill: white;
+}
+
+#logo:hover #color {
+  fill: var(--color03);
+}
+
+#shoping-cart g {
+  -webkit-transition: fill var(--ease-time) ease;
+  -moz-transition: fill var(--ease-time) ease;
+  -o-transition: fill var(--ease-time) ease;
+  transition: fill var(--ease-time) ease;
+  fill: white;
+}
+
+#shoping-cart:hover g {
+  fill: var(--color03);
+}
+
+#phone {
+  -webkit-transition: fill var(--ease-time) ease;
+  -moz-transition: fill var(--ease-time) ease;  
+  -o-transition: fill var(--ease-time) ease;
+  transition: fill var(--ease-time) ease;
+  fill: white;
+}
+
+#phone:hover {
+  fill: var(--color03);
+}
+
+#profile {
+  -webkit-transition: fill var(--ease-time) ease;
+  -moz-transition: fill var(--ease-time) ease;
+  -o-transition: fill var(--ease-time) ease;
+  transition: fill var(--ease-time) ease;
+  fill: white;
+}
+
+#profile:hover {
+  fill: var(--color03);
+}
+
+.navbar {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color01);
+  width: 60vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navbar li {
+  margin: 0 5px 0 5px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(white 50%, var(--color03) 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  background-position: 100% 0%;
+  transition: background-position var(--ease-time) ease;
+  text-align: center;
+  line-height: var(--navHeight);
+  display: inline-block;
+  height: var(--navHeight);
+  font-size: 15px;
+  overflow: hidden;
+}
+
+.navbar a:hover {
+  background-position: 0 100%;
+}

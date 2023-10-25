@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/general.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <title></title>
+</head>
+
+<body>
+  <header>
+    {% include "navbar.html" %}
+  </header>
+  <main>
+    <div class="Top"></div>
+    <div class="Middle"></div>
+    <div class="Bottom"></div>
+  </main>
+  {% include "footer.html" %}
+</body>
+
+</html>

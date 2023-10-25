@@ -1,0 +1,21 @@
+main div{
+    margin-top: var(--marginContent);
+}
+
+.Top {
+    background-color: var(--color03);
+    width: 100%;
+    height: var(--contentHeight);
+}
+
+.Middle {
+    background-color: var(--color03);
+    width: 100%;
+    height: var(--contentHeight);
+}
+
+.Bottom {
+    background-color: var(--color03);
+    width: 100%;
+    height: var(--contentHeight);
+}

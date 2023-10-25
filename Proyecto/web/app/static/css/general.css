@@ -1,0 +1,18 @@
+:root{
+    --color01: #0F0F0F;
+    --color02: #232D3F;
+    --color03: #005B41;
+    --color04: #008170;
+    --ease-time: 0.2s;
+    --navHeight: 50px;
+    --contentHeight: 400px;
+    --marginContent: 10px;
+}
+
+*{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+html, body { height: 100%;}
