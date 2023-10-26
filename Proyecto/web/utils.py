@@ -5,8 +5,7 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-def getTemplate(dir):
+def getTemplate(dir, context):
     with open( os.path.join(BASE_DIR, dir)) as templates:
         template = Template(templates.read())
-    context = Context()
     return template.render(context)

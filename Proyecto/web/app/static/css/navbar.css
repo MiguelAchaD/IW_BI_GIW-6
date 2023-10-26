@@ -80,7 +80,7 @@ nav svg {
   -webkit-text-fill-color: transparent;
   background-size: 200% 200%;
   background-position: 100% 0%;
-  transition: background-position var(--ease-time) ease;
+  transition: background-position calc(var(--ease-time) * 2) ease;
   text-align: center;
   line-height: var(--navHeight);
   display: inline-block;
