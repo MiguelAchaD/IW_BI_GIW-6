@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/general.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/accounts/logIn.css'%}" />
+    <title></title>
+</head>
+
+<body>
+    <div class="accountContainer">
+        <h2>ACCESO</h2>
+        <div class="myForm" id="logIn">
+            <h3>Iniciar Sesión</h3>
+            <form>
+                <label for="user"></label>
+                <input type="text" id="user" name="user" placeholder="Usuario" required>
+
+                <label for="password"></label>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+
+                <button class="btn" type="submit">Iniciar Sesión</button>
+            </form>
+            <script src="mi_cuenta.js"></script> 
+            <p class="link" onclick="showFormRegister()">¿No tienes una cuenta? Date de alta aqui.</p>
+        </div>
+
+       </body>
+
+</html>

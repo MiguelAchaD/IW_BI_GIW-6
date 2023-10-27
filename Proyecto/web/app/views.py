@@ -1,12 +1,15 @@
 from django.http import HttpResponse
-from utils import getTemplate
-from django.template import Context
+from django.shortcuts import render
+
 
 def index(request):
-    return HttpResponse(getTemplate("web\\app\\templates\\index.html", Context()))
+    context = {}
+    return render(request, "index.html", context)
 
 def logIn(request):
-    return HttpResponse(getTemplate("web\\app\\templates\\accounts\\logIn.html", Context()))
+    context = {}
+    return render(request, "accounts\\logIn.html", context)
 
 def register(request):
-    return HttpResponse(getTemplate("web\\app\\templates\\accounts\\register.html", Context()))
+    context = {}
+    return render(request, "accounts\\register.html", context)

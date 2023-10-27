@@ -82,13 +82,14 @@ nav svg {
   background-position: 100% 0%;
   transition: background-position calc(var(--ease-time) * 2) ease;
   text-align: center;
-  line-height: var(--navHeight);
   display: inline-block;
-  height: var(--navHeight);
   font-size: 15px;
   overflow: hidden;
+  height: var(--navHeight);
+  line-height: var(--navHeight);
 }
 
 .navbar a:hover {
   background-position: 0 100%;
 }
+
