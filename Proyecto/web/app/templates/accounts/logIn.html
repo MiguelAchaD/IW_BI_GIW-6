@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,25 +7,27 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/general.css' %}" />
     <link rel="stylesheet" href="{% static 'css/accounts/logIn.css'%}" />
+    <script src="{% static 'js/accounts/input.js'%}"></script>
     <title></title>
 </head>
 
 <body>
     <div class="accountContainer">
         <h2>ACCESO</h2>
-        <div class="myForm" id="logIn">
+        <div class="myForm">
             <h3>Iniciar Sesión</h3>
             <form>
-                <label for="user"></label>
-                <input type="text" id="user" name="user" placeholder="Usuario" required>
-
-                <label for="password"></label>
-                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                <label for="user"><span class="input-label">Usuario</span></label>
+                <input type="text" id="user" name="user">
+                
+                <label for="password"><span class="input-label">Contraseña</span></label>
+                <input type="password" id="password" name="password">
+                
 
                 <button class="btn" type="submit">Iniciar Sesión</button>
             </form>
-            <script src="mi_cuenta.js"></script> 
-            <p class="link" onclick="showFormRegister()">¿No tienes una cuenta? Date de alta aqui.</p>
+            <p class="link" onclick="">¿No tienes una cuenta? Date de alta aquí</p>
+            <p class="link" onclick="">Iniciar sesión con google</p>
         </div>
 
        </body>

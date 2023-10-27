@@ -18,9 +18,12 @@ from django.contrib import admin
 from django.urls import path
 from app.views import index, logIn, register
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
     path('accounts/logIn/', logIn),
     path('accounts/register/', register),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

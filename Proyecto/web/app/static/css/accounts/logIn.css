@@ -1,0 +1,77 @@
+body {
+    background-color: var(--color02);
+}
+
+.accountContainer {
+    background-color: var(--color04);
+    color: white;
+    border-top-right-radius: 100px;
+    padding: 10% 10% 10% 20%;
+    width: 25%;
+    height: 100%;
+}
+
+h3,
+h2,
+p{
+    margin-top: 20px;
+}
+
+.myForm,
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+form input{
+    width: 100%;
+    height: 30px;
+    margin-top: 40px;
+}
+
+form input {
+    background-color: var(--color04);
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    outline: none;
+    font-family: Arial;
+    padding-left: 10px;
+}
+
+button{
+    height: 40px;
+    margin-top: 30px;
+    width: 250px;
+    background-color: var(--color03);
+    border: 1px solid var(--color03);
+    border-radius: 5px;
+    color: white;
+    outline: none;
+    font-family: Arial;
+}
+
+button:hover{
+    background-color: #004936;
+}
+
+.myForm p:hover,
+.myForm p:focus{
+    text-decoration: underline;
+}
+
+.input-label {
+    margin-top: 48px;
+    margin-left: 10px;
+    position: absolute;
+    transition: margin-top 0.5s ease, margin-left 0.5s ease;
+}
+
+.input-label.focused {
+    margin-top: 20px;
+    margin-left: 0px;
+}
