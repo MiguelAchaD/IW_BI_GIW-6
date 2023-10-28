@@ -16,14 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import index, logIn, register
+from app.views import index, logIn, signUp
 
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('', index),
-    path('admin/', admin.site.urls),
-    path('accounts/logIn/', logIn),
-    path('accounts/register/', register),
+    path('admin/', admin.site.urls, name="index"),
+
+    path('accounts/logIn/', logIn, name="logIn"),
+    path('accounts/signUp/', signUp, name="signUp"),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

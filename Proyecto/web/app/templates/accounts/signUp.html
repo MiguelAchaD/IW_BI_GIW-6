@@ -1,16 +1,27 @@
-{% extends 'accountsFather.html' %}
+{% extends 'accounts/accountsFather.html' %}
 
 {% block accessMessage %}
     <p>Introduce tus datos para crear una nueva cuenta</p>
 {% endblock %}
 
-{% block additionalFields %}
-    <label for="confirm_password"><span class="input-label">Confirmar Contraseña</span></label>
-    <input type="password" id="confirm_password" name="confirm_password" oninput="handleInput(this)">
+{% block form %}
+<form method="post" action="{% url 'signUp' %}">
+    {% csrf_token %}
+    <label for="email"><span class="input-label">Correo Electrónico</span></label>
+    <input type="text" id="email" name="email" oninput="handleInput(this)">
+
+    <label for="password"><span class="input-label">Contraseña</span></label>
+    <input type="password" id="password" name="password" oninput="handleInput(this)">
+
+    <label for="confirmPassword"><span class="input-label">Confirmar Contraseña</span></label>
+    <input type="password" id="confirmPassword" name="confirmPassword" oninput="handleInput(this)">
+
+    <p id="errorMessage">{{errorMessage}}</p>
+
     <button class="btn" type="submit">Crear Cuenta</button>
+</form>    
 {% endblock %}
 
 {% block additionalLinks %}
-    <p class="link" onclick="">¿No tienes una cuenta? Date de alta aquí</p>
-    <p class="link" onclick="">Iniciar sesión con google</p>
+    <a class="link" href="{% url 'logIn' %}">¿Ya tienes una cuenta? Inicia Sesión aquí</a>
 {% endblock %}
