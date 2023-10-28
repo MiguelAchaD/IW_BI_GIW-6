@@ -1,52 +1,14 @@
-{% load static %}
+{% extends 'accountsFather.html' %}
 
-<!DOCTYPE html>
-<html lang="es">
+{% block accessMessage %}
+    <p>Introduce tus datos de acceso para acceder a tu cuenta</p>
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/general.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/accounts/logIn.css'%}" />
-    <script src="{% static 'js/accounts/input.js'%}"></script>
-    <title></title>
-</head>
+{% block additionalFields %}
+    <button class="btn" type="submit">Iniciar Sesión</button>
+{% endblock %}
 
-<body>
-    <div class="accountContainer">
-        <h1>ACCESO</h1>
-        <div class="myForm">
-            <p>Introduce tus datos de acceso para acceder a tu cuenta</p>
-            <form>
-                <label for="email"><span class="input-label">Correo Electrónico</span></label>
-                <input type="text" id="email" name="email" oninput="handleInput(this)">
-
-                <label for="password"><span class="input-label">Contraseña</span></label>
-                <input type="password" id="password" name="password" oninput="handleInput(this)">
-
-                <button class="btn" type="submit">Iniciar Sesión</button>
-            </form>
-            <p class="link" onclick="">¿No tienes una cuenta? Date de alta aquí</p>
-            <p class="link" onclick="">Iniciar sesión con google</p>
-        </div>
-    </div>
-    <div class="infoMessage">
-        <h1>Bienvenido/a a nuestro portal seguro</h1>
-        <p>En [Nombre de la Plataforma], nos tomamos muy en serio la seguridad y privacidad de tu cuenta. Queremos recordarte la importancia de mantener tu información personal y tus contraseñas de forma confidencial. Tu seguridad es nuestra prioridad número uno.</p>
-        <br>
-        <h2>¿Por qué es importante proteger tu contraseña?</h2>
-        <p>Tu contraseña es la llave que te da acceso a una experiencia segura y personalizada en nuestra plataforma. Proteger tu contraseña es fundamental para garantizar que solo tú, como propietario legítimo de la cuenta, puedas acceder a tu información, realizar transacciones y disfrutar de nuestros servicios.</p>
-        <br>
-        <h2>Consejos para proteger tu cuenta:</h2>
-        <ol>
-            <li><strong>Contraseña robusta:</strong> Crea una contraseña única y compleja que combine letras, números y caracteres especiales. Evita usar información personal fácilmente accesible, como tu nombre o fecha de nacimiento.</li>
-            <li><strong>No compartas tu contraseña:</strong> Nunca compartas tu contraseña con nadie, incluso si parecen ser representantes legítimos de la plataforma. No solicitaremos tu contraseña por correo electrónico ni por ningún otro medio.</li>
-            <li><strong>Inicio de sesión seguro:</strong> Asegúrate de acceder siempre a tu cuenta desde dispositivos seguros y redes confiables. Evita utilizar computadoras públicas o conexiones Wi-Fi no seguras.</li>
-        </ol>
-        <br>
-        <p>Recuerda que [Nombre de la Plataforma] nunca te pedirá información confidencial por correo electrónico ni por mensajes. Si alguna vez tienes dudas sobre la autenticidad de una comunicación, contáctanos directamente a través de los canales oficiales.</p>
-        <br>
-        <p>Gracias por confiar en nosotros. Juntos, podemos mantener un entorno en línea seguro y protegido para todos nuestros usuarios.</p>
-    </div>
-</body>
-
-</html>
+{% block additionalLinks %}
+    <p class="link" onclick="">¿No tienes una cuenta? Date de alta aquí</p>
+    <p class="link" onclick="">Iniciar sesión con google</p>
+{% endblock %}

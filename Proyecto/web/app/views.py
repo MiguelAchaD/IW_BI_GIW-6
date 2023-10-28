@@ -12,4 +12,4 @@ def logIn(request):
 
 def register(request):
     context = {}
-    return render(request, "accounts\\register.html", context)
+    return render(request, "accounts\\signUp.html", context)
