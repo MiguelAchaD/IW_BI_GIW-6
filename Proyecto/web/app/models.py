@@ -11,7 +11,6 @@ class Client(models.Model):
     email = models.EmailField(max_length=40, null=True)
     creditCard = models.CharField(max_length=50, null=True)
 
-"""
 class Module(models.Model):
     name = models.CharField(max_length=20)
     id = models.CharField(max_length=20, primary_key=True)
@@ -33,4 +32,3 @@ class Purchase(models.Model):
     products = models.ManyToManyField(Product)
     modulesForProducts = models.ManyToManyField(selectedModules)
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
-"""
