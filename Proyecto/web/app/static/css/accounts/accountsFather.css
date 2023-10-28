@@ -14,15 +14,18 @@ body {
     background-color: var(--color03);
     color: white;
     border-top-right-radius: 100px;
-    padding: 10% 10% 10% 20%;
+    padding: 10% 9% 10% 20%;
 }
 
 .accountContainer h1{
     margin-bottom: 20px;
 }
 
-.accountContainer p{
+.accountContainer p,
+.accountContainer a{
     margin-top: 20px;
+    color: white;
+    text-decoration: none;
 }
 
 .infoMessage {
@@ -108,4 +111,10 @@ form input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px var(--color03) inset;
     -webkit-text-fill-color: white;
     border: 2px solid var(--color04);
+}
+
+#errorMessage{
+    color: red;
+    align-self: center;
+    margin: 0;
 }

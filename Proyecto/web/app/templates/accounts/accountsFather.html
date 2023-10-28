@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/general.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/accounts/logIn.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/accounts/accountsFather.css'%}" />
     <script src="{% static 'js/accounts/input.js'%}"></script>
     <title></title>
 </head>
@@ -16,16 +16,9 @@
         <h1>ACCESO</h1>
         <div class="myForm">
             {% block accessMessage %}{% endblock %}
-            <form>
-                <label for="email"><span class="input-label">Correo Electrónico</span></label>
-                <input type="text" id="email" name="email" oninput="handleInput(this)">
-
-                <label for="password"><span class="input-label">Contraseña</span></label>
-                <input type="password" id="password" name="password" oninput="handleInput(this)">
-
-                {% block additionalFields %}{% endblock %}
-            </form>
+            {% block form %}{% endblock %}
             {% block additionalLinks %}{% endblock %}
+            <a class="link" href="">Iniciar sesión con google</a>
         </div>
     </div>
     <div class="infoMessage">

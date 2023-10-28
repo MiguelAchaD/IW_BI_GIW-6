@@ -1,15 +1,22 @@
 from django.db import models
-from django.utils.crypto import get_random_string
-
-# Create your models here.
+from django.contrib.auth.models import User
 
 class Client(models.Model):
-    id = models.CharField(max_length=20, default=get_random_string(length=20), primary_key=True)
-    name = models.CharField(max_length=20)
-    surname = models.CharField(max_length=20)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthDate = models.DateField()
-    email = models.EmailField(max_length=40, null=True)
     creditCard = models.CharField(max_length=50, null=True)
+"""
+    Campos de User
+    username: Nombre de usuario único utilizado para la autenticación.
+    password: Contraseña del usuario (almacenada de forma segura mediante hash).
+    email: Dirección de correo electrónico del usuario (opcionalmente única).
+    first_name: Primer nombre del usuario.
+    last_name: Apellido del usuario.
+    is_active: Booleano que indica si la cuenta del usuario está activa.
+    is_staff: Booleano que indica si el usuario tiene acceso al sitio de administración.
+    is_superuser: Booleano que indica si el usuario tiene todos los permisos sin restricciones.
+    """
+
 
 class Module(models.Model):
     name = models.CharField(max_length=20)
