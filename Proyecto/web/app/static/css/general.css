@@ -3,7 +3,7 @@
     --color02: #232D3F;
     --color03: #005B41;
     --color04: #008170;
-    --ease-time: 0.3s;
+    --ease-time: 0.5s;
     --navHeight: 50px;
     --contentHeight: 400px;
     --marginContent: 10px;
@@ -17,6 +17,5 @@
 
 html,
 body {
-    width: 100vh;
-    height: 100vh;
+    height: 100%;
 }

@@ -1,77 +1,111 @@
 body {
-    background-color: var(--color02);
+    background-color: var(--color01);
+    display: flex;
+    align-items: stretch;
+}
+
+.accountContainer,
+.infoMessage {
+    width: 50%;
+    box-sizing: border-box;
 }
 
 .accountContainer {
-    background-color: var(--color04);
+    background-color: var(--color03);
     color: white;
     border-top-right-radius: 100px;
     padding: 10% 10% 10% 20%;
-    width: 25%;
-    height: 100%;
 }
 
-h3,
-h2,
-p{
+.accountContainer h1{
+    margin-bottom: 20px;
+}
+
+.accountContainer p{
     margin-top: 20px;
 }
 
+.infoMessage {
+    background-color: var(--color01);
+    color: white;
+    padding: 10%;
+}
+
+.infoMessage p,
+.infoMessage span,
+.infoMessage li{
+    font-family: Arial;
+}
+
+.infoMessage ol{
+    margin-left: 50px;
+}
+
 .myForm,
-form{
+form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-
-}
-
-form input{
-    width: 100%;
-    height: 30px;
-    margin-top: 40px;
 }
 
 form input {
-    background-color: var(--color04);
+    width: 100%;
+    height: 40px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    background-color: var(--color03);
     color: white;
-    border: 2px solid white;
+    border: 1px solid white;
     border-radius: 5px;
     outline: none;
     font-family: Arial;
     padding-left: 10px;
 }
 
-button{
+button {
     height: 40px;
     margin-top: 30px;
     width: 250px;
-    background-color: var(--color03);
-    border: 1px solid var(--color03);
+    background-color: var(--color04);
+    border: 1px solid var(--color04);
     border-radius: 5px;
     color: white;
     outline: none;
     font-family: Arial;
+    transition: width var(--ease-time) ease;
 }
 
-button:hover{
-    background-color: #004936;
+button:hover {
+    background-color: rgb(4, 114, 97);
+    border-color: rgb(4, 114, 97);
+    width: 103%;
 }
 
-.myForm p:hover,
-.myForm p:focus{
+.link:hover,
+.link:focus {
     text-decoration: underline;
 }
 
 .input-label {
-    margin-top: 48px;
+    margin-top: 62px;
     margin-left: 10px;
     position: absolute;
-    transition: margin-top 0.5s ease, margin-left 0.5s ease;
+    transition: margin-top var(--ease-time) ease, margin-left var(--ease-time) ease;
 }
 
 .input-label.focused {
-    margin-top: 20px;
+    margin-top: 25px;
     margin-left: 0px;
+}
+
+form input.written {
+    border: 2px solid var(--color04);
+}
+
+form input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px var(--color03) inset;
+    -webkit-text-fill-color: white;
+    border: 2px solid var(--color04);
 }

@@ -15,3 +15,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+function handleInput(inputElement) {
+    var inputValue = inputElement.value;
+
+    if (inputValue.trim() !== '') {
+        inputElement.classList.add('written');
+        console.log("written");
+    } else {
+        inputElement.classList.remove('written');
+        console.log("not written");
+    }
+}

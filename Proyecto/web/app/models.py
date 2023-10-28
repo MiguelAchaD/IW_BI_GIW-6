@@ -1,4 +1,6 @@
 from django.db import models
+from django.db import models
+from django.utils.crypto import get_random_string
 
 # Create your models here.
 
@@ -15,12 +17,13 @@ class Product(models.Model):
     compatibleModules = models.ManyToManyField(Module)
 
 class Client(models.Model):
+    id = models.CharField(max_length=20, default=get_random_string(length=20), primary_key=True)
     name = models.CharField(max_length=20)
     surname = models.CharField(max_length=20)
-    username = models.CharField(max_length=20, primary_key=True)
     birthDate = models.DateField()
-    mail = models.CharField(max_length=40)
+    email = models.EmailField(max_length=40, null=True)
     creditCard = models.CharField(max_length=50)
+
 
 class selectedModules(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
