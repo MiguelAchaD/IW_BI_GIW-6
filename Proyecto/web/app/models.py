@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 
 """
     Campos de User
@@ -13,24 +14,28 @@ from django.contrib.auth.models import User
     is_superuser: Booleano que indica si el usuario tiene todos los permisos sin restricciones.
 """
 
+class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birthDate = models.DateField()
+    creditCard = models.CharField(max_length=50, null=True)
+
 class Module(models.Model):
     name = models.CharField(max_length=20)
-    id = models.CharField(max_length=20, primary_key=True)
     price = models.PositiveSmallIntegerField()
 
 class Product(models.Model):
+    id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=20)
     model = models.CharField(max_length=10)
-    id = models.CharField(max_length=20, primary_key=True)
     price = models.PositiveSmallIntegerField()
     compatibleModules = models.ManyToManyField(Module)
 
 class selectedModules(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, null=True)
     modules = models.ManyToManyField(Module)
 
 class Purchase(models.Model):
+    id = models.CharField(auto_created=get_random_string(length=20), max_length=20, primary_key=True)
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
     date = models.DateField()
-    products = models.ManyToManyField(Product)
     modulesForProducts = models.ManyToManyField(selectedModules)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)

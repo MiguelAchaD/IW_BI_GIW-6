@@ -54,5 +54,3 @@ def signUp(request):
         return render(request, "accounts/email_confirmation.html", {"email": email})
 
     return render(request, "accounts/signUp.html")
-
-
