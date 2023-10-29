@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birthDate = models.DateField()
-    creditCard = models.CharField(max_length=50, null=True)
 """
     Campos de User
     username: Nombre de usuario único utilizado para la autenticación.
@@ -15,8 +11,7 @@ class Client(models.Model):
     is_active: Booleano que indica si la cuenta del usuario está activa.
     is_staff: Booleano que indica si el usuario tiene acceso al sitio de administración.
     is_superuser: Booleano que indica si el usuario tiene todos los permisos sin restricciones.
-    """
-
+"""
 
 class Module(models.Model):
     name = models.CharField(max_length=20)
@@ -38,4 +33,4 @@ class Purchase(models.Model):
     date = models.DateField()
     products = models.ManyToManyField(Product)
     modulesForProducts = models.ManyToManyField(selectedModules)
-    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
