@@ -15,7 +15,9 @@ from django.utils.crypto import get_random_string
 """
 
 class Client(models.Model):
+    # TODO: Una vez esté creada la funcionalidad de registro (registrar auth_user, y linkearlo al cliente como fk), este debe de ser "null=False"
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #
     birthDate = models.DateField()
     creditCard = models.CharField(max_length=50, null=True)
 
@@ -35,7 +37,7 @@ class selectedModules(models.Model):
     modules = models.ManyToManyField(Module)
 
 class Purchase(models.Model):
-    id = models.CharField(auto_created=get_random_string(length=20), max_length=20, primary_key=True)
+    id = models.CharField(max_length=20, primary_key=True)
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
     date = models.DateField()
     modulesForProducts = models.ManyToManyField(selectedModules)
