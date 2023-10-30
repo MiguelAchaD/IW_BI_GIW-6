@@ -57,17 +57,32 @@
       </a>
     </li>
     <li>
-      <a href="#">
-        <svg height="45%" width="45%" viewBox="0 0 60.671 60.671" xml:space="preserve" id="profile" fill="#FFFFFF">
-          <g>
+      {% if userAuth == True %}
+        <a href="#">
+          <svg height="45%" width="45%" viewBox="0 0 60.671 60.671" xml:space="preserve" id="profile" fill="#FFFFFF">
             <g>
-              <ellipse cx="30.336" cy="12.097" rx="11.997" ry="12.097" />
-              <path
-                d="M35.64,30.079H25.031c-7.021,0-12.714,5.739-12.714,12.821v17.771h36.037V42.9    C48.354,35.818,42.661,30.079,35.64,30.079z" />
+              <g>
+                <ellipse cx="30.336" cy="12.097" rx="11.997" ry="12.097" />
+                <path
+                  d="M35.64,30.079H25.031c-7.021,0-12.714,5.739-12.714,12.821v17.771h36.037V42.9    C48.354,35.818,42.661,30.079,35.64,30.079z" />
+              </g>
             </g>
-          </g>
-        </svg>
-      </a>
+          </svg>
+        </a>
+      {% elif userAuth == False %}
+        <a href="{% url 'logIn'%}">
+          <svg height="45%" width="45%" viewBox="0 0 60.671 60.671" xml:space="preserve" id="profile" fill="#FFFFFF">
+            <g>
+              <g>
+                <ellipse cx="30.336" cy="12.097" rx="11.997" ry="12.097" />
+                <path
+                  d="M35.64,30.079H25.031c-7.021,0-12.714,5.739-12.714,12.821v17.771h36.037V42.9    C48.354,35.818,42.661,30.079,35.64,30.079z" />
+              </g>
+            </g>
+          </svg>
+        </a>
+      {% endif %}
+      
     </li>
   </ul>
 </nav>

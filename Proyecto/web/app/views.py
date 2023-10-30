@@ -12,7 +12,11 @@ from django.http import Http404
 
 
 def index(request):
-    return render(request, "index.html")
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            return render(request, "index.html", {"userAuth" : True})
+        else:
+            return render(request, "index.html", {"userAuth" : False})
 
 
 def logIn(request):
