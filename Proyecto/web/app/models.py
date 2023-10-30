@@ -15,10 +15,9 @@ from django.utils.crypto import get_random_string
 """
 
 class Client(models.Model):
-    # TODO: Una vez esté creada la funcionalidad de registro (registrar auth_user, y linkearlo al cliente como fk), este debe de ser "null=False"
+    token = models.CharField(auto_created=get_random_string(length=20), max_length=20, unique=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    #
-    birthDate = models.DateField()
+    birthDate = models.DateField(null=True)
     creditCard = models.CharField(max_length=50, null=True)
 
 class Module(models.Model):
@@ -26,7 +25,7 @@ class Module(models.Model):
     price = models.PositiveSmallIntegerField()
 
 class Product(models.Model):
-    id = models.CharField(max_length=20, primary_key=True)
+    id = models.CharField(max_length=20,    primary_key=True)
     name = models.CharField(max_length=20)
     model = models.CharField(max_length=10)
     price = models.PositiveSmallIntegerField()

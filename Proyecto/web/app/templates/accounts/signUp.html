@@ -7,6 +7,9 @@
 {% block form %}
 <form method="post" action="{% url 'signUp' %}">
     {% csrf_token %}
+    <label for="username"><span class="input-label">Nombre de Usuario</span></label>
+    <input type="text" id="username" name="username" oninput="handleInput(this)">
+
     <label for="email"><span class="input-label">Correo Electrónico</span></label>
     <input type="text" id="email" name="email" oninput="handleInput(this)">
 

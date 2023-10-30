@@ -14,7 +14,7 @@ body {
     background-color: var(--color03);
     color: white;
     border-top-right-radius: 100px;
-    padding: 10% 9% 10% 20%;
+    padding: 5% 9% 5% 20%;
 }
 
 .accountContainer h1{
@@ -31,7 +31,7 @@ body {
 .infoMessage {
     background-color: var(--color01);
     color: white;
-    padding: 10%;
+    padding: 5% 13% 5% 9%;
 }
 
 .infoMessage p,
@@ -114,7 +114,7 @@ form input:-webkit-autofill {
 }
 
 #errorMessage{
-    color: red;
+    color: white;
     align-self: center;
     margin: 0;
 }

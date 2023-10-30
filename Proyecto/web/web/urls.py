@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import index, logIn, signUp
+from app.views import index, logIn, signUp, authenticateUser
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -27,5 +27,7 @@ urlpatterns = [
 
     path('accounts/logIn/', logIn, name="logIn"),
     path('accounts/signUp/', signUp, name="signUp"),
+    path('accounts/signUp/', signUp, name="signUp"),
+    path('authenticate/newUser', authenticateUser, name="authenticateUser"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
