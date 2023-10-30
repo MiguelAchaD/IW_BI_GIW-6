@@ -49,25 +49,27 @@ def signUp(request):
 
         token = get_random_string(length=20)
         try:
-            client = Client(
-                user=User.objects.create_user(
-                    username=username, 
-                    email=email, 
-                    password=password, 
-                    is_active=False),
-                token=token)
-            client.save()
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                is_active=False
+            )
+            Client.objects.create(user=user, token=token)
+
         except IntegrityError:
             existing_user = User.objects.get(username=username)
             existing_client = Client.objects.get(user=existing_user)
+
             if not existing_user.is_active:
-                existing_user.email=email
-                existing_user.password=password
+                existing_user.email = email
+                existing_user.set_password(password)
                 existing_user.save()
-                existing_client.token=token
+
+                existing_client.token = token
                 existing_client.save()
             else:
-                return render(request, "accounts/signUp.html", {"errorMessage": f"El usuario ''{username}'' ya está registrado. Inicia sesión con ese usuario o utiliza otro nombre."})
+                return render(request, "accounts/signUp.html", {"errorMessage": f"El usuario '{username}' ya está registrado. Inicia sesión con ese usuario o utiliza otro nombre."})
 
         url = getURL(request)
         if url is None:
@@ -126,9 +128,9 @@ def authenticateUser(request):
         client = Client.objects.get(user=user)
         if client.token == token:
             client.user.is_active=True
-            client.save()
+            client.user.save()
             login(request, user)
-            return render(request, "index.html")            
+            return redirect(index)            
         else:
             raise Http404("El usuario que estás intentando autentificar no existe")    
 
