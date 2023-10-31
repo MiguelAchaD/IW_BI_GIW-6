@@ -47,7 +47,6 @@ nav svg {
 }
 
 .navbar a{
-  font-size: 15px;
   text-decoration: none;
   color: white;
   background: linear-gradient(white 50%, var(--color03) 50%);
@@ -63,10 +62,11 @@ nav svg {
   background-position: 0 100%;
 }
 
-.account-dropdown-content {
+#account-info,
+#account-options {
   position: relative;
   display: none;
-  position: absolute;;
+  position: absolute;
   background-color: var(--color01);
   min-width: 160px;
   padding: 30px;
@@ -75,11 +75,10 @@ nav svg {
   border-bottom-right-radius: 10px;
 }
 
-.account-dropdown-content p {
-  text-decoration: none;
-  color: white;
-}
-
-#account-options li{
+#account-info li,
+#account-options li {
+  color: white;  
   display: block;
+  margin: 0;
+  padding: 0;
 }

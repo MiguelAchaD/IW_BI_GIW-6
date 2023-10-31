@@ -65,9 +65,12 @@
             </svg>
           </a>
           <div id="account-info" class="account-dropdown-content">
-            
-            <p>Sesión iniciada como {{ user.username }}</p>
-
+            <ul>
+              <li>{{ user.username.upper }}</li>
+              <li>
+                <a href="{% url 'viewProfile' %}">Ver mi perfil</a>
+              </li>
+            </ul>
           </div>
         {% else %}
           <a href="#">
@@ -80,10 +83,14 @@
               </g>
             </svg>
           </a>
-          <div id="account-options" class="account-dropdown-content">            
+          <div id="account-options" class="account-dropdown-content">
             <ul>
-              <li><a href="{% url 'logIn' %}">Iniciar sesión</a></li>
-              <li><a href="{% url 'signUp' %}">Registrarse</a></li>
+              <li>
+                <a href="{% url 'logIn' %}">Iniciar sesión</a>
+              </li>
+              <li>
+                <a href="{% url 'signUp' %}">Registrarse</a>
+              </li>
             </ul>
           </div>
         {% endif %}

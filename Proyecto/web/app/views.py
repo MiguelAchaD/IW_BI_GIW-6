@@ -17,8 +17,7 @@ def index(request):
             return render(request, "index.html", {"userAuth" : True})
         else:
             return render(request, "index.html", {"userAuth" : False})
-
-
+        
 def logIn(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -131,5 +130,6 @@ def authenticateUser(request):
     except Client.DoesNotExist:
         raise Http404("No se ha podido autentificar tu direccion de correo electrónico")
 
-def emailConfirmation(request):
-    return render(request, "accounts/emailConfirmation.html", {"email": "diego.merino@opendeusto.es"})
+def viewProfile(request):
+    if request.method == "GET":
+        return render(request, "accounts/viewProfile.html", {"user": request.user})
