@@ -20,15 +20,24 @@ class Client(models.Model):
     creditCard = models.CharField(max_length=50, null=True)
 
 class Module(models.Model):
-    name = models.CharField(max_length=20)
-    price = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=20, primary_key=True)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
+    dimensionX = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    dimensionY = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    dimensionZ = models.DecimalField(default=0, decimal_places=2, max_digits=10)
 
 class Product(models.Model):
-    id = models.CharField(max_length=20,    primary_key=True)
+    id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=20)
     model = models.CharField(max_length=10)
-    price = models.PositiveSmallIntegerField()
-    compatibleModules = models.ManyToManyField(Module)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
+    dimensionX = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    dimensionY = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    dimensionZ = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+
+class compatibleModules(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    modules = models.ManyToManyField(Module, null=True, blank=True)
 
 class selectedModules(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, null=True)
