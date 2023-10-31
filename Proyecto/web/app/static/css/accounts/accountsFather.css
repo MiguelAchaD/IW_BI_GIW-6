@@ -1,5 +1,5 @@
 body {
-    background-color: var(--color01);
+    background-color: var(--color02);
     display: flex;
     align-items: stretch;
 }
@@ -29,7 +29,7 @@ body {
 }
 
 .infoMessage {
-    background-color: var(--color01);
+    background-color: var(--color02);
     color: white;
     padding: 5% 13% 5% 9%;
 }
