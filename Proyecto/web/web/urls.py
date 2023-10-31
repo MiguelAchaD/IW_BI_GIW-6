@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import index, logIn, signUp, authenticateUser
+from app.views import index, logIn, signUp, authenticateUser, emailConfirmation
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,5 +29,7 @@ urlpatterns = [
     path('accounts/signUp/', signUp, name="signUp"),
     path('accounts/signUp/', signUp, name="signUp"),
     path('authenticate/newUser', authenticateUser, name="authenticateUser"),
+    
+    path('email', emailConfirmation)
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

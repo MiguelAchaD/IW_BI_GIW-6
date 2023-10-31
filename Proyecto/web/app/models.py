@@ -17,7 +17,6 @@ from django.utils.crypto import get_random_string
 class Client(models.Model):
     token = models.CharField(auto_created=get_random_string(length=20), max_length=20, unique=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birthDate = models.DateField(null=True)
     creditCard = models.CharField(max_length=50, null=True)
 
 class Module(models.Model):
