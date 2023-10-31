@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from app.models import Client
 from django.core.mail import send_mail
@@ -121,15 +121,11 @@ def authenticateUser(request):
 
     try:
         user = User.objects.get(username=username)
-        client = Client.objects.get(user=user)
-        if client.token == token:
-            client.user.is_active=True
-            client.user.save()
-            login(request, user)
-            return redirect(index)            
-        else:
-            raise Http404("El usuario que estás intentando autentificar no existe")    
-
+        client = Client.objects.get(user=user, token=token)
+        client.user.is_active=True
+        client.user.save()
+        login(request, user)
+        return redirect(index)  
     except User.DoesNotExist:
         raise Http404("El usuario que estás intentando autentificar no existe")
     except Client.DoesNotExist:

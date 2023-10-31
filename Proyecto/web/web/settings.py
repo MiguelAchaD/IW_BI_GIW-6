@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
+#    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -137,4 +138,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "ecomodstechnology@gmail.com"
 EMAIL_HOST_PASSWORD = "uqxf hwcr auuc lmpp"
 
+<<<<<<< HEAD
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+=======
+#Configuración inicio de sesión con google
+"""
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "AIzaSyAKdyIee0hKg1D883t9wY2V_-B3lsiCz6I"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
+"""
+>>>>>>> f306affc3dbd4b03809224622aefbd695f4d04a5
