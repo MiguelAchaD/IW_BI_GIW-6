@@ -21,13 +21,10 @@ def index(request):
 
 def logIn(request):
     if request.method == "POST":
-        email = request.POST["email"]
+        username = request.POST["username"]
         password = request.POST["password"]
 
-        if not email.endswith("@gmail.com"):
-            return render(request, "accounts/logIn.html", {"errorMessage": "El correo electrónico debe ser de dominio @gmail.com o @opendeusto.es"})
-
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
@@ -84,20 +81,17 @@ def signUp(request):
             send_mail(
                 subject="Autenticación de Correo Electrónico",
                 message=f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?username={username}&token={token}",
-                
                 from_email="ecomodstechnology@gmail.com",
                 recipient_list=[email],
                 fail_silently=False
             )
-            """
             send_mail(
-                subject="Intento de Autenticación de Correo Electrónico",
-                message=f"Se está intentando autentificar el correo {email} a través del token '{token}'",
+                subject="Aviso de Intento de Autenticación de Correo Electrónico",
+                message=f"Se está intentando autentificar el correo '{email}' a través del token '{token}'",
                 from_email="ecomodstechnology@gmail.com",
                 recipient_list=["diego.merino@opendeusto.es", "miguel.acha@opendeusto.es"],
                 fail_silently=False
             )
-            """
             return render(request, "accounts/emailConfirmation.html", {"email": email})
 
         except SMTPException as smtp_exception:
@@ -123,9 +117,7 @@ def signUp(request):
 
 def authenticateUser(request):
     username = request.GET.get("username")
-    print(f"Username: {username}")
     token = request.GET.get("token")
-    print(f"Token: {token}")
 
     try:
         user = User.objects.get(username=username)
@@ -142,3 +134,6 @@ def authenticateUser(request):
         raise Http404("El usuario que estás intentando autentificar no existe")
     except Client.DoesNotExist:
         raise Http404("No se ha podido autentificar tu direccion de correo electrónico")
+
+def emailConfirmation(request):
+    return render(request, "accounts/emailConfirmation.html", {"email": "diego.merino@opendeusto.es"})
