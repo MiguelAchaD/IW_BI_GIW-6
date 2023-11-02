@@ -39,7 +39,7 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="{% url 'viewCart' %}">
           <svg width="40%" height="40%" id="shoping-cart" viewBox="0 0 20 20">
             <defs></defs>
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -69,6 +69,9 @@
               <li>{{ user.username.upper }}</li>
               <li>
                 <a href="{% url 'viewProfile' %}">Ver mi perfil</a>
+              </li>
+              <li>
+                <a href="{% url 'logOut' %}">Cerrar sesión</a>
               </li>
             </ul>
           </div>

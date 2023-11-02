@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from app.models import Client
 from django.core.mail import send_mail
 from smtplib import SMTPException, SMTPAuthenticationError, SMTPSenderRefused, SMTPRecipientsRefused
 from socket import error as ConnectionError
@@ -9,7 +8,11 @@ from django.utils.crypto import get_random_string
 from django.db import IntegrityError
 from app.utils import getURL
 from django.http import Http404
+from django.contrib.auth.decorators import user_passes_test
+from .models import Client, CartRelation, CartProduct, Product
 
+def isUserAuthenticated(user):
+    return user.is_authenticated
 
 def index(request):
     if request.method == "GET":
@@ -33,6 +36,9 @@ def logIn(request):
 
     return render(request, "accounts/logIn.html")
 
+def logOut(request):
+    logout(request)
+    return redirect("index")
 
 def signUp(request):
     if request.method == "POST":
@@ -133,3 +139,46 @@ def authenticateUser(request):
 def viewProfile(request):
     if request.method == "GET":
         return render(request, "accounts/viewProfile.html", {"user": request.user})
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def viewCart(request):
+    if request.method == "GET":
+        client = Client.objects.get(user=request.user)
+        cart_relations = CartRelation.objects.filter(client=client)
+        if cart_relations.count() > 0:
+            cart_Products = CartProduct.objects.filter(cartrelation__in=cart_relations)
+            if cart_Products.count() > 0:
+                total_price = sum(product.cartProduct.product.price * product.quantity for product in cart_Products) if cart_Products else 0
+                return render(request, "cart.html", {"isEmpty": False, "cart_Products": cart_Products, "total_price": total_price, "userAuth": True})        
+        return render(request, "cart.html", {"isEmpty": True, "userAuth": True})
+
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def addToCart(request, product_id):
+    if request.method == "GET":
+        client = Client.objects.get(user=request.user)
+        product = Product.objects.get(id=product_id)
+        
+        cart_relation, created = CartRelation.objects.get_or_create(client=client, product=product)
+        cart_Product, created = CartProduct.objects.get_or_create(product=product)
+        cart_Product.quantity += 1
+        cart_Product.save()
+
+        return redirect("view_cart")
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def removeFromCart(request, product_id):
+    if request.method == "GET":
+        client = Client.objects.get(user=request.user)
+        product = Product.objects.get(id=product_id)
+
+        cart_relation = CartRelation.objects.get(client=client)
+        cart_Product = CartProduct.objects.get(product=product, cartrelation=cart_relation)
+
+        cart_Product.quantity -= 1
+        if cart_Product.quantity <= 0:
+            cart_Product.delete()
+        else:
+            cart_Product.save()
+
+        return redirect("view_cart")

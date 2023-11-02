@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block additionalLinks %}
+  <link rel="stylesheet" href="{% static 'css/cart.css' %}" />
+{% endblock %}
+
+{% block title %}
+  Ecomods - Carrito
+{% endblock %}
+
+{% block content %}
+  <div class="cart-container">
+    <h2>Contenido del Carrito</h2>
+    {% if isEmpty %}
+      <p>El carrito está vacío</p>
+    {% else %}
+      <div class="cart-item">
+        <img src="{% static 'images/product1.jpg' %}" alt="Product 1" />
+        <p>Nombre del Producto 1</p>
+        <p>Precio: $20.00</p>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

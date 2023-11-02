@@ -2,43 +2,51 @@
 
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <link rel="stylesheet" href="{% static 'css/general.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/accounts/accountsFather.css'%}" />
-    <script src="{% static 'js/accounts/input.js'%}"></script>
-    {% block title %}{% endblock %}
-</head>
+    <link rel="stylesheet" href="{% static 'css/accounts/accountsFather.css' %}" />
+    <script src="{% static 'js/accounts/input.js' %}"></script>
+    {% block title %}
+    {% endblock %}
+  </head>
 
-<body>
+  <body>
     <div class="accountContainer">
-        <h1>ACCESO</h1>
-        <div class="myForm">
-            {% block accessMessage %}{% endblock %}
-            {% block form %}{% endblock %}
-            {% block additionalLinks %}{% endblock %}
-            <a class="link" href="">Iniciar sesión con google</a>
-        </div>
+      <h1>ACCESO</h1>
+      <div class="myForm">
+        {% block accessMessage %}
+        {% endblock %}
+        {% block form %}
+        {% endblock %}
+        {% block additionalLinks %}
+        {% endblock %}
+        <a class="link" href="">Iniciar sesión con google</a>
+      </div>
     </div>
     <div class="infoMessage">
-        <h1>Bienvenido/a a nuestro portal seguro</h1>
-        <p>En Ecomods, nos tomamos muy en serio la seguridad y privacidad de tu cuenta. Queremos recordarte la importancia de mantener tu información personal y tus contraseñas de forma confidencial. Tu seguridad es nuestra prioridad número uno.</p>
-        <br>
-        <h2>¿Por qué es importante proteger tu contraseña?</h2>
-        <p>Tu contraseña es la llave que te da acceso a una experiencia segura y personalizada en nuestra plataforma. Proteger tu contraseña es fundamental para garantizar que solo tú, como propietario legítimo de la cuenta, puedas acceder a tu información, realizar transacciones y disfrutar de nuestros servicios.</p>
-        <br>
-        <h2>Consejos para proteger tu cuenta:</h2>
-        <ol>
-            <li><strong>Contraseña robusta:</strong> Crea una contraseña única y compleja que combine letras, números y caracteres especiales. Evita usar información personal fácilmente accesible, como tu nombre o fecha de nacimiento.</li>
-            <li><strong>No compartas tu contraseña:</strong> Nunca compartas tu contraseña con nadie, incluso si parecen ser representantes legítimos de la plataforma. No solicitaremos tu contraseña por correo electrónico ni por ningún otro medio.</li>
-            <li><strong>Inicio de sesión seguro:</strong> Asegúrate de acceder siempre a tu cuenta desde dispositivos seguros y redes confiables. Evita utilizar computadoras públicas o conexiones Wi-Fi no seguras.</li>
-        </ol>
-        <br>
-        <p>Recuerda que Ecomods nunca te pedirá información confidencial por correo electrónico ni por mensajes. Si alguna vez tienes dudas sobre la autenticidad de una comunicación, contáctanos directamente a través de los canales oficiales.</p>
-        <br>
-        <p>Gracias por confiar en nosotros. Juntos, podemos mantener un entorno en línea seguro y protegido para todos nuestros usuarios.</p>
+      <h1>Bienvenido/a a nuestro portal seguro</h1>
+      <p>En Ecomods, nos tomamos muy en serio la seguridad y privacidad de tu cuenta. Queremos recordarte la importancia de mantener tu información personal y tus contraseñas de forma confidencial. Tu seguridad es nuestra prioridad número uno.</p>
+      <br />
+      <h2>¿Por qué es importante proteger tu contraseña?</h2>
+      <p>Tu contraseña es la llave que te da acceso a una experiencia segura y personalizada en nuestra plataforma. Proteger tu contraseña es fundamental para garantizar que solo tú, como propietario legítimo de la cuenta, puedas acceder a tu información, realizar transacciones y disfrutar de nuestros servicios.</p>
+      <br />
+      <h2>Consejos para proteger tu cuenta:</h2>
+      <ol>
+        <li>
+          <strong>Contraseña robusta:</strong> Crea una contraseña única y compleja que combine letras, números y caracteres especiales. Evita usar información personal fácilmente accesible, como tu nombre o fecha de nacimiento.
+        </li>
+        <li>
+          <strong>No compartas tu contraseña:</strong> Nunca compartas tu contraseña con nadie, incluso si parecen ser representantes legítimos de la plataforma. No solicitaremos tu contraseña por correo electrónico ni por ningún otro medio.
+        </li>
+        <li>
+          <strong>Inicio de sesión seguro:</strong> Asegúrate de acceder siempre a tu cuenta desde dispositivos seguros y redes confiables. Evita utilizar computadoras públicas o conexiones Wi-Fi no seguras.
+        </li>
+      </ol>
+      <br />
+      <p>Recuerda que Ecomods nunca te pedirá información confidencial por correo electrónico ni por mensajes. Si alguna vez tienes dudas sobre la autenticidad de una comunicación, contáctanos directamente a través de los canales oficiales.</p>
+      <br />
+      <p>Gracias por confiar en nosotros. Juntos, podemos mantener un entorno en línea seguro y protegido para todos nuestros usuarios.</p>
     </div>
-</body>
-
+  </body>
 </html>

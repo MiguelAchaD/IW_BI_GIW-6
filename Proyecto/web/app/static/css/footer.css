@@ -7,13 +7,9 @@ footer {
   display:flex;
   justify-content:center;
   align-items:center;
-}
-
-/* Quitar cuando haya contenido*/
-footer div div{
   text-align: center;
+  bottom: 0;
 }
-/*                             */
 
 .contact {
   width: 70vw;

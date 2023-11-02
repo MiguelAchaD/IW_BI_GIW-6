@@ -37,10 +37,20 @@ class Product(models.Model):
 
 class compatibleModules(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
-    modules = models.ManyToManyField(Module, null=True, blank=True)
+    modules = models.ManyToManyField(Module)
+
+class CartProduct(models.Model):
+    id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    quantity = models.PositiveIntegerField(default=1)
+
+class CartRelation(models.Model):
+    id = models.AutoField(primary_key=True)
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING, null=False)
+    cartProduct = models.ForeignKey(CartProduct, on_delete=models.DO_NOTHING, null=False)
 
 class selectedModules(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, null=True)
+    cartProduct = models.OneToOneField(CartProduct, on_delete=models.CASCADE, null=True)
     modules = models.ManyToManyField(Module)
 
 class Purchase(models.Model):
@@ -48,5 +58,8 @@ class Purchase(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
     date = models.DateField()
     modulesForProducts = models.ManyToManyField(selectedModules)
+
+
+ 
     
 #related_name: Si un modelo tiene una foreign key, el modelo asociado a esa foreign key podrá accceder a los modelos asociados mediante el nombre puesto como related_name
