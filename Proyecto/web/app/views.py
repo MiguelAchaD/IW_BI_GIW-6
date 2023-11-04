@@ -10,6 +10,7 @@ from app.utils import getURL
 from django.http import Http404
 from django.contrib.auth.decorators import user_passes_test
 from .models import Client, CartRelation, CartProduct, Product
+from django.urls import reverse
 
 
 def isUserAuthenticated(user):
@@ -212,3 +213,13 @@ def removeFromCart(request, product_id):
             cart_Product.save()
 
         return redirect("view_cart")
+<<<<<<< HEAD
+    
+def products(request, product):
+    products = ["phone", "tablet", "laptop"]
+    if product in products:
+        return render(request, "products/products.html", {"product" : product})
+    #else:
+        #... TODO:CREAR PAGINA DE ERROR PARA SUSTITUIR POR LA PREDETERMINADA
+=======
+>>>>>>> 912c0d0e86281141b37a25f1135484ae776fe20c
