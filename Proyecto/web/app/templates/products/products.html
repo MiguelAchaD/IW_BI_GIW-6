@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additionalLinks %}
+  <a href="{ static 'css/products/products.css' }"></a>
+{% endblock %}
+
+{% block title %}
+  Ecomods - Portátiles
+{% endblock %}
+    
+{% block content %}
+  <div class="wrapper">
+    {% if product == "phone" %}
+      {% for prod in Product.Objects.all() %}
+        <h1>{{prod.name}}</h1>
+      {% endfor %}
+    {% elif product == "laptop" %}
+
+    {% else %}
+
+    {% endif %}
+  </div>
+  
+{% endblock %}

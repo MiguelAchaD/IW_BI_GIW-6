@@ -32,6 +32,8 @@ urlpatterns = [
     
     path('authenticate/newUser', authenticateUser, name="authenticateUser"),
     
-    path('myCart', viewCart, name="viewCart")
+    path('myCart', viewCart, name="viewCart"),
+
+    path('products/<str:product>', products, name="products")
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
