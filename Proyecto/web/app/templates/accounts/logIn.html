@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block form %}
-<form method="post" action="{% url 'logIn' %}">
+<form method="post" action="{% url 'logIn' %}?next={{ request.GET.next }}">
     {% csrf_token %}
     <label for="username"><span class="input-label">Nombre de Usuario</span></label>
     <input type="text" id="username" name="username" oninput="handleInput(this)">
@@ -24,5 +24,5 @@
 {% endblock %}
 
 {% block additionalLinks %}
-    <a class="link" href="{% url 'signUp' %}">¿No tienes una cuenta? Date de alta aquí</a>
+    <a class="link" href="{% url 'signUp' %}?next={{ request.GET.next }}">¿No tienes una cuenta? Date de alta aquí</a>
 {% endblock %}
