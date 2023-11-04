@@ -53,20 +53,24 @@
         </a>
       </li>
       <li>
-        {% if userAuth %}
-          <a href="#">
-            <svg height="45%" width="45%" viewBox="0 0 60.671 60.671" xml:space="preserve" id="profile" fill="#FFFFFF">
+        <a>
+          <svg height="45%" width="45%" viewBox="0 0 60.671 60.671" xml:space="preserve" id="profile" fill="#FFFFFF">
+            <g>
               <g>
-                <g>
-                  <ellipse cx="30.336" cy="12.097" rx="11.997" ry="12.097" />
-                  <path d="M35.64,30.079H25.031c-7.021,0-12.714,5.739-12.714,12.821v17.771h36.037V42.9C48.354,35.818,42.661,30.079,35.64,30.079z" />
-                </g>
+                <ellipse cx="30.336" cy="12.097" rx="11.997" ry="12.097" />
+                <path d="M35.64,30.079H25.031c-7.021,0-12.714,5.739-12.714,12.821v17.771h36.037V42.9C48.354,35.818,42.661,30.079,35.64,30.079z" />
               </g>
-            </svg>
-          </a>
+            </g>
+          </svg>
+        </a>
+        {% if request.user.is_authenticated %}
           <div id="account-info" class="account-dropdown-content">
             <ul>
-              <li>{{ user.username.upper }}</li>
+              {% if request.user.first_name %}
+                <li>{{ request.user.first_name.upper }}</li>
+              {% else %}
+                <li>{{ request.user.username.upper }}</li>
+              {% endif %}
               <li>
                 <a href="{% url 'viewProfile' %}">Ver mi perfil</a>
               </li>
@@ -76,16 +80,6 @@
             </ul>
           </div>
         {% else %}
-          <a href="#">
-            <svg height="45%" width="45%" viewBox="0 0 60.671 60.671" xml:space="preserve" id="profile" fill="#FFFFFF">
-              <g>
-                <g>
-                  <ellipse cx="30.336" cy="12.097" rx="11.997" ry="12.097" />
-                  <path d="M35.64,30.079H25.031c-7.021,0-12.714,5.739-12.714,12.821v17.771h36.037V42.9C48.354,35.818,42.661,30.079,35.64,30.079z" />
-                </g>
-              </g>
-            </svg>
-          </a>
           <div id="account-options" class="account-dropdown-content">
             <ul>
               <li>

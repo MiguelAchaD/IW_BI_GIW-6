@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="{% static 'css/general.css' %}" />
     <link rel="stylesheet" href="{% static 'css/accounts/accountsFather.css' %}" />
     <script src="{% static 'js/accounts/input.js' %}"></script>
-    {% block title %}
-    {% endblock %}
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
   </head>
 
   <body>
@@ -17,11 +19,13 @@
       <div class="myForm">
         {% block accessMessage %}
         {% endblock %}
+
         {% block form %}
         {% endblock %}
+
         {% block additionalLinks %}
         {% endblock %}
-        <a class="link" href="">Iniciar sesión con google</a>
+        <a class="link" href="{% url 'social:begin' 'google-oauth2' %}">Iniciar sesión con Google</a>
       </div>
     </div>
     <div class="infoMessage">

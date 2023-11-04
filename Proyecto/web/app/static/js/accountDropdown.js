@@ -1,26 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
     const profileSvg = document.getElementById("profile");
-    let isClicked = true
+    const accountDropdowns = document.getElementsByClassName("account-dropdown-content");
+    let isClicked = false;
+    let isMouseIn = false;
 
     profileSvg.addEventListener("click", function () {
-        if (isClicked) {
+        if (!isClicked) {
             showAccountDropdown();
-            isClicked = false;
+            isClicked = true;
         } else {
             hideAccountDropdown();
-            isClicked = true;
+            isClicked = false;
         }
     });
 
+    profileSvg.addEventListener("blur", function () {
+        if(!isMouseIn){
+            hideAccountDropdown();
+            isClicked = false;
+        }
+    });
+
+    for (const accountDropdown of accountDropdowns) {
+        accountDropdown.addEventListener("mouseenter", function () {
+            isMouseIn = true;
+        });
+
+        accountDropdown.addEventListener("mouseleave", function () {
+            isMouseIn = false;
+        });
+    }
+
     function showAccountDropdown() {
-        const accountDropdowns = document.getElementsByClassName("account-dropdown-content");
         for (const accountDropdown of accountDropdowns) {
             accountDropdown.style.display = "block";
         }
     }
 
     function hideAccountDropdown() {
-        const accountDropdowns = document.getElementsByClassName("account-dropdown-content");
         for (const accountDropdown of accountDropdowns) {
             accountDropdown.style.display = "none";
         }

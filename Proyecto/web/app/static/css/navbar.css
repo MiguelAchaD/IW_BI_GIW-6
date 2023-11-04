@@ -27,6 +27,9 @@ nav svg {
   fill: var(--color03);
 }
 
+#profile:focus {
+  outline: none;
+} 
 .navbar {
   list-style-type: none;
   display: flex;

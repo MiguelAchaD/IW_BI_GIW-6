@@ -15,14 +15,9 @@ from .models import Client, CartRelation, CartProduct, Product
 def isUserAuthenticated(user):
     return user.is_authenticated
 
-
 def index(request):
     if request.method == "GET":
-        if request.user.is_authenticated:
-            return render(request, "index.html", {"userAuth": True})
-        else:
-            return render(request, "index.html", {"userAuth": False})
-
+        return render(request, "index.html")
 
 def logIn(request):
     if request.method == "GET":
@@ -36,15 +31,13 @@ def logIn(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            login(request, user)
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
             if next:
                 return redirect(next)
             else:
                 return redirect("index")
         else:
             return render(request, "accounts/logIn.html", {"errorMessage": "Credenciales inválidas"})
-
-
 
 def logOut(request):
     logout(request)
@@ -79,7 +72,7 @@ def signUp(request):
             Client.objects.create(user=user, token=token)
 
         except IntegrityError:
-            existing_user = User.objects.get(username=username)
+            existing_user = User.objects.get(email=email)
             existing_client = Client.objects.get(user=existing_user)
 
             if not existing_user.is_active:
@@ -90,7 +83,7 @@ def signUp(request):
                 existing_client.token = token
                 existing_client.save()
             else:
-                return render(request, "accounts/signUp.html", {"errorMessage": f"El usuario '{username}' ya está registrado. Inicia sesión con ese usuario o utiliza otro nombre."})
+                return render(request, "accounts/signUp.html", {"errorMessage": "Este usuario ya está registrado. Inicia sesión con ese usuario, inicia sesión con google o utiliza otro nombre."})
 
         url = getURL(request)
         if url is None:
@@ -98,10 +91,13 @@ def signUp(request):
             return render(request, "accounts/signUp.html", {"errorMessage": "Se ha producido un error cargando la URL"})
 
         try:
+            if next:
+                message = f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?username={username}&token={token}&next={next}"
+            else:
+                message=f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?username={username}&token={token}"
             send_mail(
                 subject="Autenticación de Correo Electrónico",
-                message=f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {
-                    url}/authenticate/newUser?username={username}&token={token}",
+                message=message,
                 from_email="ecomodstechnology@gmail.com",
                 recipient_list=[email],
                 fail_silently=False
@@ -115,10 +111,8 @@ def signUp(request):
                                 "miguel.acha@opendeusto.es"],
                 fail_silently=False
             )
-            if next:
-                return render(request, "accounts/emailConfirmation.html/?next=" + next, {"email": email})
-            else:
-                return render(request, "accounts/emailConfirmation.html", {"email": email})
+            return render(request, "accounts/emailConfirmation.html", {"email": email})
+                
 
         except SMTPException as smtp_exception:
             if isinstance(smtp_exception, SMTPAuthenticationError):
@@ -144,31 +138,31 @@ def signUp(request):
 
 
 def authenticateUser(request):
-    next = request.GET.get("next")
-    username = request.GET.get("username")
-    token = request.GET.get("token")
+    if request.method == "GET":
+        next = request.GET.get("next")
+        email = request.GET.get("email")
+        token = request.GET.get("token")
 
-    try:
-        user = User.objects.get(username=username)
-        client = Client.objects.get(user=user, token=token)
-        client.user.is_active = True
-        client.user.save()
-        login(request, user)
-        if next:
-            return redirect(next)
-        else:
-            return redirect(index)
-    except User.DoesNotExist:
-        raise Http404("El usuario que estás intentando autentificar no existe")
-    except Client.DoesNotExist:
-        raise Http404(
-            "No se ha podido autentificar tu direccion de correo electrónico")
+        try:
+            user = User.objects.get(email=email)
+            client = Client.objects.get(user=user, token=token)
+            client.user.is_active = True
+            client.user.save()
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
+            if next:
+                return redirect(next)
+            else:
+                return redirect(index)
+        except User.DoesNotExist:
+            raise Http404("El usuario que estás intentando autentificar no existe")
+        except Client.DoesNotExist:
+            raise Http404("No se ha podido autentificar tu dirección de correo electrónico")
 
 
 def viewProfile(request):
-    if request.method == "GET":
-        return render(request, "accounts/viewProfile.html", {"user": request.user})
-
+    user=request.user
+    client = Client.objects.get(user=user)
+    return render(request, 'accounts/profile.html', {"client": client})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def viewCart(request):
@@ -181,8 +175,8 @@ def viewCart(request):
             if cart_Products.count() > 0:
                 total_price = sum(product.cartProduct.product.price *
                                   product.quantity for product in cart_Products)
-                return render(request, "cart.html", {"isEmpty": False, "cart_Products": cart_Products, "total_price": total_price, "userAuth": True})
-        return render(request, "cart.html", {"isEmpty": True, "userAuth": True})
+                return render(request, "cart.html", {"isEmpty": False, "cart_Products": cart_Products, "total_price": total_price})
+        return render(request, "cart.html", {"isEmpty": True})
 
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
