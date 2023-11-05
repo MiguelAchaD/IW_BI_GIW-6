@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block additionalLinks %}
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock %}
+
+{% block title %}
+  Ecomods - Perfil de {{ client.user.username }}
+{% endblock %}
+
+{% block content %}
+  <div class="profile-container">
+    <h2>{{ client.user.username }}</h2>
+    <p>Email: {{ client.user.email }}</p>
+    {% if client.credit_card%}
+        <p>Tarjeta de crédito: {{client.credit_card}}</p>
+    {% else %}
+        <p>Sin tarjeta de crédito registrada</p>
+        <button>Añadir tarjeta</button>
+    {% endif %}
+  </div>
+{% endblock %}

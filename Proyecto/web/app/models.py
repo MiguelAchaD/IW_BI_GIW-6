@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.crypto import get_random_string
 
 """
     Campos de User
@@ -15,9 +14,11 @@ from django.utils.crypto import get_random_string
 """
 
 class Client(models.Model):
-    token = models.CharField(auto_created=get_random_string(length=20), max_length=20, unique=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     creditCard = models.CharField(max_length=50, null=True)
+    token = models.CharField(max_length=20, null=True)
+
+User._meta.get_field("email")._unique = True
 
 class Module(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
