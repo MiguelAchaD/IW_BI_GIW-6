@@ -1,0 +1,55 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 10vw 0 10vw;
+}
+
+#prod-name {
+  text-align: center;
+  font-size: 2em;
+}
+
+#generation {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 10vw;
+  font-size: 2.2em;
+}
+
+.metric-wrapper {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.intern-wrapper {
+  display: flex;
+  line-height: 100px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.intern-wrapper img {
+  max-width: 100px;
+}
+
+.product {
+  width: 400px;
+}
+
+#currency {
+  text-align: center;
+  line-height: 50px;
+  width: 150px;
+  max-width: 150px;
+  height: 50px;
+  background-color: #898989;
+  border-radius: 5px;
+}
+
+#currency:hover {
+    cursor: pointer;
+}
+
+.info{
+    justify-content: space-evenly;
+}

@@ -1,25 +1,36 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block additionalLinks %}
-  <a href="{ static 'css/products/products.css' }"></a>
+  <link rel="stylesheet" href="{% static 'css/products/products.css' %}"></link>
+  <script src="{% static 'js/products/products.js' %}" defer></script>
 {% endblock %}
 
 {% block title %}
-  Ecomods - Portátiles
+  Ecomods - {{product}}s
 {% endblock %}
     
 {% block content %}
-  <div class="wrapper">
-    {% if product == "phone" %}
-      {% for prod in Product.Objects.all() %}
-        <h1>{{prod.name}}</h1>
+    <div class="metric-wrapper">
+      <label for="metrics">Métrica </label>
+      <select name="metrics" id="input" autocomplete="off">
+        <option value="SI">SI (Europa)</option>
+        <option value="Imperial">Imperial (América del Norte)</option>
+      </select>
+    </div>
+    {% for generation in product_generations %} 
+      <h1 id="generation">Generación {{generation}}</h1>
+      <div class="wrapper">
+      {% for product in product_generations|get_genToProds:generation %}
+        <div class="product">
+          <p id="prod-name">{{product.name}}</p>
+          <div class="intern-wrapper info"><img src="{% static 'images/x.svg' %}"><p class="distance">{{product.dimensionX|formatDec}} mm</p></div>
+          <div class="intern-wrapper info"><img src="{% static 'images/y.svg' %}"><p class="distance">{{product.dimensionY|formatDec}} mm</p></div>
+          <div class="intern-wrapper info"><img src="{% static 'images/z.svg' %}"><p class="distance">{{product.dimensionZ|formatDec}} mm</p></div>
+          <div class="intern-wrapper"><a id="currency">{{product.price|formatDec}} €</a></div>
+        </div>
       {% endfor %}
-    {% elif product == "laptop" %}
-
-    {% else %}
-
-    {% endif %}
-  </div>
-  
+      </div>
+    {% endfor %}
 {% endblock %}
