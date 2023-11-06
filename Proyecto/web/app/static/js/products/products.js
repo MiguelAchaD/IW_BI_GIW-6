@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var currentValue = "SI";
     var selectElement = document.getElementById("input");
     var distances = document.getElementsByClassName("distance")
-    var currency = document.getElementById("currency")
+    var currencies = document.getElementsByClassName("currency")
     const mmToInchRate = 25.4
     
     var distanceData = [];
@@ -31,24 +31,28 @@ document.addEventListener("DOMContentLoaded", function() {
             for (var j = 0; j < distanceData.length; j++){
                 distances[j].innerText = distanceData[j].mm + " mm"
             }
-            price = parseFloat(currency.innerText.split(" ")[0].replace(",", "."));
-            if (price > 0){
-                currency.innerText = (price*(1-conversionRate)).toString() + " €";
-            } else {
-                currency.innerText = "0 €";
+            for (var i = 0; i < currencies.length; i++){
+                price = parseFloat(currencies[i].innerText.split(" ")[0].replace(",", "."));
+                if (price > 0){
+                    currencies[i].innerText = (price*(1-conversionRate)).toString() + " €";
+                } else {
+                    currencies[i].innerText = "0 €";
+                }
             }
             currentValue = "SI";
         } else if (selectedValue == "Imperial" && selectedValue != currentValue) {
             for (var j = 0; j < distanceData.length; j++){
                 distances[j].innerText = distanceData[j].inch + " inch"
             }
-            currentValue = "Imperial";
-            price = parseFloat(currency.innerText.split(" ")[0].replace(",", "."));
-            if (price > 0){
-                currency.innerText = (price*conversionRate).toString() + " $";
-            } else {
-                currency.innerText = "0 $";
+            for (var i = 0; i < currencies.length; i++){
+                price = parseFloat(currencies[i].innerText.split(" ")[0].replace(",", "."));
+                if (price > 0){
+                    currencies[i].innerText = (price*conversionRate).toString() + " $";
+                } else {
+                    currencies[i].innerText = "0 $";
+                }
             }
+            currentValue = "Imperial";
         }
     });
 });

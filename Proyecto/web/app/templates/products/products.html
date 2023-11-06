@@ -28,7 +28,7 @@
           <div class="intern-wrapper info"><img src="{% static 'images/x.svg' %}"><p class="distance">{{product.dimensionX|formatDec}} mm</p></div>
           <div class="intern-wrapper info"><img src="{% static 'images/y.svg' %}"><p class="distance">{{product.dimensionY|formatDec}} mm</p></div>
           <div class="intern-wrapper info"><img src="{% static 'images/z.svg' %}"><p class="distance">{{product.dimensionZ|formatDec}} mm</p></div>
-          <div class="intern-wrapper"><a id="currency">{{product.price|formatDec}} €</a></div>
+          <div class="intern-wrapper"><a class="currency"><b>{{product.price|formatDec}} €</b></a></div>
         </div>
       {% endfor %}
       </div>

@@ -106,11 +106,9 @@ def signUp(request):
             )
             send_mail(
                 subject="Aviso de Intento de Autenticación de Correo Electrónico",
-                message=f"Se está intentando autentificar el correo '{
-                    email}' a través del token '{token}'",
+                message=f"Se está intentando autentificar el correo '{email}' a través del token '{token}'",
                 from_email="ecomodstechnology@gmail.com",
-                recipient_list=["diego.merino@opendeusto.es",
-                                "miguel.acha@opendeusto.es"],
+                recipient_list=["diego.merino@opendeusto.es","miguel.acha@opendeusto.es"],
                 fail_silently=False
             )
             return render(request, "accounts/emailConfirmation.html", {"email": email})
@@ -119,16 +117,13 @@ def signUp(request):
         except SMTPException as smtp_exception:
             if isinstance(smtp_exception, SMTPAuthenticationError):
                 error_message = "Error de autenticación SMTP."
-                print(f"Detalles de error de autenticación SMTP: {
-                      smtp_exception}")
+                print(f"Detalles de error de autenticación SMTP: {smtp_exception}")
             elif isinstance(smtp_exception, SMTPSenderRefused):
                 error_message = "El servidor SMTP rechazó la dirección del remitente."
-                print(f"Detalles del error SMTPSenderRefused: {
-                      smtp_exception}")
+                print(f"Detalles del error SMTPSenderRefused: {smtp_exception}")
             elif isinstance(smtp_exception, SMTPRecipientsRefused):
                 error_message = "El servidor SMTP rechazó una o más direcciones de correo electrónico de los destinatarios."
-                print(f"Detalles del error SMTPRecipientsRefused: {
-                      smtp_exception}")
+                print(f"Detalles del error SMTPRecipientsRefused: {smtp_exception}")
             elif isinstance(smtp_exception, ConnectionError):
                 error_message = "Error de conexión al intentar conectar con el servidor SMTP."
                 print(f"Detalles del error ConnectionError: {smtp_exception}")
