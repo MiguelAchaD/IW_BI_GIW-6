@@ -1,21 +1,8 @@
-main div{
-    margin-top: var(--marginContent);
-}
-
-.Top {
-    background-color: var(--color03);
-    width: 100%;
-    height: var(--contentHeight);
-}
-
-.Middle {
-    background-color: var(--color03);
-    width: 100%;
-    height: var(--contentHeight);
-}
-
+.Top,
+.Middle,
 .Bottom {
     background-color: var(--color03);
-    width: 100%;
-    height: var(--contentHeight);
+    width: cal(100% - 10px);
+    height: 400px;
+    margin: 5px 0;
 }
