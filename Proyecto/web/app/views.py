@@ -94,9 +94,9 @@ def signUp(request):
 
         try:
             if next:
-                message = f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?username={username}&token={token}&next={next}"
+                message = f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}&next={next}"
             else:
-                message=f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?username={username}&token={token}"
+                message=f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}"
             send_mail(
                 subject="Autenticación de Correo Electrónico",
                 message=message,
@@ -210,6 +210,7 @@ def removeFromCart(request, product_id):
 
         return redirect("view_cart")
     
+@user_passes_test(isUserAuthenticated, login_url="logIn")    
 def products(request, product):
     products = ["phone", "tablet", "laptop"]
     generations = get_generations(Product.objects.all())
