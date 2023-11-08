@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block additionalLinks %}
+  <link rel="stylesheet" href="{% static 'css/finalBuild/build.css' %}" />
+  <script src="{% static 'js/finalBuild/build.js' %}" defer></script>
+{% endblock %}
+
+{% block title %}
+  Ecomods - Construcción
+{% endblock %}
+
+{% block content %}
+    <div id="stage-1">
+        <h2 class="info">Elige el tipo de producto que desea construir</h2>
+        <div class="selection-wrapper">
+            <div class="clickableOption" id="phone" onClick="changeSelection(phone)"></div>
+            <div class="clickableOption" id="tablet" onClick="changeSelection(tablet)"></div>
+            <div class="clickableOption" id="laptop" onClick="changeSelection(laptop)"></div>
+        </div>
+    </div>
+    <!-- TODO: Construcción de producto -->
+{% endblock %}

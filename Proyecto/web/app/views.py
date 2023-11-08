@@ -218,3 +218,6 @@ def products(request, product):
         return render(request, "products/products.html", {"product" : product, 'product_generations': product_generations})
     #else:
         #... TODO:CREAR PAGINA DE ERROR PARA SUSTITUIR POR LA PREDETERMINADA
+
+def builder(request):
+    return render(request, "finalBuild/build.html")

@@ -38,6 +38,10 @@ def formatDec(dec):
     else:
         return str(dec)
 
+@register.filter(name="get_productType")
+def get_productType(product):
+    return product.model.split("-")[0]
+
 @register.filter(name='get_range')
 def get_range(value):
     return range(value)

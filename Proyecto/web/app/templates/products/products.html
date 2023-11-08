@@ -23,13 +23,19 @@
       <h1 id="generation">Generación {{generation}}</h1>
       <div class="wrapper">
       {% for product in product_generations|get_genToProds:generation %}
-        <div class="product">
-          <p id="prod-name">{{product.name}}</p>
-          <div class="intern-wrapper info"><img src="{% static 'images/x.svg' %}"><p class="distance">{{product.dimensionX|formatDec}} mm</p></div>
-          <div class="intern-wrapper info"><img src="{% static 'images/y.svg' %}"><p class="distance">{{product.dimensionY|formatDec}} mm</p></div>
-          <div class="intern-wrapper info"><img src="{% static 'images/z.svg' %}"><p class="distance">{{product.dimensionZ|formatDec}} mm</p></div>
-          <div class="intern-wrapper"><a href="#" class="currency">{{product.price|formatDec}} €</a></div>
-        </div>
+        
+          <div class="product">
+            <p id="prod-name">{{product.name}}</p>
+            {% if product|get_productType != "LP" %}
+              <div class="intern-wrapper info"><img src="{% static 'images/x.svg' %}"><p class="distance">{{product.dimensionX|formatDec}} mm</p></div>
+              <div class="intern-wrapper info"><img src="{% static 'images/y.svg' %}"><p class="distance">{{product.dimensionY|formatDec}} mm</p></div>
+            {% else %}
+              <div class="intern-wrapper info"><img src="{% static 'images/y.svg' %}"><p class="distance">{{product.dimensionX|formatDec}} mm</p></div>
+              <div class="intern-wrapper info"><img src="{% static 'images/x.svg' %}"><p class="distance">{{product.dimensionY|formatDec}} mm</p></div>
+            {% endif %}
+            <div class="intern-wrapper info"><img src="{% static 'images/z.svg' %}"><p class="distance">{{product.dimensionZ|formatDec}} mm</p></div>
+            <div class="intern-wrapper"><a href="#" class="currency">{{product.price|formatDec}} €</a></div>
+          </div>
       {% endfor %}
       </div>
     {% endfor %}
