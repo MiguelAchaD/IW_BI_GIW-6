@@ -78,7 +78,7 @@ button {
     color: white;
     outline: none;
     font-family: Arial;
-    transition: width var(--ease-time) ease;
+    transition: background-color var(--ease-time) ease, border var(--ease-time) ease, width var(--ease-time) ease;
 }
 
 button:hover {

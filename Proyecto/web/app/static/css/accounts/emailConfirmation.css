@@ -30,6 +30,10 @@ a{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+a:hover{
+    text-decoration: underline;
+}
+
 button {
     height: 40px;
     margin-top: 20px;
@@ -40,11 +44,11 @@ button {
     color: white;
     outline: none;
     font-family: Arial;
-    transition: width var(--ease-time) ease;
+    transition: background-color var(--ease-time) ease, border var(--ease-time) ease, width var(--ease-time) ease;
 }
 
 button:hover {
     background-color: rgb(4, 114, 97);
     border-color: rgb(4, 114, 97);
-    width: 50%;
+    width: 400px;
 }
