@@ -74,7 +74,9 @@ nav svg {
   position: relative;
   display: none;
   position: absolute;
-  background-color: var(--color03);
+  background-color: var(--color02);
+  border: 1px solid;
+  border-color: white;
   min-width: 160px;
   padding: 30px;
   margin-top: -10px;
