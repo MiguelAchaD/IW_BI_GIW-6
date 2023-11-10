@@ -15,7 +15,7 @@ main {
   border-radius: 20px;
 }
 
-#prod-name {
+.prod-name {
   text-align: center;
   font-size: 2em;
   font-weight: 700;
