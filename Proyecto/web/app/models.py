@@ -1,5 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.db import models
+
 
 """
     Campos de User
@@ -13,12 +15,20 @@ from django.contrib.auth.models import User
     is_superuser: Booleano que indica si el usuario tiene todos los permisos sin restricciones.
 """
 
-class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Client(AbstractUser):
     creditCard = models.CharField(max_length=50, null=True)
     token = models.CharField(max_length=20, null=True)
+    
+    groups = models.ManyToManyField(
+        Group, related_name='client_groups', blank=True)
+    user_permissions = models.ManyToManyField(
+        Permission, related_name='client_permissions', blank=True)
 
-User._meta.get_field("email")._unique = True
+
+    def __str__(self):
+        return self.username
+
+Client._meta.get_field("email")._unique = True
 
 class Module(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
