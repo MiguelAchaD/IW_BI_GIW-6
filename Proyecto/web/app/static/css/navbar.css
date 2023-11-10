@@ -11,7 +11,7 @@ nav svg {
 
 #logo #color,
 #shoping-cart g,
-#phone, 
+#create, 
 #profile{
   -webkit-transition: fill var(--ease-time) ease;
   -moz-transition: fill var(--ease-time) ease;
@@ -22,9 +22,10 @@ nav svg {
 
 #logo:hover #color,
 #shoping-cart:hover g,
-#phone:hover,
+#create:hover,
 #profile:hover {
   fill: var(--color03);
+  cursor: pointer;
 }
 
 #profile:focus {
@@ -50,6 +51,9 @@ nav svg {
 }
 
 .navbar a{
+  font-family: 'Poppins';
+  font-size: 25px;
+  font-weight: bolder;
   text-decoration: none;
   color: white;
   background: linear-gradient(white 50%, var(--color03) 50%);
@@ -84,4 +88,8 @@ nav svg {
   display: block;
   margin: 0;
   padding: 0;
+}
+
+.account-dropdown-content a{
+  font-size: 17px;
 }

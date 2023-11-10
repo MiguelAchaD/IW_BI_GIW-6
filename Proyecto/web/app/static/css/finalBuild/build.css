@@ -1,0 +1,26 @@
+.selection-wrapper{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 13vw 0 13vw;
+}
+
+.info{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.clickableOption{
+    width: 300px;
+    height: 300px;
+    -webkit-transition: background-color var(--ease-time) ease;
+    -moz-transition: background-color var(--ease-time) ease;
+    -o-transition: background-color var(--ease-time) ease;
+    transition: background-color var(--ease-time) ease;
+    background-color: white;
+    border:1px solid black;
+    border-radius: 5px;
+}
+
+.clickableOption:hover{
+    background-color: lightgray;
+}

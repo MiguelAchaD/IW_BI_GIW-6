@@ -7,12 +7,15 @@
 #prod-name {
   text-align: center;
   font-size: 2em;
+  font-weight: 700;
 }
 
 #generation {
   margin-top: 30px;
   margin-bottom: 30px;
   margin-left: 10vw;
+  font-family: 'Poppins';
+  font-weight: 900;
   font-size: 2.2em;
 }
 
@@ -45,6 +48,7 @@
   border-radius: 5px;
   background-color: #898989;
   text-decoration: none;
+  font-weight: 700;
   color: black;
 }
 
