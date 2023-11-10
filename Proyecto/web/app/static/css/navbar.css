@@ -9,7 +9,7 @@ nav svg {
   max-height: 100%;
 }
 
-#logo #color,
+#logo .color,
 #shoping-cart g,
 #create, 
 #profile{
@@ -20,7 +20,7 @@ nav svg {
   fill: white;
 }
 
-#logo:hover #color,
+#logo:hover .color,
 #shoping-cart:hover g,
 #create:hover,
 #profile:hover {
