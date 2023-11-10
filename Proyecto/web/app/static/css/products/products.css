@@ -72,7 +72,7 @@ main {
 
 .currency:hover {
   cursor: pointer;
-  background-color: var(--color04);
+  background-color: var(--color02);
 }
 
 .info {

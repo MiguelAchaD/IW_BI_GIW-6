@@ -24,7 +24,7 @@ nav svg {
 #shoping-cart:hover g,
 #create:hover,
 #profile:hover {
-  fill: var(--color02);
+  fill: var(--color03);
   cursor: pointer;
 }
 
@@ -56,7 +56,7 @@ nav svg {
   font-weight: bolder;
   text-decoration: none;
   color: white;
-  background: linear-gradient(white 50%, var(--color02) 50%);
+  background: linear-gradient(white 50%, var(--color03) 50%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -74,7 +74,7 @@ nav svg {
   position: relative;
   display: none;
   position: absolute;
-  background-color: var(--color01);
+  background-color: var(--color03);
   min-width: 160px;
   padding: 30px;
   margin-top: -10px;
