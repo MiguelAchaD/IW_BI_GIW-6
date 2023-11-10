@@ -62,13 +62,13 @@
             </g>
           </svg>
         </a>
-        {% if request.user.is_authenticated %}
+        {% if request.client.is_authenticated %}
           <div id="account-info" class="account-dropdown-content">
             <ul>
-              {% if request.user.first_name %}
-                <li>{{ request.user.first_name.upper }}</li>
+              {% if request.client.first_name %}
+                <li>{{ request.client.first_name.upper }}</li>
               {% else %}
-                <li>{{ request.user.username.upper }}</li>
+                <li>{{ request.client.username.upper }}</li>
               {% endif %}
               <li>
                 <a href="{% url 'viewProfile' %}">Ver mi perfil</a>

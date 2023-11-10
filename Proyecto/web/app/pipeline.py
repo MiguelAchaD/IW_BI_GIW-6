@@ -9,26 +9,19 @@ def create_user_by_email(strategy, backend, details, response, user=None, *args,
         username = email.split('@')[0]
 
     try:
-        user = User.objects.get(email=email)
+        client = Client.objects.get(email=email)
 
-        return {'is_new': False, 'user': user}
+        return {'is_new': False, 'user': client}
 
     except User.DoesNotExist:
         first_name = details.get('first_name', None)
         last_name = details.get('last_name', None)
-
-        user = User.objects.create_user(
+        credit_card = details.get('credit_card', None)
+        client = Client.objects.create(
             username=username,
             email=email,
             first_name=first_name,
-            last_name=last_name
-        )
-
-        credit_card = details.get('credit_card', None)
-
-        Client.objects.create(
-            user=user,
+            last_name=last_name,
             creditCard=credit_card
         )
-
-        return {'is_new': True, 'user': user}
+        return {'is_new': True, 'user': client}
