@@ -1,6 +1,7 @@
 nav {
   background-color: var(--color01);
   padding: 10px 0 10px;
+  transition: border-bottom var(--ease-time) ease-in-out;
 }
 
 nav svg {
@@ -71,27 +72,33 @@ nav svg {
 
 #account-info,
 #account-options {
-  position: relative;
-  display: none;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
   position: absolute;
-  background-color: var(--color02);
-  border: 1px solid;
-  border-color: white;
+  background-color: var(--color01);
   min-width: 160px;
-  padding: 30px;
   margin-top: -10px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  transition: height var(--ease-time) ease-in-out, visibility var(--ease-time) ease-in-out, border-bottom var(--ease-time) ease-in-out, border-left var(--ease-time) ease-in-out, border-right var(--ease-time) ease-in-out;
 }
+
 
 #account-info li,
 #account-options li {
   color: white;  
   display: block;
-  margin: 0;
   padding: 0;
 }
 
+#account-info li{
+  margin: 0 50px 0 50px;
+}
+
+#account-options li {
+  margin: 0 50px 0 50px;
+}
 .account-dropdown-content a{
   font-size: 17px;
 }

@@ -14,7 +14,7 @@
   <div class="profile-container">
     <div id="main-info-wrapper">
       <div class="main-info">
-        <img id="profile" src="{% static 'images/perfil.jpg' %}">
+        <img id="profilepic" src="{% static 'images/perfil.jpg' %}">
         {% if request.user.first_name %}
           <h2>{{ request.user.first_name.upper }}</h2>
         {% else %}

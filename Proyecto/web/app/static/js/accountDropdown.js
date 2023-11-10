@@ -1,45 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
     const profileSvg = document.getElementById("profile");
-    const accountDropdowns = document.getElementsByClassName("account-dropdown-content");
-    let isClicked = false;
-    let isMouseIn = false;
+    const accountInfo = document.getElementById("account-info");
+    const accountOptions = document.getElementById("account-options");
+    const navBar = document.querySelector("nav");
+    let isDropdownVisible = false;
 
     profileSvg.addEventListener("click", function () {
-        if (!isClicked) {
-            showAccountDropdown();
-            isClicked = true;
-        } else {
-            hideAccountDropdown();
-            isClicked = false;
-        }
+        toggleAccountDropdown(!isDropdownVisible);
+        isDropdownVisible = !isDropdownVisible;
     });
 
     profileSvg.addEventListener("blur", function () {
-        if(!isMouseIn){
-            hideAccountDropdown();
-            isClicked = false;
-        }
+        setTimeout(() => {
+            if (isDropdownVisible) {
+                toggleAccountDropdown(false);
+                isDropdownVisible = false;
+            }
+        }, 100);
     });
 
-    for (const accountDropdown of accountDropdowns) {
-        accountDropdown.addEventListener("mouseenter", function () {
-            isMouseIn = true;
-        });
+    function toggleAccountDropdown(show) {
+        const visibility = show ? "visible" : "hidden";
+        const height = show ? (accountInfo ? "160px" : "120px") : "0";
+        const borderColor = show ? "white" : "transparent";
 
-        accountDropdown.addEventListener("mouseleave", function () {
-            isMouseIn = false;
-        });
+        setDropdownStyles(visibility, height, borderColor);
     }
 
-    function showAccountDropdown() {
-        for (const accountDropdown of accountDropdowns) {
-            accountDropdown.style.display = "block";
-        }
-    }
+    function setDropdownStyles(visibility, height, borderColor) {
+        if (accountInfo) accountInfo.style.height = height;
+        if (accountOptions) accountOptions.style.height = height;
 
-    function hideAccountDropdown() {
-        for (const accountDropdown of accountDropdowns) {
-            accountDropdown.style.display = "none";
+        navBar.style.borderBottom = `1px solid ${borderColor}`;
+        if (accountInfo || accountOptions) {
+            const dropdown = accountInfo || accountOptions;
+            dropdown.style.visibility = visibility;
+            dropdown.style.borderLeft = `1px solid ${borderColor}`;
+            dropdown.style.borderRight = `1px solid ${borderColor}`;
+            dropdown.style.borderBottom = `1px solid ${borderColor}`;
         }
     }
 });
