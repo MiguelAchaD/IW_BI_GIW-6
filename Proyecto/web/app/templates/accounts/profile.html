@@ -12,11 +12,17 @@
 
 {% block content %}
   <div class="profile-container">
-    {% if request.user.first_name %}
-      <h2>PERFIL DE {{ request.user.first_name.upper }}</h2>
-    {% else %}
-      <h2>PERFIL DE {{ request.user.username.upper }}</h2>
-    {% endif %}
+    <div id="main-info-wrapper">
+      <div class="main-info">
+        <img id="profile" src="{% static 'images/perfil.jpg' %}">
+        {% if request.user.first_name %}
+          <h2>{{ request.user.first_name.upper }}</h2>
+        {% else %}
+          <h2>{{ request.user.username.upper }}</h2>
+        {% endif %}
+        <img id="pencil" src={% static 'images/edit.svg' %}/>
+      </div>
+    </div>
     <form method="post" action="{% url 'viewProfile' %}">
       {% csrf_token %}
       <div class="content">
@@ -40,10 +46,10 @@
       </div>
 
       <div class="content">
-        <label for="credit_card">Tarjeta de crédito:</label>
+        <label for="credit_card" id="credit_card"><img src="{% static 'images/credit.svg' %}"> </label>
         <input type="text" id="credit_card" name="credit_card" value="{{ client.creditCard }}" placeholder="**** **** **** ****" />
       </div>
-      <button type="submit">Guardar cambios</button>
+      <button type="submit" id="save">Guardar cambios</button>
     </form>
   </div>
 {% endblock %}

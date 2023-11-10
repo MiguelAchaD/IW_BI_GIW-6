@@ -1,7 +1,18 @@
+main {
+  color: white;
+  background-color: var(--color02);
+}
+
 .wrapper {
   display: flex;
   justify-content: space-between;
-  margin: 10px 10vw 0 10vw;
+  margin: 10px 20px 0 20px;
+}
+
+#all {
+  background-color: var(--color03);
+  margin: 0 10vw 20px 10vw;
+  border-radius: 20px;
 }
 
 #prod-name {
@@ -11,10 +22,11 @@
 }
 
 #generation {
+  padding-top: 20px;
   margin-top: 30px;
   margin-bottom: 30px;
-  margin-left: 10vw;
-  font-family: 'Poppins';
+  margin-left: 20px;
+  font-family: "Poppins";
   font-weight: 900;
   font-size: 2.2em;
 }
@@ -22,6 +34,10 @@
 .metric-wrapper {
   margin-top: 10px;
   text-align: center;
+}
+
+.metric-wrapper label {
+  font-weight: bold;
 }
 
 .intern-wrapper {
@@ -37,6 +53,7 @@
 
 .product {
   width: 400px;
+  margin-bottom: 20px;
 }
 
 .currency {
@@ -46,16 +63,18 @@
   max-width: 150px;
   height: 50px;
   border-radius: 5px;
-  background-color: #898989;
+  background-color: var(--color05);
   text-decoration: none;
   font-weight: 700;
-  color: black;
+  color: white;
+  transition: background-color var(--ease-time) ease;
 }
 
-#currency:hover {
-    cursor: pointer;
+.currency:hover {
+  cursor: pointer;
+  background-color: var(--color04);
 }
 
-.info{
-    justify-content: space-evenly;
+.info {
+  justify-content: space-evenly;
 }
