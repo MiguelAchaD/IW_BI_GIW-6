@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from smtplib import SMTPException, SMTPAuthenticationError, SMTPSenderRefused, SMTPRecipientsRefused
 from socket import error as ConnectionError
@@ -9,6 +10,7 @@ from app.utils import getURL
 from django.http import Http404
 from django.contrib.auth.decorators import user_passes_test
 from .models import Client, CartRelation, CartProduct, Product
+from django.urls import reverse
 from app.templatetags.custom_tags import *
 
 
@@ -63,24 +65,27 @@ def signUp(request):
 
         token = get_random_string(length=20)
         try:
-            Client.objects.create(
+            user = User.objects.create_user(
                 username=username,
                 email=email,
                 password=password,
-                is_active=False,
-                creditCard=None,
-                token=token
+                is_active=False
             )
+            Client.objects.create(user=user, token=token)
 
         except IntegrityError:
-            existing_user = Client.objects.get(email=email)
+            existing_user = User.objects.get(email=email)
+            existing_client = Client.objects.get(user=existing_user)
+
             if not existing_user.is_active:
                 existing_user.email = email
                 existing_user.set_password(password)
-                existing_user.token = token
                 existing_user.save()
+
+                existing_client.token = token
+                existing_client.save()
             else:
-                return render(request, "accounts/signUp.html", {"errorMessage": "Este usuario ya está registrado. Inicia sesión con ese usuario, inicia sesión con Google o utiliza otro nombre."})
+                return render(request, "accounts/signUp.html", {"errorMessage": "Este usuario ya está registrado. Inicia sesión con ese usuario, inicia sesión con google o utiliza otro nombre."})
 
         url = getURL(request)
         if url is None:
@@ -91,7 +96,7 @@ def signUp(request):
             if next:
                 message = f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}&next={next}"
             else:
-                message = f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}"
+                message=f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}"
             send_mail(
                 subject="Autenticación de Correo Electrónico",
                 message=message,
@@ -107,6 +112,7 @@ def signUp(request):
                 fail_silently=False
             )
             return render(request, "accounts/emailConfirmation.html", {"email": email})
+                
 
         except SMTPException as smtp_exception:
             if isinstance(smtp_exception, SMTPAuthenticationError):
@@ -135,26 +141,30 @@ def authenticateUser(request):
         token = request.GET.get("token")
 
         try:
-            user = Client.objects.get(email=email, token=token)
-            user.is_active = True
-            user.save()
+            user = User.objects.get(email=email)
+            client = Client.objects.get(user=user, token=token)
+            client.user.is_active = True
+            client.user.save()
             login(request, user, backend="django.contrib.auth.backends.ModelBackend")
             if next:
                 return redirect(next)
             else:
                 return redirect(index)
+        except User.DoesNotExist:
+            raise Http404("El usuario que estás intentando autentificar no existe")
         except Client.DoesNotExist:
             raise Http404("No se ha podido autentificar tu dirección de correo electrónico")
 
 
 def viewProfile(request):
-    user = request.user
-    return render(request, 'accounts/profile.html', {"client": user})
+    user=request.user
+    client = Client.objects.get(user=user)
+    return render(request, 'accounts/profile.html', {"client": client})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def viewCart(request):
     if request.method == "GET":
-        client = request.user
+        client = Client.objects.get(user=request.user)
         cart_relations = CartRelation.objects.filter(client=client)
         if cart_relations.count() > 0:
             cart_Products = CartProduct.objects.filter(
@@ -169,7 +179,7 @@ def viewCart(request):
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def addToCart(request, product_id):
     if request.method == "GET":
-        client = request.user
+        client = Client.objects.get(user=request.user)
         product = Product.objects.get(id=product_id)
 
         cart_relation, created = CartRelation.objects.get_or_create(
@@ -181,10 +191,11 @@ def addToCart(request, product_id):
 
         return redirect("view_cart")
 
+
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def removeFromCart(request, product_id):
     if request.method == "GET":
-        client = request.user
+        client = Client.objects.get(user=request.user)
         product = Product.objects.get(id=product_id)
 
         cart_relation = CartRelation.objects.get(client=client)
@@ -197,7 +208,9 @@ def removeFromCart(request, product_id):
         else:
             cart_Product.save()
 
-        return redirect("view_cart")    
+        return redirect("view_cart")
+
+
     
 @user_passes_test(isUserAuthenticated, login_url="logIn")    
 def products(request, product):
