@@ -15,10 +15,12 @@
     <div id="stage-1">
         <h2 class="info">Elige el tipo de producto que desea construir</h2>
         <div class="selection-wrapper">
-            <div class="clickableOption" id="phone" onClick="changeSelection(phone)">Imagen telefono</div>
-            <div class="clickableOption" id="tablet" onClick="changeSelection(tablet)">Imagen tablet</div>
-            <div class="clickableOption" id="laptop" onClick="changeSelection(laptop)">Imagen portatil</div>
+            <button class="clickableOption" id="phone" onClick="changeSelection(this)">Imagen telefono</button>
+            <button class="clickableOption" id="tablet" onClick="changeSelection(this)">Imagen tablet</button>
+            <button class="clickableOption" id="laptop" onClick="changeSelection(this)">Imagen portatil</button>
         </div>
+        <div id="deviceSelections"></div>
+        <div id="moduleSelections"></div>
     </div>
     <!-- TODO: Construcción de producto -->
 {% endblock %}
