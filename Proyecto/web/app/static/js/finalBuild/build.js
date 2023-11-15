@@ -1,4 +1,19 @@
 var lastSelection = [null, null, null];
+var lastDeviceSelected = null;
+
+let buttons = document.getElementsByClassName("clickableOption");
+for (let index = 0; index < buttons.length; index++) {
+  buttons[index].addEventListener("mouseover", function(){
+    this.style.border = "2px black solid";
+    this.style.borderRadius = "5px";
+    this.style.margin = "8px";
+  });
+
+  buttons[index].addEventListener("mouseout", function(){
+    this.style.border = "0";
+    this.style.margin = "10px";
+  });
+}
 
 function changeSelection(type, compatibleModules) {
   if (lastSelection[0] != type) {
@@ -20,7 +35,10 @@ function changeSelection(type, compatibleModules) {
     lastSelection[0].style.backgroundColor = "white";
     document.getElementById(lastSelection[1].getAttribute("id")).remove();
     lastSelection[0] = null;
-    lastSelection.splice(lastSelection[1], 1);
+    if (lastSelection[2] != null){
+      document.getElementById(lastSelection[2].getAttribute("id")).remove();
+      lastSelection[2] = null;
+    }
   }
 }
 
@@ -33,7 +51,6 @@ function deviceSelection(type, compatibleModules) {
   parentDiv.appendChild(div);
   compatibleModules.forEach(element => {
     if (element[1].split(" ")[0] == type){
-      //TODO: Agregar los tipos de productos (bd)
       let divIntern = document.createElement("div");
       setInternStyle(divIntern);
       divIntern.setAttribute("id", element[0]);
@@ -62,6 +79,7 @@ function deviceSelection(type, compatibleModules) {
       .appendChild(noDevices);
   }
 }
+
 
 function moduleSelection(type, compatibleModules) {
   if (lastSelection[2] == null){
@@ -117,18 +135,30 @@ function setStyle(element) {
   element.style.display = "flex";
   element.style.overflowY = "scroll";
   element.style.overflowX = "hidden";
-  element.flexWrap = "wrap";
+  element.style.flexWrap = "wrap";
   element.style.backgroundColor = "gray";
   element.style.width = "70vw";
+  element.style.height = "500px";
 }
 
 function setInternStyle(element) {
+  element.addEventListener("mouseover", function(){
+    this.style.border = "2px black solid";
+    this.style.margin = "8px";
+    this.style.backgroundColor = "white";
+  });
+
+  element.addEventListener("mouseout", function(){
+      this.style.border = "0";
+      this.style.margin = "10px";
+      this.style.backgroundColor = "grey";
+  });
+
   element.style.textAlign = "center";
-  element.style.margin = "10px auto 10px auto";
+  element.style.margin = "10px";
   element.style.height = "300px";
   element.style.minHeight = "300px";
-  element.style.width = "250px";
-  element.style.minWidth = "250px";
-  element.style.backgroundColor = "white";
+  element.style.width = "275px";
+  element.style.minWidth = "275px";
   element.style.borderRadius = "10px";
 }

@@ -12,12 +12,9 @@
 .clickableOption{
     width: 300px;
     height: 300px;
-    -webkit-transition: background-color var(--ease-time) ease;
-    -moz-transition: background-color var(--ease-time) ease;
-    -o-transition: background-color var(--ease-time) ease;
-    transition: background-color var(--ease-time) ease;
-    background-color: white;
-    border:1px solid black;
-    border-radius: 5px;
     margin-bottom: 20px;
+    border: 0px;
+    border-radius: 0px;
+    margin: 10px;
+    background-color: white;
 }
