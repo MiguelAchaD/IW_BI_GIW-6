@@ -1,3 +1,8 @@
+header{
+    width: 100vw;
+    background-color: var(--color01);
+}
+
 body {
     display: flex;
     align-items: center;
@@ -6,6 +11,8 @@ body {
 }
 
 .confirmation-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
     text-align: center;
     padding: 30px;
     background-color: #fff;

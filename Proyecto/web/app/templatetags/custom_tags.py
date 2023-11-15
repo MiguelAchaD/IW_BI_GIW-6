@@ -42,6 +42,16 @@ def formatDec(dec):
 def get_productType(product):
     return product.model.split("-")[0]
 
-@register.filter(name='get_range')
+@register.filter(name="get_range")
 def get_range(value):
     return range(value)
+
+@register.filter(name="get_listFromCM")
+def get_listFromCM(object):
+    result = []
+    for element in object:
+        modules = []
+        for module in element.modules.all():
+            modules.append([module.name, float(str(module.price))])
+        result.append([element.product.id, element.product.name, float(str(element.product.price)), modules])
+    return result

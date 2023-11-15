@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import Client, CartRelation, CartProduct, Product
 from django.urls import reverse
 from app.templatetags.custom_tags import *
+from app.models import Product, compatibleModules
 
 
 def isUserAuthenticated(user):
@@ -222,5 +223,7 @@ def products(request, product):
     #else:
         #... TODO:CREAR PAGINA DE ERROR PARA SUSTITUIR POR LA PREDETERMINADA
 
+@user_passes_test(isUserAuthenticated, login_url="logIn")
 def builder(request):
-    return render(request, "finalBuild/build.html")
+    modules = compatibleModules.objects.all()
+    return render(request, "finalBuild/build.html", {"compatibleModules" : modules})
