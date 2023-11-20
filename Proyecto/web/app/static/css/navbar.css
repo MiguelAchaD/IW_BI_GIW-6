@@ -1,16 +1,10 @@
 nav {
   background-color: var(--color01);
-  padding: 10px 0 10px;
+  padding: 10px 0 10px 0;
   transition: border-bottom var(--ease-time) ease-in-out;
 }
 
-nav svg {
-  height: 100%;
-  min-height: 100%;
-  max-height: 100%;
-}
-
-#logo .color,
+#shoping-cart,
 #shoping-cart g,
 #create, 
 #profile{
@@ -19,9 +13,9 @@ nav svg {
   -o-transition: fill var(--ease-time) ease;
   transition: fill var(--ease-time) ease;
   fill: white;
+  height: 60px;
 }
 
-#logo:hover .color,
 #shoping-cart:hover g,
 #create:hover,
 #profile:hover {
@@ -31,11 +25,18 @@ nav svg {
 
 #profile:focus {
   outline: none;
-} 
+}
+
+#icon {
+  height: 60px;
+  display: inline-block;
+}
+
 .navbar {
   list-style-type: none;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: var(--color01);
   width: 60vw;
   margin-left: auto;
@@ -47,14 +48,9 @@ nav svg {
   text-align: center;
   display: inline-block;
   overflow: hidden;
-  height: var(--navHeight);
-  line-height: var(--navHeight);
 }
 
 .navbar a{
-  font-family: 'Poppins';
-  font-size: 25px;
-  font-weight: bolder;
   text-decoration: none;
   color: white;
   background: linear-gradient(white 50%, var(--color03) 50%);
@@ -66,39 +62,36 @@ nav svg {
   transition: background-position var(--ease-time) ease;
 }
 
+.navbar a, .navbar li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .navbar a:hover {
   background-position: 0 100%;
 }
 
 #account-info,
 #account-options {
+  z-index: 10000;
   height: 0;
   overflow: hidden;
   visibility: hidden;
   position: absolute;
   background-color: var(--color01);
   min-width: 160px;
-  margin-top: -10px;
+  margin-top: calc(var(--navHeight) + 20px);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   transition: height var(--ease-time) ease-in-out, visibility var(--ease-time) ease-in-out, border-bottom var(--ease-time) ease-in-out, border-left var(--ease-time) ease-in-out, border-right var(--ease-time) ease-in-out;
+  align-self: flex-start;
 }
-
 
 #account-info li,
 #account-options li {
   color: white;  
   display: block;
   padding: 0;
-}
-
-#account-info li{
-  margin: 0 50px 0 50px;
-}
-
-#account-options li {
-  margin: 0 50px 0 50px;
-}
-.account-dropdown-content a{
-  font-size: 17px;
+  margin: 20px 50px 20px 50px;
 }

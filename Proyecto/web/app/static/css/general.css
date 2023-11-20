@@ -1,4 +1,6 @@
-:root{
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+:root {
     --color01: #0F0F0F;
     --color02: #232D3F;
     --color03: #005B41;
@@ -7,20 +9,38 @@
     --navHeight: 50px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
-
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-html,
-body {
+html, body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-family: 'Poppins', sans-serif;
 }
 
-main{
+main {
     flex: 1;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-1000px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slideInLeft {
+    animation-name: slideInLeft;
+}
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
 }
