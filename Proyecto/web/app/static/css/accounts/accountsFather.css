@@ -93,14 +93,14 @@ button:hover {
 }
 
 .input-label {
-    margin-top: 62px;
+    margin-top: 60px;
     margin-left: 10px;
     position: absolute;
     transition: margin-top var(--ease-time) ease, margin-left var(--ease-time) ease;
 }
 
 .input-label.focused {
-    margin-top: 25px;
+    margin-top: 20px;
     margin-left: 0px;
 }
 
