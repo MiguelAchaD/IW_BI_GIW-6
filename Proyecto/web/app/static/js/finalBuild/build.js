@@ -1,133 +1,144 @@
-var lastSelection = [null, null, null];
-var lastDeviceSelected = null;
+const lastSelection = [null, null, null];
 
-let buttons = document.getElementsByClassName("clickableOption");
-for (let index = 0; index < buttons.length; index++) {
-  buttons[index].addEventListener("mouseover", function(){
-    this.style.border = "2px black solid";
-    this.style.borderRadius = "5px";
-    this.style.margin = "8px";
-  });
+setSelectionStyle();
 
-  buttons[index].addEventListener("mouseout", function(){
-    this.style.border = "0";
-    this.style.margin = "10px";
-  });
+function changeSelection(type, modules, index) {
+  if (lastSelection[index] !== type) {
+    clearLastSelection(index);
+
+    lastSelection[index] = type;
+    lastSelection[index].style.backgroundColor = "gray";
+    if (index === 0) {
+      deviceSelection(lastSelection[index].getAttribute("id"), modules);
+    }
+  } else {
+    clearLastSelection(index);
+  }
 }
 
-function changeSelection(type, compatibleModules) {
-  if (lastSelection[0] != type) {
-    if (lastSelection[0] != null) {
-      lastSelection[0].style.backgroundColor = "white";
-      if (lastSelection[1] != null) {
-        document.getElementById(lastSelection[1].getAttribute("id")).remove();
-        lastSelection[1] = null;
-      } 
-      if (lastSelection[2] != null){
-        document.getElementById(lastSelection[2].getAttribute("id")).remove();
-        lastSelection[2] = null;
-      }
-    }
-    lastSelection[0] = type;
-    lastSelection[0].style.backgroundColor = "gray";
-    deviceSelection(lastSelection[0].getAttribute("id"), compatibleModules);
-  } else {
-    lastSelection[0].style.backgroundColor = "white";
-    document.getElementById(lastSelection[1].getAttribute("id")).remove();
-    lastSelection[0] = null;
-    if (lastSelection[2] != null){
-      document.getElementById(lastSelection[2].getAttribute("id")).remove();
-      lastSelection[2] = null;
+function clearLastSelection(index) {
+  if (lastSelection[index] !== null) {
+    lastSelection[index].style.backgroundColor = "white";
+    if (index === 0) {
+      clearDeviceSelections();
     }
   }
 }
 
-// TODO: Refactorizar estas funciones
+function clearDeviceSelections() {
+  for (let i = 1; i <= 2; i++) {
+    if (lastSelection[i] !== null) {
+      document.getElementById(lastSelection[i].getAttribute("id")).remove();
+      lastSelection[i] = null;
+    }
+  }
+  lastSelection[0] = null;
+}
+
 function deviceSelection(type, compatibleModules) {
-  let parentDiv = document.getElementById("deviceSelections");
-  let div = document.createElement("div");
-  div.setAttribute("id", type + "Selection");
-  setStyle(div);
+  const parentDiv = document.getElementById("deviceSelections");
+  const div = createSelectionDiv(type);
   parentDiv.appendChild(div);
-  compatibleModules.forEach(element => {
-    if (element[1].split(" ")[0] == type){
-      let divIntern = document.createElement("div");
-      setInternStyle(divIntern);
-      divIntern.setAttribute("id", element[0]);
-      let divHeader = document.createElement("h2");
-      divHeader.innerHTML = element[1];
-      let divPrice = document.createElement("p");
-      divPrice.innerHTML = element[2];
-      divIntern.appendChild(divHeader);
-      divIntern.appendChild(divPrice);
+
+  compatibleModules.forEach(([moduleId, moduleType, modulePrice]) => {
+    if (moduleType.split(" ")[0] === type) {
+      const divIntern = createModuleDiv(moduleId, moduleType, modulePrice);
       div.appendChild(divIntern);
     }
   });
+
   lastSelection[1] = div;
-  let divChildren = div.children;
-  if (divChildren.length != 0) {
-    for (let index = 0; index < divChildren.length; index++) {
-      divChildren[index].addEventListener("click", function() {moduleSelection(divChildren[index].getAttribute("id"), compatibleModules)}, false);
-    }
-  } else {
-    let noDevices = document.createElement("h1");
-    noDevices.innerHTML = "No hay dispositivos disponibles.";
-    noDevices.style.textAlign = "center";
-    noDevices.style.lineHeight = "450px";
-    document
-      .getElementById(div.getAttribute("id"))
-      .appendChild(noDevices);
-  }
+  setSelectionClickListener(div.children, moduleSelection, compatibleModules);
 }
 
-
 function moduleSelection(type, compatibleModules) {
-  if (lastSelection[2] == null){
-    let div = document.createElement("div");
-    div.setAttribute("id", type + "Modules");
-    setStyle(div);
-    compatibleModules.forEach(element => {
-      if (element[0] == type){
-        element[3].forEach(module => {
-          let divIntern = document.createElement("div");
-          setInternStyle(divIntern);
-          divIntern.setAttribute("id", module);
-          let divHeader = document.createElement("h2");
-          divHeader.innerHTML = module[0];
-          let divPrice = document.createElement("p");
-          divPrice.innerHTML = module[1];
-          divIntern.appendChild(divHeader);
-          divIntern.appendChild(divPrice);
-          div.appendChild(divIntern);});
-      }
-    });
+  if (lastSelection[2] === null) {
+    const div = createSelectionDiv(type + "Modules");
     document.getElementById("moduleSelections").appendChild(div);
     lastSelection[2] = div;
-    let divChildren = div.children;
-    if (divChildren.length != 0) {
-      for (let index = 0; index < divChildren.length; index++) {
-        divChildren[index].addEventListener("click", function(){ addToBuildList(this)});
-      }
+    if (lastSelection[1] === document.getElementById(type)) {
+      document.getElementById(type).style.backgroundColor = "gray";
     } else {
-      let noModules = document.createElement("h1");
-      noModules.innerHTML = "No hay módulos disponibles.";
-      noModules.style.textAlign = "center";
-      noModules.style.lineHeight = "450px";
-      document
-        .getElementById(div.getAttribute("id"))
-        .appendChild(noModules);
+      document.getElementById(
+        lastSelection[1].getAttribute("id")
+      ).style.backgroundColor = "#ddd";
+      document.getElementById(type).style.backgroundColor = "gray";
     }
+    compatibleModules.forEach(
+      ([moduleId, moduleType, modulePrice, modules]) => {
+        if (moduleId === type) {
+          modules.forEach(([moduleName, modulePrice]) => {
+            const divIntern = createModuleDiv(moduleName, modulePrice);
+            div.appendChild(divIntern);
+          });
+        }
+      }
+    );
+
+    setSelectionClickListener(div.children, addToBuildList, compatibleModules);
+  } else if (type + "ModulesSelection" !== lastSelection[2].getAttribute("id")) {
+    let selectionChildren = document.getElementById(lastSelection[1].getAttribute("id")).children;
+    for (let index = 0; index < selectionChildren.length; index++) {
+      document.getElementById(selectionChildren[index].getAttribute("id")).style.backgroundColor = "#ddd";
+    }
+    document.getElementById(lastSelection[2].getAttribute("id")).remove();
+    lastSelection[2] = null;
+    moduleSelection(type, compatibleModules);
   } else {
-    if (type+"Modules" != lastSelection[2].getAttribute("id")){
-      document.getElementById(lastSelection[2].getAttribute("id")).remove();
-      lastSelection[2] = null;
-      moduleSelection(type, compatibleModules); 
-    }
+    document.getElementById(lastSelection[2].getAttribute("id")).remove();
+    lastSelection[2] = null;
+    document.getElementById(type).style.backgroundColor = "#ddd";
   }
 }
 
 function addToBuildList(module) {
-  //TODO: Añadir a una lista de módulos de construcción
+  // TODO: Añadir a una lista de módulos de construcción
+}
+
+function setSelectionStyle() {
+  const buttons = document.getElementsByClassName("clickableOption");
+  Array.from(buttons).forEach((button) => {
+    button.style.border = "2px gray solid";
+    button.style.borderRadius = "5px";
+    button.addEventListener("mouseover", () => {
+      button.style.border = "2px black solid";
+    });
+    button.addEventListener("mouseout", () => {
+      button.style.border = "2px gray solid";
+    });
+  });
+}
+
+function createSelectionDiv(id) {
+  const div = document.createElement("div");
+  div.setAttribute("id", id + "Selection");
+  setStyle(div);
+  return div;
+}
+
+function createModuleDiv(id, name, price) {
+  const divIntern = document.createElement("div");
+  setInternStyle(divIntern);
+  divIntern.setAttribute("id", id);
+
+  const divHeader = document.createElement("h2");
+  divHeader.innerHTML = name;
+
+  const divPrice = document.createElement("p");
+  divPrice.innerHTML = price;
+
+  divIntern.appendChild(divHeader);
+  divIntern.appendChild(divPrice);
+
+  return divIntern;
+}
+
+function setSelectionClickListener(elements, clickHandler, compatibleModules) {
+  Array.from(elements).forEach((element) => {
+    element.addEventListener("click", () => {
+      clickHandler(element.getAttribute("id"), compatibleModules);
+    });
+  });
 }
 
 function setStyle(element) {
@@ -136,22 +147,18 @@ function setStyle(element) {
   element.style.overflowY = "scroll";
   element.style.overflowX = "hidden";
   element.style.flexWrap = "wrap";
-  element.style.backgroundColor = "gray";
+  element.style.backgroundColor = "#ddd";
   element.style.width = "70vw";
   element.style.height = "500px";
 }
 
 function setInternStyle(element) {
-  element.addEventListener("mouseover", function(){
-    this.style.border = "2px black solid";
-    this.style.margin = "8px";
-    this.style.backgroundColor = "white";
+  element.addEventListener("mouseover", () => {
+    element.style.border = "2px black solid";
   });
 
-  element.addEventListener("mouseout", function(){
-      this.style.border = "0";
-      this.style.margin = "10px";
-      this.style.backgroundColor = "grey";
+  element.addEventListener("mouseout", () => {
+    element.style.border = "2px gray solid";
   });
 
   element.style.textAlign = "center";
@@ -160,5 +167,14 @@ function setInternStyle(element) {
   element.style.minHeight = "300px";
   element.style.width = "275px";
   element.style.minWidth = "275px";
-  element.style.borderRadius = "10px";
+  element.style.border = "2px gray solid";
+  element.style.borderRadius = "7px";
+}
+
+function noElementsShow(div, text) {
+  const noElement = document.createElement("h1");
+  noElement.innerHTML = text;
+  noElement.style.textAlign = "center";
+  noElement.style.lineHeight = "450px";
+  document.getElementById(div.getAttribute("id")).appendChild(noElement);
 }
