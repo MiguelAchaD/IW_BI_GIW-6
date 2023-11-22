@@ -52,6 +52,6 @@ def get_listFromCM(object):
     for element in object:
         modules = []
         for module in element.modules.all():
-            modules.append([module.name, float(str(module.price))])
+            modules.append([module.id, module.name, float(str(module.price))])
         result.append([element.product.id, element.product.name, float(str(element.product.price)), modules])
     return result

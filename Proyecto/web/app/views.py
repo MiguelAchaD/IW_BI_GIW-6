@@ -13,6 +13,7 @@ from .models import Client, CartRelation, CartProduct, Product
 from django.urls import reverse
 from app.templatetags.custom_tags import *
 from app.models import Product, compatibleModules
+from django.http import JsonResponse
 
 
 def isUserAuthenticated(user):
@@ -225,5 +226,10 @@ def products(request, product):
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def builder(request):
-    modules = compatibleModules.objects.all()
-    return render(request, "finalBuild/build.html", {"compatibleModules" : modules})
+    if request.method == "GET":
+        modules = compatibleModules.objects.all()
+        return render(request, "finalBuild/build.html", {"compatibleModules" : modules})
+    elif request.method == "POST":
+        datos_nuevos = request.POST.get('datos_nuevos', None)
+        print(datos_nuevos)
+        return JsonResponse({'mensaje': 'Modelo actualizado correctamente'})

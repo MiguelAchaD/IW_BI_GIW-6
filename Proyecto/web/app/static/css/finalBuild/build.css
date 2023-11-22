@@ -1,20 +1,63 @@
-.selection-wrapper{
+.selection-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 13vw 0 13vw;
+}
+
+.info {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.clickableOption {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 20px;
+  border: 0px;
+  border-radius: 0px;
+  margin: 10px;
+  background-color: white;
+  border: 2px solid #bbb;
+}
+
+.float-window {
+  width: 200px;
+  position: fixed;
+  right: 20px;
+  top: 20vh;
+  background-color: white;
+  border: 3px solid #bbb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#items{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 90%;
+    min-height: 50%;
+    background-color: white;
     display: flex;
-    justify-content: space-around;
-    margin: 20px 13vw 0 13vw;
+    flex-direction: column;
+    align-items: center;
 }
 
-.info{
-    margin-top: 20px;
-    text-align: center;
+#device{
+    height: 162px;
+    width: 162px;
+    margin: 10px 0 10px;
+    border: 3px dashed #bbb;
 }
 
-.clickableOption{
-    width: 300px;
-    height: 300px;
-    margin-bottom: 20px;
-    border: 0px;
-    border-radius: 0px;
-    margin: 10px;
+.separator{
+    border-top: 3px dashed #bbb;
+    width: 100%;
+}
+
+#anyadirCarrito{
+    width: 70%;
+    height: 25px;
+    margin-bottom: 10px;
     background-color: white;
 }

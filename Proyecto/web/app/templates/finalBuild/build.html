@@ -4,8 +4,12 @@
 {% load custom_tags %}
 
 {% block additionalLinks %}
-  <link rel="stylesheet" href="{% static 'css/finalBuild/build.css' %}" />
-  <script src="{% static 'js/finalBuild/build.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/finalBuild/build.css' %}" />
+<script src="{% static 'js/finalBuild/build.js' %}" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  var builderUrl = '{% url "builder" %}';
+</script>
 {% endblock %}
 
 {% block title %}
@@ -22,6 +26,14 @@
         </div>
         <div id="deviceSelections"></div>
         <div id="moduleSelections"></div>
+    </div>
+    <div class="float-window">
+      <div id="items">
+        <div id="device"></div>
+        <span class="separator"></span>
+      </div>
+      <p id="finalPrice">0 $</p>
+      <button id="anyadirCarrito">Añadir al Carrito</button>
     </div>
     <!-- TODO: Construcción de producto -->
 {% endblock %}

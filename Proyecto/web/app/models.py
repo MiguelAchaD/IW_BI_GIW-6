@@ -23,8 +23,8 @@ class Client(models.Model):
 User._meta.get_field("email")._unique = True
 
 class Module(models.Model):
-    name = models.CharField(max_length=20, primary_key=True)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
+    name = models.CharField(max_length=20)
+    price = models.DecimalField(decimal_places=2, max_digits=9)
     dimensionX = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     dimensionY = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     dimensionZ = models.DecimalField(default=0, decimal_places=2, max_digits=10)

@@ -1,4 +1,5 @@
 const lastSelection = [null, null, null];
+cart = [];
 
 setSelectionStyle();
 
@@ -42,7 +43,7 @@ function deviceSelection(type, compatibleModules) {
 
   compatibleModules.forEach(([moduleId, moduleType, modulePrice]) => {
     if (moduleType.split(" ")[0] === type) {
-      const divIntern = createModuleDiv(moduleId, moduleType, modulePrice);
+      const divIntern = createDiv(moduleId, moduleType, modulePrice);
       div.appendChild(divIntern);
     }
   });
@@ -67,19 +68,29 @@ function moduleSelection(type, compatibleModules) {
     compatibleModules.forEach(
       ([moduleId, moduleType, modulePrice, modules]) => {
         if (moduleId === type) {
-          modules.forEach(([moduleName, modulePrice]) => {
-            const divIntern = createModuleDiv(moduleName, modulePrice);
+          modules.forEach(([moduleID, moduleName, modulePrice]) => {
+            const divIntern = createDiv(
+              moduleID,
+              moduleName,
+              modulePrice
+            );
             div.appendChild(divIntern);
           });
         }
       }
     );
-
-    setSelectionClickListener(div.children, addToBuildList, compatibleModules);
-  } else if (type + "ModulesSelection" !== lastSelection[2].getAttribute("id")) {
-    let selectionChildren = document.getElementById(lastSelection[1].getAttribute("id")).children;
+    setCartClickListener(div.children, addToBuildList, compatibleModules, 1);
+  } else if (
+    type + "ModulesSelection" !==
+    lastSelection[2].getAttribute("id")
+  ) {
+    let selectionChildren = document.getElementById(
+      lastSelection[1].getAttribute("id")
+    ).children;
     for (let index = 0; index < selectionChildren.length; index++) {
-      document.getElementById(selectionChildren[index].getAttribute("id")).style.backgroundColor = "#ddd";
+      document.getElementById(
+        selectionChildren[index].getAttribute("id")
+      ).style.backgroundColor = "#ddd";
     }
     document.getElementById(lastSelection[2].getAttribute("id")).remove();
     lastSelection[2] = null;
@@ -91,8 +102,56 @@ function moduleSelection(type, compatibleModules) {
   }
 }
 
-function addToBuildList(module) {
-  // TODO: Añadir a una lista de módulos de construcción
+function sendSelection(cart){
+  $(document).ready(function () {
+    var csrftoken = getCookie("csrftoken");
+
+    $.ajax({
+      url: builderUrl,
+      type: "POST",
+      data: { datos_nuevos: cart },
+      dataType: "json",
+      headers: {
+        "X-CSRFToken": csrftoken,
+      },
+      success: function (response) {
+        //TODO: Crear alerta en div emergente
+        console.log(response.mensaje);
+      },
+    });
+
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  });
+}
+
+
+function addToBuildList(element, index) {
+  let cartDiv = document.getElementById("items");
+  if (index === 1){
+    console.log("index 1");
+    let device = document.getElementById("device");
+    let div = document.createElement("div").setAttribute("id", element.getAttribute("id") + "-toCart");
+    let divHeader = document.createElement("h2");
+    divHeader.innerHTML = element.children[0];
+    div.appendChild(divHeader);
+    setCartStyle(div);
+    device.appendChild(div);
+  } else {
+    console.log("funciona");
+  }
 }
 
 function setSelectionStyle() {
@@ -116,7 +175,7 @@ function createSelectionDiv(id) {
   return div;
 }
 
-function createModuleDiv(id, name, price) {
+function createDiv(id, name, price) {
   const divIntern = document.createElement("div");
   setInternStyle(divIntern);
   divIntern.setAttribute("id", id);
@@ -137,6 +196,15 @@ function setSelectionClickListener(elements, clickHandler, compatibleModules) {
   Array.from(elements).forEach((element) => {
     element.addEventListener("click", () => {
       clickHandler(element.getAttribute("id"), compatibleModules);
+    });
+  });
+}
+
+function setCartClickListener(elements, clickHandler, compatibleModules, index) {
+  console.log(index);
+  Array.from(elements).forEach((element) => {
+    element.addEventListener("click", () => {
+      clickHandler(element.getAttribute("id"), compatibleModules, index);
     });
   });
 }
@@ -169,6 +237,20 @@ function setInternStyle(element) {
   element.style.minWidth = "275px";
   element.style.border = "2px gray solid";
   element.style.borderRadius = "7px";
+}
+
+function setCartStyle(element) {
+  //element.addEventListener("mouseover", () => {
+  //  element.style.border = "2px black solid";
+  //});
+
+  //element.addEventListener("mouseout", () => {
+  //  element.style.border = "2px gray solid";
+  //});
+
+  element.style.textAlign = "center";
+  element.style.height = "100%";
+  element.style.width = "100%";
 }
 
 function noElementsShow(div, text) {
