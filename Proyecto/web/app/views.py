@@ -10,7 +10,6 @@ from app.utils import getURL
 from django.http import Http404
 from django.contrib.auth.decorators import user_passes_test
 from .models import Client, CartRelation, CartProduct, Product
-from django.urls import reverse
 from app.templatetags.custom_tags import *
 from app.models import Product, compatibleModules
 from django.http import JsonResponse

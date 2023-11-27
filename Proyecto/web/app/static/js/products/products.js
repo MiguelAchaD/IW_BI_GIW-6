@@ -12,16 +12,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     for (var i = 0; i < distances.length; i++) {
         var originalDistance = parseFloat(distances[i].innerText.split(" ")[0].replace(",", "."));
-        // Convertir de milímetros a pulgadas usando el ratio mmToInchRate
         var convertedDistance = (parseFloat(originalDistance / mmToInchRate).toFixed(2));
-        // Almacenar la distancia original y convertida en el array
         distanceData.push({ mm: originalDistance, inch: convertedDistance });
     }
 
     fetch(baseURL + 'EUR?apikey=' + apiKey)
         .then(response => response.json())
         .then(data => {
-            // Obtener la tasa de cambio para convertir de euros a dólares
             var conversionRate = data.rates.USD;
         })
 

@@ -1,10 +1,12 @@
 .Top,
 .Middle,
 .Bottom {
-    background-color: var(--color03);
+    background-color: var(--color01);
     width: cal(100% - 10px);
     height: 400px;
     margin: 5px 0;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 img{

@@ -11,7 +11,7 @@ main {
 
 #all {
   background-color: var(--color03);
-  margin: 0 10vw 20px 10vw;
+  margin: 2vw 10vw 20px 10vw;
   border-radius: 20px;
 }
 
@@ -77,4 +77,44 @@ main {
 
 .info {
   justify-content: space-evenly;
+}
+
+.metric-wrapper {
+  margin: 20px auto;
+  text-align: center;
+  color: white;
+}
+
+.metric-wrapper label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  padding: 10px;
+  margin: 5px auto;
+  border: 2px solid var(--color05); 
+  border-radius: 5px;
+  background-color: var(--color02); 
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  outline: none;
+  width: 60%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+select:hover {
+  border-color: var(--color02);
+}
+
+option {
+  background-color: var(--color02);
+  color: white;
+  padding: 10px;
+}
+
+option:hover {
+  background-color: var(--color04);
 }
