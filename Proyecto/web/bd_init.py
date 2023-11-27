@@ -29,7 +29,6 @@ def initClients():
 
 
 def main():
-    '''
     # Random Clients Creation
     for _ in range(20):
         client = initClients()
@@ -129,7 +128,7 @@ def main():
     cm.save()
     cm.modules.add(Module.objects.get(name="Battery 4422mAh 3.6v"), Module.objects.get(name='Screen 7.2" 4K'), Module.objects.get(name="Camera 12MP"), Module.objects.get(name="Camera 14MP"))
     cm.save()
-    '''
+
 
 if __name__ == "__main__":
     main()
