@@ -1,0 +1,28 @@
+{% extends 'accounts/accountsFather.html' %}
+
+{% block title %}
+  Ecomods - Inicio de Sesión
+{% endblock %}
+
+{% block accessMessage %}
+  <p>Introduce tus datos de acceso para acceder a tu cuenta</p>
+{% endblock %}
+
+{% block form %}
+  <form method="post" action="{% url 'logIn' %}?next={{ request.GET.next }}">
+    {% csrf_token %}
+    <label for="username"><span class="input-label">Nombre de Usuario</span></label>
+    <input type="text" id="username" name="username" oninput="handleInput(this)" />
+
+    <label for="password"><span class="input-label">Contraseña</span></label>
+    <input type="password" id="password" name="password" oninput="handleInput(this)" />
+
+    <p id="errorMessage">{{ errorMessage }}</p>
+
+    <button class="btn" type="submit">Iniciar Sesión</button>
+  </form>
+{% endblock %}
+
+{% block additionalLinks %}
+  <a class="link" href="{% url 'signUp' %}?next={{ request.GET.next }}">¿No tienes una cuenta? Date de alta aquí</a>
+{% endblock %}

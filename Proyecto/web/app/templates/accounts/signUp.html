@@ -1,0 +1,34 @@
+{% extends 'accounts/accountsFather.html' %}
+
+{% block title %}
+    Ecomods - Nueva Cuenta
+{% endblock %}
+
+{% block accessMessage %}
+    <p>Introduce tus datos para crear una nueva cuenta</p>
+{% endblock %}
+
+{% block form %}
+<form method="post" action="{% url 'signUp' %}?next={{ request.GET.next }}">
+    {% csrf_token %}
+    <label for="username"><span class="input-label">Nombre de Usuario</span></label>
+    <input type="text" id="username" name="username" oninput="handleInput(this)">
+
+    <label for="email"><span class="input-label">Correo Electrónico</span></label>
+    <input type="text" id="email" name="email" oninput="handleInput(this)">
+
+    <label for="password"><span class="input-label">Contraseña</span></label>
+    <input type="password" id="password" name="password" oninput="handleInput(this)">
+
+    <label for="confirmPassword"><span class="input-label">Confirmar Contraseña</span></label>
+    <input type="password" id="confirmPassword" name="confirmPassword" oninput="handleInput(this)">
+
+    <p id="errorMessage">{{errorMessage}}</p>
+
+    <button class="btn" type="submit">Crear Cuenta</button>
+</form>    
+{% endblock %}
+
+{% block additionalLinks %}
+<a class="link" href="{% url 'logIn' %}?next={{ request.GET.next }}">¿Ya tienes una cuenta? Inicia Sesión aquí</a>
+{% endblock %}

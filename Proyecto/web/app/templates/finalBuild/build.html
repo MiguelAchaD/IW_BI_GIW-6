@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block additionalLinks %}
+<link rel="stylesheet" href="{% static 'css/finalBuild/build.css' %}" />
+<script src="{% static 'js/finalBuild/build.js' %}" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  var builderUrl = '{% url "builder" %}';
+</script>
+{% endblock %}
+
+{% block title %}
+  Ecomods - Construcción
+{% endblock %}
+
+{% block content %}
+    <div id="stage-1">
+        <h2 class="info">Elige el tipo de producto que desea construir</h2>
+        <div class="selection-wrapper">
+            <button class="clickableOption" id="Phone" onClick='changeSelection(Phone, {{compatibleModules|get_listFromCM}}, 0)'>Imagen telefono</button>
+            <button class="clickableOption" id="Tablet" onClick='changeSelection(Tablet, {{compatibleModules|get_listFromCM}}, 0)'>Imagen tablet</button>
+            <button class="clickableOption" id="Laptop" onClick='changeSelection(Laptop, {{compatibleModules|get_listFromCM}}, 0)'>Imagen portatil</button>
+        </div>
+        <div id="deviceSelections"></div>
+        <div id="moduleSelections"></div>
+    </div>
+    <div class="float-window">
+      <div id="items">
+        <div id="device"></div>
+        <span class="separator"></span>
+      </div>
+      <p id="finalPrice">0 $</p>
+      <button id="anyadirCarrito">Añadir al Carrito</button>
+    </div>
+    <!-- TODO: Construcción de producto -->
+{% endblock %}

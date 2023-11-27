@@ -1,0 +1,13 @@
+.Top,
+.Middle,
+.Bottom {
+    background-color: var(--color03);
+    width: cal(100% - 10px);
+    height: 400px;
+    margin: 5px 0;
+}
+
+img{
+    height: 400px;
+    
+}
