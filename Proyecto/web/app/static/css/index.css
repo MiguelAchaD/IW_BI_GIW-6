@@ -1,7 +1,7 @@
 .Top,
 .Middle,
 .Bottom {
-    background-color: var(--color01);
+    background-color: black;
     width: cal(100% - 10px);
     height: 400px;
     margin: 5px 0;
@@ -11,5 +11,5 @@
 
 img{
     height: 400px;
-    
+    align-self: center;
 }
