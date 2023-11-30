@@ -59,6 +59,7 @@ function moduleSelection(type, compatibleModules) {
     document.getElementById("moduleSelections").appendChild(div);
     lastSelection[2] = div;
     if (lastSelection[1] === document.getElementById(type)) {
+      console.log("change");
       document.getElementById(type).style.backgroundColor = "gray";
     } else {
       document.getElementById(
@@ -140,11 +141,14 @@ function addToBuildList(element, compatibleModules, index) {
   compatibleModules.forEach((e) => {
     if (e[0] == element) {
       elementAttributes = e;
-      elementAttributes += e[3];
+    } else {
+      e[3].forEach((a, index) => {
+        if (a[0] == element){
+          elementAttributes = e[3][index];
+        }
+      })
     }
   });
-  console.log(element);
-  console.log("elementAttributes:", elementAttributes);
   if (index === 1) {
     let device = document.getElementById("device");
     if (device.children.length === 0 && cart[1] !== elementAttributes[0]) {
@@ -155,7 +159,6 @@ function addToBuildList(element, compatibleModules, index) {
       cart[1] = elementAttributes[0];
       let divHeader = document.createElement("h2");
       divHeader.innerHTML = elementAttributes[1];
-      divHeader.innerHTML = "prueba";
       div.appendChild(divHeader);
     } else if (
       device.children.length === 1 && cart[1] !== elementAttributes[0]) {
@@ -176,11 +179,9 @@ function addToBuildList(element, compatibleModules, index) {
       div.setAttribute("id", element + "-toCart");
       setCartStyle(div);
       device.appendChild(div);
-      //HERE
-      cart.append(elementAttributes[0]);
+      cart += elementAttributes[0];
       let divHeader = document.createElement("h2");
-      //divHeader.innerHTML = elementAttributes[1];
-      divHeader.innerHTML = "prueba";
+      divHeader.innerHTML = elementAttributes[1];
       div.appendChild(divHeader);
       document.getElementById("items").appendChild(div);
 
