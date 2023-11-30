@@ -31,12 +31,11 @@ nav {
   height: 50px;
   width: 50px;
   display: inline-block;
-  transition: height var(--ease-time) ease-in-out, width var(--ease-time) ease-in-out
+  transition: height var(--ease-time) ease-in-out, width var(--ease-time) ease-in-out, transform 0.3s ease; 
 }
 
 #icon:hover{
-  height: 60px;
-  width: 60px;
+  transform: scale(1.2);
 }
 
 .navbar {
@@ -58,6 +57,7 @@ nav {
 }
 
 .navbar a{
+  display: inline-block;
   text-decoration: none;
   color: white;
   background: linear-gradient(white 50%, var(--color03) 50%);
