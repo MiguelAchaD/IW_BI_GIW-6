@@ -40,6 +40,11 @@ footer {
   margin-bottom: 8px;
 }
 
+.footer-bottom {
+  border-top: 1px solid white;
+  padding-top: 10px;
+}
+
 .footer-section ul li a {
   display: inline-block;
   color: white;
@@ -51,11 +56,6 @@ footer {
 .footer-section ul li a:hover {
   color: var(--color03);
   transform: scale(1.1);
-}
-
-.footer-bottom {
-  border-top: 1px solid white;
-  padding-top: 10px;
 }
 
 .social ul {
@@ -93,3 +93,4 @@ footer {
   height: 50px;
   width: 50px;
 }
+

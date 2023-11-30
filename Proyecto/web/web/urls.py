@@ -33,7 +33,6 @@ urlpatterns = [
     path('accounts/logIn/', logIn, name="logIn"),
     path('accounts/signUp/', signUp, name="signUp"),
     path('accounts/logOut/', logOut, name="logOut"),
-    path('accounts/viewProfile', viewProfile, name="viewProfile"),
     
     path('authenticate/newUser', authenticateUser, name="authenticateUser"),
     

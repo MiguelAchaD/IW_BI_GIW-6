@@ -18,9 +18,24 @@ from django.http import JsonResponse
 def isUserAuthenticated(user):
     return user.is_authenticated
 
+from django.contrib.auth.models import User
+
 def index(request):
     if request.method == "GET":
         return render(request, "index.html")
+    if request.method == "POST":
+        user = request.user
+        user.username = request.POST["username"]
+        user.email = request.POST["email"]
+        user.first_name = request.POST["first_name"]
+        user.last_name = request.POST["last_name"]
+        user.save()
+
+        client = user.client
+        client.save()
+
+        return redirect("index")
+
 
 def logIn(request):
     if request.method == "GET":
@@ -155,12 +170,7 @@ def authenticateUser(request):
             raise Http404("El usuario que estás intentando autentificar no existe")
         except Client.DoesNotExist:
             raise Http404("No se ha podido autentificar tu dirección de correo electrónico")
-
-
-def viewProfile(request):
-    user=request.user
-    client = Client.objects.get(user=user)
-    return render(request, 'accounts/profile.html', {"client": client})
+        
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def viewCart(request):

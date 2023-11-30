@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
     profileSvg.addEventListener("blur", function () {
         setTimeout(() => {
             if (isDropdownVisible) {
-                toggleAccountDropdown(false);
-                isDropdownVisible = false;
+                toggleAccountDropdown(!isDropdownVisible);
+                isDropdownVisible = !isDropdownVisible;
             }
         }, 100);
     });
@@ -40,4 +40,20 @@ document.addEventListener("DOMContentLoaded", function () {
             dropdown.style.borderBottom = `1px solid ${borderColor}`;
         }
     }
+    
+    const viewProfileLink = document.querySelector("#account-info a[href='']");
+    const profileContainer = document.querySelector(".profile-container");
+
+    if (viewProfileLink && profileContainer) {
+        viewProfileLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            profileContainer.classList.add("show-profile");
+        });
+    }
+
+    document.addEventListener("click", function (e) {
+        if (!profileContainer.contains(e.target) && !(accountInfo || accountOptions).contains(e.target) && !isDropdownVisible) {
+            profileContainer.classList.remove("show-profile");
+        }
+    });
 });

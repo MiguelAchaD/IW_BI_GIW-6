@@ -53,6 +53,32 @@
         </svg>
       </a>
       {% if request.user.is_authenticated %}
+        <div class="profile-container">
+          <img id="profilepic" src="{% static 'images/perfil.jpg' %}">
+          <form method="post" action="{% url 'index' %}">
+            {% csrf_token %}
+            <div class="content">
+              <label for="username">Nombre de usuario:</label>
+              <input type="text" id="username" name="username" value="{{ user.username }}" required />
+            </div>
+      
+            <div class="content">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" value="{{ user.email }}" required />
+            </div>
+      
+            <div class="content">
+              <label for="first_name">Nombre:</label>
+              <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required />
+            </div>
+      
+            <div class="content">
+              <label for="last_name">Apellidos:</label>
+              <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required />
+            </div>
+            <button type="submit" id="save">Guardar cambios</button>
+          </form>
+        </div>
         <div id="account-info" class="account-dropdown-content">
           <ul>
             {% if request.user.first_name %}
@@ -61,7 +87,7 @@
               <li>{{ request.user.username.upper }}</li>
             {% endif %}
             <li>
-              <a href="{% url 'viewProfile' %}">Ver mi perfil</a>
+              <a href="">Ver mi perfil</a>
             </li>
             <li>
               <a href="{% url 'logOut' %}">Cerrar sesión</a>

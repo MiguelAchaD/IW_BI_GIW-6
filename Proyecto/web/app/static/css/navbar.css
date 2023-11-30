@@ -2,12 +2,13 @@ nav {
   background-color: var(--color01);
   padding: 10px 0 10px 0;
   transition: border-bottom var(--ease-time) ease-in-out;
+  height: var(--navHeight);
 }
 
 #shoping-cart,
 #shoping-cart g,
-#create, 
-#profile{
+#create,
+#profile {
   -webkit-transition: fill var(--ease-time) ease;
   -moz-transition: fill var(--ease-time) ease;
   -o-transition: fill var(--ease-time) ease;
@@ -28,13 +29,14 @@ nav {
 }
 
 #icon {
-  height: 50px;
-  width: 50px;
+  margin: 10px;
+  height: 40px;
+  width: 40px;
   display: inline-block;
-  transition: height var(--ease-time) ease-in-out, width var(--ease-time) ease-in-out, transform 0.3s ease; 
+  transition: transform var(--ease-time) ease;
 }
 
-#icon:hover{
+#icon:hover {
   transform: scale(1.2);
 }
 
@@ -50,14 +52,12 @@ nav {
 }
 
 .navbar li {
-  margin: 0 5px 0 5px;
   text-align: center;
   display: inline-block;
   overflow: hidden;
 }
 
-.navbar a{
-  display: inline-block;
+.navbar a {
   text-decoration: none;
   color: white;
   background: linear-gradient(white 50%, var(--color03) 50%);
@@ -66,10 +66,11 @@ nav {
   -webkit-text-fill-color: transparent;
   background-size: 200% 200%;
   background-position: 100% 0%;
-  transition: background-position var(--ease-time) ease;
+  transition: background-position calc(var(--ease-time) * 1.5) ease;
 }
 
-.navbar a, .navbar li {
+.navbar a,
+.navbar li {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,7 +89,7 @@ nav {
   position: absolute;
   background-color: var(--color01);
   min-width: 160px;
-  margin-top: calc(var(--navHeight) + 20px);
+  top: calc(var(--navHeight) + 20px);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   transition: height var(--ease-time) ease-in-out, visibility var(--ease-time) ease-in-out, border-bottom var(--ease-time) ease-in-out, border-left var(--ease-time) ease-in-out, border-right var(--ease-time) ease-in-out;
@@ -97,8 +98,94 @@ nav {
 
 #account-info li,
 #account-options li {
-  color: white;  
+  color: white;
   display: block;
   padding: 0;
   margin: 20px 50px 20px 50px;
+}
+
+
+
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  background-color: var(--color01);
+  color: white;
+  border-radius: 10px;
+  padding: 25px;
+  border: 1px solid white;
+  margin: auto;
+  align-items: center;
+  position: absolute;
+  top: calc(var(--navHeight) + 10px);
+  right: 21%;
+  transform-origin: top right;
+  transform: translate(0, 0) scale(0);
+  transition: transform 1s ease;
+}
+
+.show-profile {
+  transform: translate(-50%, 50%) scale(1);
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0 10px 0;
+}
+
+label {
+  color: white;
+  margin-right: 5px;
+}
+
+input {
+  width: 300px;
+  background-color: var(--color01);
+  color: white;
+  border: 1px solid var(--color01);
+  border-radius: 5px;
+  font-family: Arial;
+  outline: none;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--color01) inset;
+  -webkit-text-fill-color: white;
+}
+
+#save {
+  align-self: center;
+  height: 35px;
+  margin-top: 30px;
+  width: 60%;
+  background-color: var(--color04);
+  border: 1px solid var(--color04);
+  border-radius: 5px;
+  color: white;
+  outline: none;
+  font-family: Arial;
+  transition: background-color var(--ease-time) ease, border var(--ease-time) ease, width var(--ease-time) ease;
+}
+
+#save:hover {
+  background-color: rgb(4, 114, 97);
+  border: 1px solid rgb(4, 114, 97);
+  width: 102%;
+}
+
+#profilepic {
+  border-radius: 50%;
+  margin-bottom: 30px;
+  height: 80px;
+  width: 80px;
 }
