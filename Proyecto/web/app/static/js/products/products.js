@@ -1,55 +1,85 @@
-var apiKey = 'hjdslfkadskfjsz';
-var baseURL = 'https://open.er-api.com/v6/latest/';
-
 document.addEventListener("DOMContentLoaded", function() {
-    var currentValue = "SI";
-    var selectElement = document.getElementById("input");
-    var distances = document.getElementsByClassName("distance")
-    var currencies = document.getElementsByClassName("currency")
-    const mmToInchRate = 25.4
-    
-    var distanceData = [];
+    var selectCustom = document.querySelector('.select-custom');
+    var optionsContainer = document.querySelector('.custom-options');
+    var selectTrigger = selectCustom.querySelector('.select-custom-trigger');
 
-    for (var i = 0; i < distances.length; i++) {
-        var originalDistance = parseFloat(distances[i].innerText.split(" ")[0].replace(",", "."));
-        var convertedDistance = (parseFloat(originalDistance / mmToInchRate).toFixed(2));
-        distanceData.push({ mm: originalDistance, inch: convertedDistance });
-    }
+    selectCustom.addEventListener('click', function(e) {
+        var isOpen = optionsContainer.style.maxHeight === '150px';
+        optionsContainer.style.maxHeight = isOpen ? '0px' : '150px';
+        selectCustom.classList.toggle('open', !isOpen);
+        e.stopPropagation(); // Evita que este clic se propague al document
+    });
 
-    fetch(baseURL + 'EUR?apikey=' + apiKey)
-        .then(response => response.json())
-        .then(data => {
-            var conversionRate = data.rates.USD;
-        })
+    var allOptions = document.querySelectorAll('.custom-option');
+    allOptions.forEach(function(option) {
+        option.addEventListener('click', function(e) {
+            selectTrigger.textContent = this.textContent;
+            selectTrigger.dataset.value = this.dataset.value;
+            optionsContainer.style.maxHeight = '0px';
+            handleMetricChange(this.dataset.value);
+            e.stopPropagation(); // Evita que este clic se propague al document
+        });
+    });
 
-    selectElement.addEventListener("change", function() {
-        var selectedValue = selectElement.value;
-        if (selectedValue == "SI" && selectedValue != currentValue){
-            for (var j = 0; j < distanceData.length; j++){
-                distances[j].innerText = distanceData[j].mm + " mm"
-            }
-            for (var i = 0; i < currencies.length; i++){
-                price = parseFloat(currencies[i].innerText.split(" ")[0].replace(",", "."));
-                if (price > 0){
-                    currencies[i].innerText = (price*(1-conversionRate)).toString() + " €";
-                } else {
-                    currencies[i].innerText = "0 €";
-                }
-            }
-            currentValue = "SI";
-        } else if (selectedValue == "Imperial" && selectedValue != currentValue) {
-            for (var j = 0; j < distanceData.length; j++){
-                distances[j].innerText = distanceData[j].inch + " inch"
-            }
-            for (var i = 0; i < currencies.length; i++){
-                price = parseFloat(currencies[i].innerText.split(" ")[0].replace(",", "."));
-                if (price > 0){
-                    currencies[i].innerText = (price*conversionRate).toString() + " $";
-                } else {
-                    currencies[i].innerText = "0 $";
-                }
-            }
-            currentValue = "Imperial";
+    // Cerrar el desplegable al hacer clic fuera de él
+    document.addEventListener('click', function(event) {
+        if (!selectCustom.contains(event.target) && optionsContainer.style.maxHeight === '150px') {
+            optionsContainer.style.maxHeight = '0px';
+            selectCustom.classList.remove('open');
         }
     });
+
+    initializeValuesAndFetchConversionRate();
 });
+
+var conversionRate;
+var originalPrices = [];
+var originalDistances = [];
+
+function initializeValuesAndFetchConversionRate() {
+    var currencies = document.getElementsByClassName("currency");
+    var distances = document.getElementsByClassName("distance");
+
+    // Almacenar los precios originales
+    for (var i = 0; i < currencies.length; i++) {
+        originalPrices.push(parseFloat(currencies[i].innerText.split(" ")[0].replace(",", ".")));
+    }
+    for (var i = 0; i < distances.length; i++) {
+        originalDistances.push(parseFloat(distances[i].innerText.split(" ")[0].replace(",", ".")));
+    }
+    getConversionRate();
+}
+
+function getConversionRate() {
+    var url = `https://api.exchangerate-api.com/v4/latest/EUR`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            conversionRate = data.rates.USD;
+        })
+        .catch(error => console.error('Error al obtener la tasa de conversión:', error));
+}
+
+function handleMetricChange(selectedValue) {
+    var distances = document.getElementsByClassName("distance");
+    var currencies = document.getElementsByClassName("currency");
+
+    for (var i = 0; i < distances.length; i++) {
+        if (selectedValue === "SI") {
+            distances[i].innerText = originalDistances[i] + " mm";
+        } else if (selectedValue === "Imperial") {
+            var convertedDistance = (originalDistances[i] / 25.4).toFixed(2);
+            distances[i].innerText = convertedDistance + " inch";
+        }
+    }
+
+    for (var i = 0; i < currencies.length; i++) {
+        if (selectedValue === "SI") {
+            currencies[i].innerText = originalPrices[i].toFixed(2) + " €";
+        } else if (selectedValue === "Imperial") {
+            var convertedPrice = (originalPrices[i] * conversionRate).toFixed(2);
+            currencies[i].innerText = convertedPrice + " $";
+        }
+    }
+}

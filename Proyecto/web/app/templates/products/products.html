@@ -3,41 +3,54 @@
 {% load custom_tags %}
 
 {% block additionalLinks %}
-  <link rel="stylesheet" href="{% static 'css/products/products.css' %}"></link>
+  <link rel="stylesheet" href="{% static 'css/products/products.css' %}" />
   <script src="{% static 'js/products/products.js' %}" defer></script>
 {% endblock %}
 
 {% block title %}
-  Ecomods - {{product}}s
+  Ecomods - {{ product }}
 {% endblock %}
-    
+
 {% block content %}
-    <div class="metric-wrapper">
-      <label for="input"></label>
-      <select name="metrics" id="input" autocomplete="off">
-        <option value="SI">SI (Europa)</option>
-        <option value="Imperial">Imperial (América del Norte)</option>
-      </select>
-    </div>
-    <div id="all">
-      {% for generation in product_generations %}
-        <h1 id="generation">Generación {{generation}}</h1>
-        <div class="wrapper">
+<div class="select-custom">
+  <div class="select-custom-trigger">Cambiar Métrica</div>
+  <div class="custom-options">
+    <span class="custom-option" data-value="SI">SI (Europa)</span>
+    <span class="custom-option" data-value="Imperial">Imperial (América del Norte)</span>
+  </div>
+</div>
+
+  <div id="all">
+    {% for generation in product_generations %}
+      <h1 id="generation">Generación {{ generation }}</h1>
+      <div class="wrapper">
         {% for product in product_generations|get_genToProds:generation %}
-            <div class="product">
-              <p class="prod-name">{{product.name}}</p>
-              {% if product|get_productType == "LP" %}
-                <div class="intern-wrapper info"><img class="dimension" alt="productYDimension" src="{% static 'images/y.svg' %}"><p class="distance">{{product.dimensionX|formatDec}} mm</p></div>
-                <div class="intern-wrapper info"><img class="dimension" alt="productXDimension" src="{% static 'images/x.svg' %}"><p class="distance">{{product.dimensionY|formatDec}} mm</p></div>
-              {% else %}
-                <div class="intern-wrapper info"><img class="dimension" alt="productXDimension" src="{% static 'images/x.svg' %}"><p class="distance">{{product.dimensionX|formatDec}} mm</p></div>
-                <div class="intern-wrapper info"><img class="dimension" alt="productYDimension" src="{% static 'images/y.svg' %}"><p class="distance">{{product.dimensionY|formatDec}} mm</p></div>
-              {% endif %}
-                <div class="intern-wrapper info"><img class="dimension" alt="productZDimension" src="{% static 'images/z.svg' %}"><p class="distance">{{product.dimensionZ|formatDec}} mm</p></div>
-                <div class="intern-wrapper"><a href="#" class="currency">{{product.price|formatDec}} €</a></div>
+          <div class="product">
+            <p class="prod-name">{{ product.name }}</p>
+            {% if product|get_productType == 'LP' %}
+              <div class="intern-wrapper info">
+                <img class="dimension" alt="productYDimension" src="{% static 'images/y.svg' %}" /><p class="distance">{{ product.dimensionX|formatDec }} mm</p>
+              </div>
+              <div class="intern-wrapper info">
+                <img class="dimension" alt="productXDimension" src="{% static 'images/x.svg' %}" /><p class="distance">{{ product.dimensionY|formatDec }} mm</p>
+              </div>
+            {% else %}
+              <div class="intern-wrapper info">
+                <img class="dimension" alt="productXDimension" src="{% static 'images/x.svg' %}" /><p class="distance">{{ product.dimensionX|formatDec }} mm</p>
+              </div>
+              <div class="intern-wrapper info">
+                <img class="dimension" alt="productYDimension" src="{% static 'images/y.svg' %}" /><p class="distance">{{ product.dimensionY|formatDec }} mm</p>
+              </div>
+            {% endif %}
+            <div class="intern-wrapper info">
+              <img class="dimension" alt="productZDimension" src="{% static 'images/z.svg' %}" /><p class="distance">{{ product.dimensionZ|formatDec }} mm</p>
             </div>
+            <div class="intern-wrapper">
+              <a href="#" class="currency">{{ product.price|formatDec }} €</a>
+            </div>
+          </div>
         {% endfor %}
-        </div>
-      {% endfor %}
-    </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
