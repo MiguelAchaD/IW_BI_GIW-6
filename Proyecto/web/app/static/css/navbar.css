@@ -104,9 +104,6 @@ nav {
   margin: 20px 50px 20px 50px;
 }
 
-
-
-
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -127,7 +124,7 @@ nav {
 }
 
 .show-profile {
-  transform: translate(-50%, 50%) scale(1);
+  transform: translate(calc(-25vw + 250px), 25vh) scale(1);
 }
 
 
