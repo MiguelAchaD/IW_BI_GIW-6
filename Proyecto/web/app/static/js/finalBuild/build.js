@@ -6,7 +6,7 @@ setSelectionStyle();
 function changeSelection(type, modules, index) {
   if (lastSelection[index] !== type) {
     clearLastSelection(index);
-
+    clearModuleSelections();
     lastSelection[index] = type;
     lastSelection[index].style.backgroundColor = "gray";
     if (index === 0) {
@@ -14,6 +14,7 @@ function changeSelection(type, modules, index) {
     }
   } else {
     clearLastSelection(index);
+    clearModuleSelections();
   }
 }
 
@@ -36,6 +37,7 @@ function clearDeviceSelections() {
   lastSelection[0] = null;
 }
 
+//TIPO DE DISPOSITIVO
 function deviceSelection(type, compatibleModules) {
   const parentDiv = document.getElementById("deviceSelections");
   const div = createSelectionDiv(type);
@@ -53,13 +55,14 @@ function deviceSelection(type, compatibleModules) {
   setCartClickListener(div.children, addToBuildList, compatibleModules, 1);
 }
 
+//MODELO DE TIPO DE DISPOSITIVO
 function moduleSelection(type, compatibleModules) {
+  //Primera vez que se selecciona
   if (lastSelection[2] === null) {
     const div = createSelectionDiv(type + "Modules");
     document.getElementById("moduleSelections").appendChild(div);
     lastSelection[2] = div;
     if (lastSelection[1] === document.getElementById(type)) {
-      console.log("change");
       document.getElementById(type).style.backgroundColor = "gray";
     } else {
       document.getElementById(
@@ -78,6 +81,7 @@ function moduleSelection(type, compatibleModules) {
       }
     );
     setCartClickListener(div.children, addToBuildList, compatibleModules, 2);
+    //La selección es distinta de lo anterior
   } else if (
     type + "ModulesSelection" !==
     lastSelection[2].getAttribute("id")
@@ -93,10 +97,22 @@ function moduleSelection(type, compatibleModules) {
     document.getElementById(lastSelection[2].getAttribute("id")).remove();
     lastSelection[2] = null;
     moduleSelection(type, compatibleModules);
+    clearModuleSelections();
+    //La selección es la misma que la anterior
   } else {
     document.getElementById(lastSelection[2].getAttribute("id")).remove();
     lastSelection[2] = null;
     document.getElementById(type).style.backgroundColor = "#ddd";
+    clearModuleSelections();
+  }
+}
+
+function clearModuleSelections() {
+  if (cart.length > 3){
+    for (let i = cart.length - 1; i > 1; i--) {
+      document.getElementById(cart[i] + "-toCart").remove();
+      cart.splice(i, 1);
+    }
   }
 }
 
@@ -143,12 +159,13 @@ function addToBuildList(element, compatibleModules, index) {
       elementAttributes = e;
     } else {
       e[3].forEach((a, index) => {
-        if (a[0] == element){
+        if (a[0] == element) {
           elementAttributes = e[3][index];
         }
-      })
+      });
     }
   });
+  //MODELO DE DISPOSITIVO
   if (index === 1) {
     let device = document.getElementById("device");
     if (device.children.length === 0 && cart[1] !== elementAttributes[0]) {
@@ -161,34 +178,42 @@ function addToBuildList(element, compatibleModules, index) {
       divHeader.innerHTML = elementAttributes[1];
       div.appendChild(divHeader);
     } else if (
-      device.children.length === 1 && cart[1] !== elementAttributes[0]) {
+      device.children.length === 1 &&
+      cart[1] !== elementAttributes[0]
+    ) {
       removeFromBuildList(index, element);
       addToBuildList(element, compatibleModules, index);
     } else {
       removeFromBuildList(index, element);
     }
+  //MODULO DE DISPOSITIVO
   } else {
     let cartDiv = document.getElementById("items");
-    itemsChildren = Array.from(cartDiv.children); 
+    let itemsChildren = Array.from(cartDiv.children);
+    itemsChildren = itemsChildren.slice(2);
+    let itemsChildrenName = [];
+    itemsChildren.forEach((i) => {
+      itemsChildrenName.push(i.textContent.split(" ")[0]);
+    });
     itemsChildren = itemsChildren.map((e) => {
       return e.getAttribute("id");
     });
-    itemsChildren = itemsChildren.slice(2);
-    if (itemsChildren.length < 5 && !itemsChildren.includes(element + "-toCart")) {
-      let div = document.createElement("div");
-      div.setAttribute("id", element + "-toCart");
-      setCartStyle(div);
-      device.appendChild(div);
-      cart += elementAttributes[0];
-      let divHeader = document.createElement("h2");
+    if (
+      itemsChildren.length < 5 &&
+      (!itemsChildren.includes(element + "-toCart") && !itemsChildrenName.includes(elementAttributes[1].split(" ")[0]))
+      ) {
+        let div = document.createElement("div");
+        div.setAttribute("id", element + "-toCart");
+        setCartStyle(div);
+        device.appendChild(div);
+        cart.push(elementAttributes[0]);
+        let divHeader = document.createElement("h2");
       divHeader.innerHTML = elementAttributes[1];
       div.appendChild(divHeader);
       document.getElementById("items").appendChild(div);
-
-    } else if (itemsChildren.includes(element)) {
+    } else if (itemsChildren.includes(element) || itemsChildrenName.includes(elementAttributes[1].split(" ")[0])) {
       removeFromBuildList(index, element);
-    } else {
-      console.log("lleno");
+      itemsChildrenName.splice(itemsChildrenName.indexOf(elementAttributes[1].split(" ")[0]), 1);
     }
   }
 }
@@ -200,8 +225,8 @@ function removeFromBuildList(index, element) {
     deviceChildren[0].remove();
     cart[1] = null;
   } else {
-    let cartDiv = document.getElementById("items");
-    console.log(element);
+    //let cartDiv = document.getElementById("items");
+    document.getElementById(element + "-toCart").remove();
   }
 }
 
