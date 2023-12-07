@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var isOpen = optionsContainer.style.maxHeight === '150px';
         optionsContainer.style.maxHeight = isOpen ? '0px' : '150px';
         selectCustom.classList.toggle('open', !isOpen);
-        e.stopPropagation(); // Evita que este clic se propague al document
+        e.stopPropagation();
     });
 
     var allOptions = document.querySelectorAll('.custom-option');
@@ -17,11 +17,10 @@ document.addEventListener("DOMContentLoaded", function() {
             selectTrigger.dataset.value = this.dataset.value;
             optionsContainer.style.maxHeight = '0px';
             handleMetricChange(this.dataset.value);
-            e.stopPropagation(); // Evita que este clic se propague al document
+            e.stopPropagation();
         });
     });
 
-    // Cerrar el desplegable al hacer clic fuera de él
     document.addEventListener('click', function(event) {
         if (!selectCustom.contains(event.target) && optionsContainer.style.maxHeight === '150px') {
             optionsContainer.style.maxHeight = '0px';
@@ -39,8 +38,7 @@ var originalDistances = [];
 function initializeValuesAndFetchConversionRate() {
     var currencies = document.getElementsByClassName("currency");
     var distances = document.getElementsByClassName("distance");
-
-    // Almacenar los precios originales
+    
     for (var i = 0; i < currencies.length; i++) {
         originalPrices.push(parseFloat(currencies[i].innerText.split(" ")[0].replace(",", ".")));
     }

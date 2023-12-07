@@ -28,7 +28,7 @@ def create_user_by_email(strategy, backend, details, response, user=None, *args,
         try:
             send_mail(
                 subject="Cuenta registrada con éxito",
-                message=f"Hola {first_name} {last_name},\nTu cuenta de EcoMods ha sido asociada a esta cuenta de Google ({email}) exitosamente.",
+                message=f"Hola {first_name} {last_name},\nTu cuenta de EcoMods ha sido asociada al correo electrónico \"{email}\" exitosamente.",
                 from_email="ecomodstechnology@gmail.com",
                 recipient_list=[email],
                 fail_silently=False

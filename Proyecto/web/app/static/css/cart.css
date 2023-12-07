@@ -1,7 +1,3 @@
-body {
-    background-color: var(--color03);
-}
-
 .cart-container {
     display: flex;
     flex-direction: column;

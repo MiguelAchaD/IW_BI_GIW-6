@@ -165,9 +165,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
 )
 
-LOGIN_URL = "logIn"  # La ruta a la vista de inicio de sesión social
-LOGIN_REDIRECT_URL = "index"  # La ruta a la que se redirige después de iniciar sesión correctamente
-LOGOUT_URL = "logout"  # La ruta a la vista de cierre de sesión social
-LOGOUT_REDIRECT_URL = "index"  # La ruta a la que se redirige después de cerrar sesión correctamente
+LOGIN_URL = "logIn"
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_URL = "logout"
+LOGOUT_REDIRECT_URL = "index"
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "618780654200-jmpasvk803c844qginh220ec2fbacbol.apps.googleusercontent.com"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"

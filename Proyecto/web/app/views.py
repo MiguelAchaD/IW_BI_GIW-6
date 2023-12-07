@@ -1,3 +1,5 @@
+import json
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -242,3 +244,20 @@ def builder(request):
         datos_nuevos = request.POST.get('datos_nuevos', None)
         print(datos_nuevos)
         return JsonResponse({'mensaje': 'Modelo actualizado correctamente'})
+    
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def updateProfilePicture(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        image_url = data.get('imageUrl')
+
+        if not image_url:
+            return JsonResponse({'status': 'error', 'message': 'No se proporcionó URL de imagen'}, status=400)
+
+        client = Client.objects.get(user=request.user)
+        client.profile = image_url
+        client.save()
+
+        return JsonResponse({'status': 'success', 'message': 'Imagen actualizada correctamente'})
+
+    return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)

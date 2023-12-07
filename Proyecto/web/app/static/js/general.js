@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
         threshold: 0.1
     });
 
-    // Seleccionar elementos para animar, excluyendo el select y sus opciones
     document.querySelectorAll('main *:not(.select-custom, .select-custom *)').forEach(el => {
         observer.observe(el);
     });

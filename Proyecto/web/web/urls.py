@@ -33,10 +33,11 @@ urlpatterns = [
     path('accounts/logIn/', logIn, name="logIn"),
     path('accounts/signUp/', signUp, name="signUp"),
     path('accounts/logOut/', logOut, name="logOut"),
+    path('accounts/profile/', updateProfilePicture, name='updateProfilePicture'),
     
-    path('authenticate/newUser', authenticateUser, name="authenticateUser"),
+    path('authenticate/newUser/', authenticateUser, name="authenticateUser"),
     
-    path('myCart', viewCart, name="viewCart"),
+    path('myCart/', viewCart, name="viewCart"),
 
     path('products/<str:product>', products, name="products"),
 

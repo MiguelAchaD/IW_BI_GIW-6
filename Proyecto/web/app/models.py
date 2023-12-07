@@ -17,6 +17,7 @@ from django.db import models
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile = models.CharField(max_length=255, default="images/profiles/default.jpg")
     creditCard = models.CharField(max_length=50, null=True)
     token = models.CharField(max_length=20, null=True)
 

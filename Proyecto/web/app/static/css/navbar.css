@@ -113,10 +113,9 @@ nav {
   border-radius: 10px;
   padding: 25px;
   border: 1px solid white;
-  margin: auto;
   align-items: center;
-  position: absolute;
-  top: calc(var(--navHeight) + 10px);
+  position: fixed;
+  top: calc(var(--navHeight) + 20px);
   right: 21%;
   transform-origin: top right;
   transform: translate(0, 0) scale(0);
@@ -124,9 +123,8 @@ nav {
 }
 
 .show-profile {
-  transform: translate(calc(-25vw + 250px), 25vh) scale(1);
+  transform: translate(calc(21vw - 50vw + 50%), calc(50vh - (var(--navHeight) + 20px) - 50%)) scale(1);
 }
-
 
 form {
   display: flex;
@@ -180,9 +178,68 @@ input:-webkit-autofill {
   width: 102%;
 }
 
-#profilepic {
+.profile {
   border-radius: 50%;
   margin-bottom: 30px;
   height: 80px;
   width: 80px;
+}
+
+#profilepic {
+  transition: transform var(--ease-time) ease, opacity var(--ease-time) ease;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+#profilepic.fade-out {
+  opacity: 0;
+  transform: translateX(-250px);
+}
+
+
+#profile-pic-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  opacity: 0; 
+  transform-origin: center;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 1s ease, opacity 0.5s ease;
+  height: 100px;
+  width: 700px;
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: var(--color01);
+  z-index: 10000000;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+}
+
+#profile-pic-menu.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#profile-pic-menu ul {
+  list-style-type: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#profile-pic-menu img {
+  padding: 10px;
+  opacity: 0;
+  transition: transform var(--ease-time) ease, opacity var(--ease-time) ease;
+}
+
+#profile-pic-menu img:hover,
+#profilepic:hover {
+  transform: scale(1.1);
+}
+
+#profile-pic-menu img.loaded {
+  opacity: 1;
 }

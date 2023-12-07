@@ -19,7 +19,7 @@ html, body {
     display: flex;
     flex-direction: column;
     font-family: 'Poppins', sans-serif;
-    background-color: var(--color03);
+    background-color: var(--color02);
 }
 
 main {

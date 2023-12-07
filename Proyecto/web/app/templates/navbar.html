@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="{% static 'css/general.css' %}" />
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
-  <script src="{% static 'js/accountDropdown.js' %}"></script>
+  <script src="{% static 'js/navbar.js' %}"></script>
 </head>
 <nav>
   <ul class="navbar">
@@ -23,7 +23,9 @@
     </li>
     <li>
       <a href="{% url 'builder' %}">
-        <svg width="50%" height="50%" viewBox="0 0 24 24" id="create"><path d="M20.71,3.29a2.91,2.91,0,0,0-2.2-.84,3.25,3.25,0,0,0-2.17,1L9.46,10.29s0,0,0,0a.62.62,0,0,0-.11.17,1,1,0,0,0-.1.18l0,0L8,14.72A1,1,0,0,0,9,16a.9.9,0,0,0,.28,0l4-1.17,0,0,.18-.1a.62.62,0,0,0,.17-.11l0,0,6.87-6.88a3.25,3.25,0,0,0,1-2.17A2.91,2.91,0,0,0,20.71,3.29Z"/><path d="M20,22H4a2,2,0,0,1-2-2V4A2,2,0,0,1,4,2h8a1,1,0,0,1,0,2H4V20H20V12a1,1,0,0,1,2,0v8A2,2,0,0,1,20,22Z" style="fill:#FFFFFF"/>
+        <svg width="50%" height="50%" viewBox="0 0 24 24" id="create">
+          <path d="M20.71,3.29a2.91,2.91,0,0,0-2.2-.84,3.25,3.25,0,0,0-2.17,1L9.46,10.29s0,0,0,0a.62.62,0,0,0-.11.17,1,1,0,0,0-.1.18l0,0L8,14.72A1,1,0,0,0,9,16a.9.9,0,0,0,.28,0l4-1.17,0,0,.18-.1a.62.62,0,0,0,.17-.11l0,0,6.87-6.88a3.25,3.25,0,0,0,1-2.17A2.91,2.91,0,0,0,20.71,3.29Z" />
+          <path d="M20,22H4a2,2,0,0,1-2-2V4A2,2,0,0,1,4,2h8a1,1,0,0,1,0,2H4V20H20V12a1,1,0,0,1,2,0v8A2,2,0,0,1,20,22Z" style="fill:#FFFFFF" />
         </svg>
       </a>
     </li>
@@ -54,24 +56,21 @@
       </a>
       {% if request.user.is_authenticated %}
         <div class="profile-container">
-          <img id="profilepic" src="{% static 'images/perfil.jpg' %}">
+          <img id="profilepic" class="profile" src="{% static request.user.client.profile %}" />
           <form method="post" action="{% url 'index' %}">
             {% csrf_token %}
             <div class="content">
               <label for="username">Nombre de usuario:</label>
               <input type="text" id="username" name="username" value="{{ user.username }}" required />
             </div>
-      
             <div class="content">
               <label for="email">Email:</label>
               <input type="email" id="email" name="email" value="{{ user.email }}" required />
             </div>
-      
             <div class="content">
               <label for="first_name">Nombre:</label>
               <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required />
             </div>
-      
             <div class="content">
               <label for="last_name">Apellidos:</label>
               <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required />
@@ -79,6 +78,25 @@
             <button type="submit" id="save">Guardar cambios</button>
           </form>
         </div>
+        <div id="profile-pic-menu">
+            <ul>
+              <li>
+                <img class="profile" data-src="{% static 'images/profiles/profile1.png' %}" />
+              </li>
+              <li>
+                <img class="profile" data-src="{% static 'images/profiles/profile2.png' %}"/>
+              </li>
+              <li>
+                <img class="profile" data-src="{% static 'images/profiles/profile3.png' %}"/>
+              </li>
+              <li>
+                <img class="profile" data-src="{% static 'images/profiles/profile4.png' %}"/>
+              </li>
+              <li>
+                <img class="profile" data-src="{% static 'images/profiles/profile5.png' %}"/>
+              </li>
+            </ul>
+          </div>
         <div id="account-info" class="account-dropdown-content">
           <ul>
             {% if request.user.first_name %}
