@@ -39,6 +39,8 @@ urlpatterns = [
     
     path('myCart/', viewCart, name="viewCart"),
 
+    path('addToCart/', viewCart, name="addToCart"),
+
     path('products/<str:product>', products, name="products"),
 
     path('builder', builder, name="builder")

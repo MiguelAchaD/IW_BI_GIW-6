@@ -16,6 +16,8 @@ from app.templatetags.custom_tags import *
 from app.models import Product, compatibleModules
 from django.http import JsonResponse
 from django.db import transaction
+from django.http import HttpResponseRedirect
+
 
 
 def isUserAuthenticated(user):
@@ -188,50 +190,50 @@ def viewCart(request):
         if cart_relations.count() > 0:
             cart_Products = CartProduct.objects.filter(
                 cartrelation__in=cart_relations)
-            ########################################
-            print(cart_Products[0].modules)
             modulesPrice = 0
-            for module in cart_Products.modules:
-                modulesPrice += module.price
-            print("AQUI")
-            ########################################W
+            
+            for cart_Product in cart_Products:
+                for module in cart_Product.modules.all():
+                    modulesPrice += module.price
+            
             if cart_Products.count() > 0:
-                total_price = sum(cart_Products.product.price *
-                                  product.quantity for product in cart_Products) + modulesPrice
+                total_price = sum(cart_Product.product.price * cart_Product.quantity for cart_Product in cart_Products) + modulesPrice
+                print("ENTRA POR AQUÍ")
                 return render(request, "cart.html", {"isEmpty": False, "cart_Products": cart_Products, "total_price": total_price})
+        
         return render(request, "cart.html", {"isEmpty": True})
+        #return HttpResponseRedirect('/builder/')
 
 
-@user_passes_test(isUserAuthenticated, login_url="logIn")
+
 def addToCart(request, product_id, modules):
     if request.method == 'POST':
-        client = Client.objects.get(user=request.user)
-        product = Product.objects.get(id=product_id)
-        mod = []
-        for element in modules:
-            mod.append(Module.objects.get(id=(int(element.split("-")[0]))))
+        prodIDs = {}
+        for obj in compatibleModules.objects.all():
+            prodIDs[obj.product.id] = []
+            for module in obj.modules.all():
+                prodIDs[obj.product.id].append(module.id)
+        if properCart(([product_id] + modules), prodIDs):
+            client = Client.objects.get(user=request.user)
+            product = Product.objects.get(id=product_id)
+            mod = []
+            for element in modules:
+                mod.append((int(element.split("-")[0])))
+            with transaction.atomic():
+                cart_Product, created = CartProduct.objects.get_or_create(
+                    product=product)
+                cart_Product.modules.clear()
+                cart_Product.modules.add(*mod)
+                cart_relation, created = CartRelation.objects.get_or_create(
+                    client=client, cartProduct=cart_Product)
+                cart_Product.quantity += 1
+            
+            cart_Product.save()
+            cart_relation.save()
 
-        with transaction.atomic():
-            cart_Product, created = CartProduct.objects.get_or_create(
-                product=product)
-
-            cart_Product.modules.clear()
-
-            cart_Product.modules.add(*mod)
-
-        print("cart_Product.modules:")
-        print(cart_Product.modules)
-
-        cart_relation, created = CartRelation.objects.get_or_create(
-            client=client, cartProduct=cart_Product)
-        # cart_Product, created = CartProduct.objects.get_or_create(
-        #    product=product, )
-        cart_Product.quantity += 1
-        cart_Product.save()
-        cart_relation.save()
-        # print(cart_Product.objects.all())
-
-        # return redirect("view_cart")
+            return JsonResponse("success", safe=False)
+        else:
+            return JsonResponse("failure", safe="False")
 
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
@@ -285,11 +287,6 @@ def updateProfilePicture(request):
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def builder(request):
     allcompatibleModules = compatibleModules.objects.all()
-    prodIDs = {}
-    for obj in allcompatibleModules:
-        prodIDs[obj.product.id] = []
-        for module in obj.modules.all():
-            prodIDs[obj.product.id].append(module.id)
 
     products = {}
     for obj in allcompatibleModules:
@@ -318,38 +315,31 @@ def builder(request):
             response_data = modules.get(moduleData.split("_")[1], [])
             return JsonResponse(response_data, safe=False)
         elif cartData and len(list(cartData)) > 2:
-            proper = True
-            index = 0
-
-            while (proper == True and index < len(cartData)):
-                if (index == 0):
-                    # TODO: que sume los precios de todo, y de exactamente ese precio
-                    if (int(cartData[0]) >= 0):
-                        proper = True
-                    else:
-                        proper = False
-                elif (index == 1):
-                    if ((cartData[1] in list(prodIDs.keys()))):
-                        proper = True
-                    else:
-                        proper = False
-                else:
-                    if ((int(cartData[index].split("-")[0]) in list(prodIDs[cartData[1]]))):
-                        proper = True
-                    else:
-                        proper = False
-                index += 1
-
-            if proper == False:
-                return JsonResponse("bad", safe=False)
-            else:
-                addToCart(request, cartData[1], cartData[2::len(cartData)])
-                return JsonResponse("success", safe=False)
+            return addToCart(request, cartData[1], cartData[2:])
         else:
             return JsonResponse({"error": "Invalid data"}, status=400)
     else:
         return JsonResponse({"error": "Method not allowed"}, status=405)
-
+    
+    
     # elif request.method == "POST":
     #    print(datos_nuevos)
     #    return JsonResponse({'mensaje': 'Modelo actualizado correctamente'})
+
+def properCart(cartData, prodIDs):
+    proper = True
+    index = 0
+
+    while (proper == True and index < len(cartData)):
+        if (index == 0):
+            if ((cartData[0] in list(prodIDs.keys()))):
+                proper = True
+            else:
+                proper = False
+        else:
+            if ((int(cartData[index].split("-")[0]) in list(prodIDs[cartData[0]]))):
+                proper = True
+            else:
+                proper = False
+        index += 1
+    return proper

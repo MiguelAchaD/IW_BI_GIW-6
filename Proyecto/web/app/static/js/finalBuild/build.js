@@ -192,14 +192,14 @@ function sendSelection(cart) {
         "X-CSRFToken": csrfToken,
       },
       success: function (response) {
-        if (response === "success") {
-          window.location.href = "/myCart";
+        console.log(response)
+        if (response == "success") {
+          console.log("bien")
+        } else if (response == "failure"){
+          console.log("mal");
         } else {
-          console.log("Respuesta: " + response);
+          console.log("Error: " + response);
         }
-      },
-      error: function (error) {
-        console.log("Error en la solicitud AJAX:", error);
       },
     });
   });
