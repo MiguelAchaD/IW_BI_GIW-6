@@ -26,6 +26,7 @@ User._meta.get_field("email")._unique = True
 class Module(models.Model):
     name = models.CharField(max_length=20)
     price = models.DecimalField(decimal_places=2, max_digits=9)
+    pairs = models.PositiveIntegerField(default=0)
     dimensionX = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     dimensionY = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     dimensionZ = models.DecimalField(default=0, decimal_places=2, max_digits=10)
@@ -46,7 +47,9 @@ class compatibleModules(models.Model):
 class CartProduct(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    modules = models.ManyToManyField(Module)
     quantity = models.PositiveIntegerField(default=1)
+    
 
 class CartRelation(models.Model):
     id = models.AutoField(primary_key=True)

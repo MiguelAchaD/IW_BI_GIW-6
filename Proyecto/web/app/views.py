@@ -11,16 +11,16 @@ from django.db import IntegrityError
 from app.utils import getURL
 from django.http import Http404
 from django.contrib.auth.decorators import user_passes_test
-from .models import Client, CartRelation, CartProduct, Product
+from .models import Client, CartRelation, CartProduct, Product, Module
 from app.templatetags.custom_tags import *
 from app.models import Product, compatibleModules
 from django.http import JsonResponse
+from django.db import transaction
 
 
 def isUserAuthenticated(user):
     return user.is_authenticated
 
-from django.contrib.auth.models import User
 
 def index(request):
     if request.method == "GET":
@@ -44,7 +44,7 @@ def logIn(request):
         return render(request, "accounts/logIn.html")
     elif request.method == "POST":
         next = request.GET.get("next")
-        
+
         username = request.POST["username"]
         password = request.POST["password"]
 
@@ -59,6 +59,7 @@ def logIn(request):
         else:
             return render(request, "accounts/logIn.html", {"errorMessage": "Credenciales inválidas"})
 
+
 def logOut(request):
     logout(request)
     return redirect("index")
@@ -69,7 +70,7 @@ def signUp(request):
         return render(request, "accounts/signUp.html")
     elif request.method == "POST":
         next = request.GET.get("next")
-        
+
         username = request.POST["username"]
         email = request.POST["email"]
         password = request.POST["password"]
@@ -114,7 +115,7 @@ def signUp(request):
             if next:
                 message = f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}&next={next}"
             else:
-                message=f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}"
+                message = f"Haz clic en el siguiente enlace para autenticar tu correo electrónico: {url}/authenticate/newUser?email={email}&token={token}"
             send_mail(
                 subject="Autenticación de Correo Electrónico",
                 message=message,
@@ -126,22 +127,25 @@ def signUp(request):
                 subject="Aviso de Intento de Autenticación de Correo Electrónico",
                 message=f"Se está intentando autentificar el correo '{email}' a través del token '{token}'",
                 from_email="ecomodstechnology@gmail.com",
-                recipient_list=["diego.merino@opendeusto.es","miguel.acha@opendeusto.es"],
+                recipient_list=["diego.merino@opendeusto.es",
+                                "miguel.acha@opendeusto.es"],
                 fail_silently=False
             )
             return render(request, "accounts/emailConfirmation.html", {"email": email})
-                
 
         except SMTPException as smtp_exception:
             if isinstance(smtp_exception, SMTPAuthenticationError):
                 error_message = "Error de autenticación SMTP."
-                print(f"Detalles de error de autenticación SMTP: {smtp_exception}")
+                print(
+                    f"Detalles de error de autenticación SMTP: {smtp_exception}")
             elif isinstance(smtp_exception, SMTPSenderRefused):
                 error_message = "El servidor SMTP rechazó la dirección del remitente."
-                print(f"Detalles del error SMTPSenderRefused: {smtp_exception}")
+                print(
+                    f"Detalles del error SMTPSenderRefused: {smtp_exception}")
             elif isinstance(smtp_exception, SMTPRecipientsRefused):
                 error_message = "El servidor SMTP rechazó una o más direcciones de correo electrónico de los destinatarios."
-                print(f"Detalles del error SMTPRecipientsRefused: {smtp_exception}")
+                print(
+                    f"Detalles del error SMTPRecipientsRefused: {smtp_exception}")
             elif isinstance(smtp_exception, ConnectionError):
                 error_message = "Error de conexión al intentar conectar con el servidor SMTP."
                 print(f"Detalles del error ConnectionError: {smtp_exception}")
@@ -169,10 +173,12 @@ def authenticateUser(request):
             else:
                 return redirect(index)
         except User.DoesNotExist:
-            raise Http404("El usuario que estás intentando autentificar no existe")
+            raise Http404(
+                "El usuario que estás intentando autentificar no existe")
         except Client.DoesNotExist:
-            raise Http404("No se ha podido autentificar tu dirección de correo electrónico")
-        
+            raise Http404(
+                "No se ha podido autentificar tu dirección de correo electrónico")
+
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def viewCart(request):
@@ -182,27 +188,50 @@ def viewCart(request):
         if cart_relations.count() > 0:
             cart_Products = CartProduct.objects.filter(
                 cartrelation__in=cart_relations)
+            ########################################
+            print(cart_Products[0].modules)
+            modulesPrice = 0
+            for module in cart_Products.modules:
+                modulesPrice += module.price
+            print("AQUI")
+            ########################################W
             if cart_Products.count() > 0:
-                total_price = sum(product.cartProduct.product.price *
-                                  product.quantity for product in cart_Products)
+                total_price = sum(cart_Products.product.price *
+                                  product.quantity for product in cart_Products) + modulesPrice
                 return render(request, "cart.html", {"isEmpty": False, "cart_Products": cart_Products, "total_price": total_price})
         return render(request, "cart.html", {"isEmpty": True})
 
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
-def addToCart(request, product_id):
-    if request.method == "GET":
+def addToCart(request, product_id, modules):
+    if request.method == 'POST':
         client = Client.objects.get(user=request.user)
         product = Product.objects.get(id=product_id)
+        mod = []
+        for element in modules:
+            mod.append(Module.objects.get(id=(int(element.split("-")[0]))))
+
+        with transaction.atomic():
+            cart_Product, created = CartProduct.objects.get_or_create(
+                product=product)
+
+            cart_Product.modules.clear()
+
+            cart_Product.modules.add(*mod)
+
+        print("cart_Product.modules:")
+        print(cart_Product.modules)
 
         cart_relation, created = CartRelation.objects.get_or_create(
-            client=client, product=product)
-        cart_Product, created = CartProduct.objects.get_or_create(
-            product=product)
+            client=client, cartProduct=cart_Product)
+        # cart_Product, created = CartProduct.objects.get_or_create(
+        #    product=product, )
         cart_Product.quantity += 1
         cart_Product.save()
+        cart_relation.save()
+        # print(cart_Product.objects.all())
 
-        return redirect("view_cart")
+        # return redirect("view_cart")
 
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
@@ -224,27 +253,17 @@ def removeFromCart(request, product_id):
         return redirect("view_cart")
 
 
-    
-@user_passes_test(isUserAuthenticated, login_url="logIn")    
+@user_passes_test(isUserAuthenticated, login_url="logIn")
 def products(request, product):
     products = ["phone", "tablet", "laptop"]
+    print(products)
+    # TODO: error en una de estas dos templatetags
     generations = get_generations(Product.objects.all())
     product_generations = get_prodGenerations(product, generations)
     if product in products:
-        return render(request, "products/products.html", {"product" : product, 'product_generations': product_generations})
-    #else:
-        #... TODO:CREAR PAGINA DE ERROR PARA SUSTITUIR POR LA PREDETERMINADA
+        return render(request, "products/products.html", {"product": product, 'product_generations': product_generations})
 
-@user_passes_test(isUserAuthenticated, login_url="logIn")
-def builder(request):
-    if request.method == "GET":
-        modules = compatibleModules.objects.all()
-        return render(request, "finalBuild/build.html", {"compatibleModules" : modules})
-    elif request.method == "POST":
-        datos_nuevos = request.POST.get('datos_nuevos', None)
-        print(datos_nuevos)
-        return JsonResponse({'mensaje': 'Modelo actualizado correctamente'})
-    
+
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def updateProfilePicture(request):
     if request.method == 'POST':
@@ -261,3 +280,76 @@ def updateProfilePicture(request):
         return JsonResponse({'status': 'success', 'message': 'Imagen actualizada correctamente'})
 
     return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
+
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def builder(request):
+    allcompatibleModules = compatibleModules.objects.all()
+    prodIDs = {}
+    for obj in allcompatibleModules:
+        prodIDs[obj.product.id] = []
+        for module in obj.modules.all():
+            prodIDs[obj.product.id].append(module.id)
+
+    products = {}
+    for obj in allcompatibleModules:
+        product_id = str(obj.product.id).split("-")[0]
+        if product_id in products:
+            products[product_id].append([obj.product.id, obj.product.name, int(obj.product.price),
+                                        int(obj.product.dimensionX), int(obj.product.dimensionY), int(obj.product.dimensionZ)])
+        else:
+            products[product_id] = [[obj.product.id, obj.product.name, int(obj.product.price),
+                                    int(obj.product.dimensionX), int(obj.product.dimensionY), int(obj.product.dimensionZ)]]
+
+    modules = {}
+    for obj in allcompatibleModules:
+        mods = []
+        for module in obj.modules.all():
+            mods.append([module.id, module.name, module.price,
+                        module.dimensionX, module.dimensionY, module.dimensionZ, module.pairs])
+        modules[obj.product.id] = mods
+
+    if request.method == "GET":
+        return render(request, "finalBuild/build.html", {"products": products})
+    elif request.method == "POST":
+        moduleData = request.POST.get('datos', None)
+        cartData = request.POST.getlist('datos[]')
+        if moduleData and moduleData.split("_")[0] == "modulesFor":
+            response_data = modules.get(moduleData.split("_")[1], [])
+            return JsonResponse(response_data, safe=False)
+        elif cartData and len(list(cartData)) > 2:
+            proper = True
+            index = 0
+
+            while (proper == True and index < len(cartData)):
+                if (index == 0):
+                    # TODO: que sume los precios de todo, y de exactamente ese precio
+                    if (int(cartData[0]) >= 0):
+                        proper = True
+                    else:
+                        proper = False
+                elif (index == 1):
+                    if ((cartData[1] in list(prodIDs.keys()))):
+                        proper = True
+                    else:
+                        proper = False
+                else:
+                    if ((int(cartData[index].split("-")[0]) in list(prodIDs[cartData[1]]))):
+                        proper = True
+                    else:
+                        proper = False
+                index += 1
+
+            if proper == False:
+                return JsonResponse("bad", safe=False)
+            else:
+                addToCart(request, cartData[1], cartData[2::len(cartData)])
+                return JsonResponse("success", safe=False)
+        else:
+            return JsonResponse({"error": "Invalid data"}, status=400)
+    else:
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    # elif request.method == "POST":
+    #    print(datos_nuevos)
+    #    return JsonResponse({'mensaje': 'Modelo actualizado correctamente'})

@@ -2,20 +2,31 @@ const lastSelection = [null, null, null];
 cart = [0, null];
 
 setSelectionStyle();
+setSentToCartAction(document.getElementById("anyadirCarrito"));
 
-function changeSelection(type, modules, index) {
-  if (lastSelection[index] !== type) {
-    clearLastSelection(index);
+function changeSelection(type, products) {
+  if (lastSelection[0] !== document.getElementById(type)) {
+    clearLastSelection(0);
     clearModuleSelections();
-    lastSelection[index] = type;
-    lastSelection[index].style.backgroundColor = "gray";
-    if (index === 0) {
-      deviceSelection(lastSelection[index].getAttribute("id"), modules);
+    if (document.getElementById("device").children.length > 0) {
+      clearCart();
     }
+    lastSelection[0] = document.getElementById(type);
+    lastSelection[0].style.backgroundColor = "gray";
+    deviceSelection(lastSelection[0], products);
   } else {
-    clearLastSelection(index);
+    clearLastSelection(0);
     clearModuleSelections();
+    if (document.getElementById("device").children.length > 0) {
+      clearCart();
+    }
   }
+}
+
+function clearCart() {
+  var deviceOnCart = document.getElementById("device").children;
+  deviceOnCart[0].remove();
+  cart[1] = null;
 }
 
 function clearLastSelection(index) {
@@ -38,79 +49,129 @@ function clearDeviceSelections() {
 }
 
 //TIPO DE DISPOSITIVO
-function deviceSelection(type, compatibleModules) {
+function deviceSelection(type, products) {
   const parentDiv = document.getElementById("deviceSelections");
-  const div = createSelectionDiv(type);
+  const div = createSelectionDiv(type.getAttribute("id"));
   parentDiv.appendChild(div);
 
-  compatibleModules.forEach(([moduleId, moduleType, modulePrice]) => {
-    if (moduleType.split(" ")[0] === type) {
-      const divIntern = createDiv(moduleId, moduleType, modulePrice);
+  products[type.getAttribute("id")].forEach(
+    ([
+      productID,
+      productName,
+      productPrice,
+      productDimensionX,
+      productDimensionY,
+      productDimensionZ,
+    ]) => {
+      const divIntern = createDiv(
+        productID,
+        productName,
+        productPrice,
+        productDimensionX,
+        productDimensionY,
+        productDimensionZ
+      );
       div.appendChild(divIntern);
     }
-  });
-
+  );
   lastSelection[1] = div;
-  setSelectionClickListener(div.children, moduleSelection, compatibleModules);
-  setCartClickListener(div.children, addToBuildList, compatibleModules, 1);
+  setSelectionClickListener(div.children, moduleSelection);
+  setCartClickListener(div.children, addToBuildList, products, 1);
 }
 
 //MODELO DE TIPO DE DISPOSITIVO
-function moduleSelection(type, compatibleModules) {
-  //Primera vez que se selecciona
-  if (lastSelection[2] === null) {
-    const div = createSelectionDiv(type + "Modules");
-    document.getElementById("moduleSelections").appendChild(div);
-    lastSelection[2] = div;
-    if (lastSelection[1] === document.getElementById(type)) {
-      document.getElementById(type).style.backgroundColor = "gray";
-    } else {
-      document.getElementById(
-        lastSelection[1].getAttribute("id")
-      ).style.backgroundColor = "#ddd";
-      document.getElementById(type).style.backgroundColor = "gray";
-    }
-    compatibleModules.forEach(
-      ([moduleId, moduleType, modulePrice, modules]) => {
-        if (moduleId === type) {
-          modules.forEach(([moduleID, moduleName, modulePrice]) => {
-            const divIntern = createDiv(moduleID, moduleName, modulePrice);
-            div.appendChild(divIntern);
-          });
+function moduleSelection(type) {
+  $(document).ready(function () {
+    var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+    var dataToSend = "modulesFor_" + type;
+
+    $.ajax({
+      type: "POST",
+      url: "builder",
+      data: { datos: dataToSend },
+      dataType: "json",
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
+      success: function (response) {
+        //Primera vez que se selecciona
+        if (lastSelection[2] === null) {
+          const div = createSelectionDiv(type + "Modules");
+          document.getElementById("moduleSelections").appendChild(div);
+          lastSelection[2] = div;
+          if (lastSelection[1] === document.getElementById(type)) {
+            document.getElementById(type).style.backgroundColor = "gray";
+          } else {
+            document.getElementById(
+              lastSelection[1].getAttribute("id")
+            ).style.backgroundColor = "#ddd";
+            document.getElementById(type).style.backgroundColor = "gray";
+          }
+          var compatibleModules = response;
+          compatibleModules.forEach(
+            ([
+              moduleID,
+              moduleName,
+              modulePrice,
+              moduleDimensionX,
+              moduleDimensionY,
+              moduleDimensionZ,
+              modulePairs,
+            ]) => {
+              const divIntern = createDiv(
+                moduleID,
+                moduleName,
+                modulePrice,
+                moduleDimensionX,
+                moduleDimensionY,
+                moduleDimensionZ,
+                modulePairs
+              );
+              div.appendChild(divIntern);
+            }
+          );
+          setCartClickListener(
+            div.children,
+            addToBuildList,
+            compatibleModules,
+            2
+          );
+          //La selección es distinta de lo anterior
+        } else if (
+          type + "ModulesSelection" !==
+          lastSelection[2].getAttribute("id")
+        ) {
+          let selectionChildren = document.getElementById(
+            lastSelection[1].getAttribute("id")
+          ).children;
+          for (let index = 0; index < selectionChildren.length; index++) {
+            document.getElementById(
+              selectionChildren[index].getAttribute("id")
+            ).style.backgroundColor = "#ddd";
+          }
+          document.getElementById(lastSelection[2].getAttribute("id")).remove();
+          lastSelection[2] = null;
+          moduleSelection(type);
+          clearModuleSelections();
+          //La selección es la misma que la anterior
+        } else {
+          document.getElementById(lastSelection[2].getAttribute("id")).remove();
+          lastSelection[2] = null;
+          document.getElementById(type).style.backgroundColor = "#ddd";
+          clearModuleSelections();
         }
-      }
-    );
-    setCartClickListener(div.children, addToBuildList, compatibleModules, 2);
-    //La selección es distinta de lo anterior
-  } else if (
-    type + "ModulesSelection" !==
-    lastSelection[2].getAttribute("id")
-  ) {
-    let selectionChildren = document.getElementById(
-      lastSelection[1].getAttribute("id")
-    ).children;
-    for (let index = 0; index < selectionChildren.length; index++) {
-      document.getElementById(
-        selectionChildren[index].getAttribute("id")
-      ).style.backgroundColor = "#ddd";
-    }
-    document.getElementById(lastSelection[2].getAttribute("id")).remove();
-    lastSelection[2] = null;
-    moduleSelection(type, compatibleModules);
-    clearModuleSelections();
-    //La selección es la misma que la anterior
-  } else {
-    document.getElementById(lastSelection[2].getAttribute("id")).remove();
-    lastSelection[2] = null;
-    document.getElementById(type).style.backgroundColor = "#ddd";
-    clearModuleSelections();
-  }
+      },
+      error: function (error) {
+        console.log("Error en la solicitud AJAX:", error);
+      },
+    });
+  });
 }
 
 function clearModuleSelections() {
-  if (cart.length > 3){
+  if (cart.length > 2) {
     for (let i = cart.length - 1; i > 1; i--) {
-      document.getElementById(cart[i] + "-toCart").remove();
+      document.getElementById(cart[i]).remove();
       cart.splice(i, 1);
     }
   }
@@ -118,55 +179,42 @@ function clearModuleSelections() {
 
 function sendSelection(cart) {
   $(document).ready(function () {
-    var csrftoken = getCookie("csrftoken");
+    var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+    var dataToSend = cart;
+    console.log(dataToSend)
 
     $.ajax({
-      url: builderUrl,
       type: "POST",
-      data: { datos_nuevos: cart },
+      url: "builder",
+      data: { datos: dataToSend },
       dataType: "json",
       headers: {
-        "X-CSRFToken": csrftoken,
+        "X-CSRFToken": csrfToken,
       },
       success: function (response) {
-        //TODO: Crear alerta en div emergente
-        console.log(response.mensaje);
+        if (response === "success") {
+          window.location.href = "/myCart";
+        } else {
+          console.log("Respuesta: " + response);
+        }
+      },
+      error: function (error) {
+        console.log("Error en la solicitud AJAX:", error);
       },
     });
-
-    function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        var cookies = document.cookie.split(";");
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === name + "=") {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
   });
 }
 
-function addToBuildList(element, compatibleModules, index) {
-  TODO: //SUMAR EL COSTE
+function addToBuildList(element, object, index) {
+  //SUMAR EL COSTE
   var elementAttributes;
-  compatibleModules.forEach((e) => {
-    if (e[0] == element) {
-      elementAttributes = e;
-    } else {
-      e[3].forEach((a, index) => {
-        if (a[0] == element) {
-          elementAttributes = e[3][index];
-        }
-      });
-    }
-  });
   //MODELO DE DISPOSITIVO
   if (index === 1) {
+    object[element.split("-")[0]].forEach((e) => {
+      if (e[0] == element.split("_")[0]) {
+        elementAttributes = e;
+      }
+    });
     let device = document.getElementById("device");
     if (device.children.length === 0 && cart[1] !== elementAttributes[0]) {
       var div = document.createElement("div");
@@ -182,39 +230,92 @@ function addToBuildList(element, compatibleModules, index) {
       cart[1] !== elementAttributes[0]
     ) {
       removeFromBuildList(index, element);
-      addToBuildList(element, compatibleModules, index);
+      cart[1] = null;
+      addToBuildList(element, object, index);
     } else {
       removeFromBuildList(index, element);
+      cart[1] = null;
     }
-  //MODULO DE DISPOSITIVO
+    //MODULO DE DISPOSITIVO
   } else {
+    object.forEach((e) => {
+      if (e[0] == element.split("_")[0]) {
+        elementAttributes = e;
+      }
+    });
     let cartDiv = document.getElementById("items");
-    let itemsChildren = Array.from(cartDiv.children);
-    itemsChildren = itemsChildren.slice(2);
-    let itemsChildrenName = [];
-    itemsChildren.forEach((i) => {
-      itemsChildrenName.push(i.textContent.split(" ")[0]);
+    let itemsChildren = Array.from(cartDiv.children).splice(2);
+    let itemsChildrenPairs = itemsChildren.map((e) => {
+      return e.getAttribute("id").split("_")[1];
     });
-    itemsChildren = itemsChildren.map((e) => {
-      return e.getAttribute("id");
+    let itemsChildrenId = itemsChildren.map((e) => {
+      return e.getAttribute("id").split("-")[0];
     });
-    if (
-      itemsChildren.length < 5 &&
-      (!itemsChildren.includes(element + "-toCart") && !itemsChildrenName.includes(elementAttributes[1].split(" ")[0]))
-      ) {
-        let div = document.createElement("div");
-        div.setAttribute("id", element + "-toCart");
-        setCartStyle(div);
-        device.appendChild(div);
-        cart.push(elementAttributes[0]);
-        let divHeader = document.createElement("h2");
+    if (itemsChildrenPairs.includes(element.split("_")[1])) {
+      if (itemsChildrenId.includes(element.split("_")[0])) {
+        //mismo
+        document.getElementById(element.replace("_", "-toCart_")).remove();
+        cart.splice(cart.indexOf(element.split("_")[0] + "-toCart_" + element.split("_")[1]), 1);
+      } else {
+        //diferente
+        itemsChildren.forEach((e) => {
+          if (e.getAttribute("id").split("_")[1] == element.split("_")[1]) {
+            document.getElementById(e.getAttribute("id")).remove();
+            cart.splice(cart.indexOf(e.getAttribute("id")), 1);
+            addToBuildList(element, object, index);
+          }
+        });
+      }
+    } else {
+      let div = document.createElement("div");
+      div.setAttribute(
+        "id",
+        element.split("_")[0] + "-toCart_" + element.split("_")[1]
+      );
+      setCartStyle(div);
+      device.appendChild(div);
+      cart.push((element.split("_")[0] + "-toCart_" + element.split("_")[1]));
+      let divHeader = document.createElement("h2");
       divHeader.innerHTML = elementAttributes[1];
       div.appendChild(divHeader);
       document.getElementById("items").appendChild(div);
-    } else if (itemsChildren.includes(element) || itemsChildrenName.includes(elementAttributes[1].split(" ")[0])) {
-      removeFromBuildList(index, element);
-      itemsChildrenName.splice(itemsChildrenName.indexOf(elementAttributes[1].split(" ")[0]), 1);
+      //cart += element.split("_")[0] + "-toCart_" + element.split("_")[1];
     }
+    //itemsChildren = itemsChildren.slice(2);
+    //let itemsChildrenName = [];
+    //itemsChildren.forEach((i) => {
+    //  itemsChildrenName.push(i.textContent.split(" ")[0]);
+    //});
+    //itemsChildren = itemsChildren.map((e) => {
+    //  return e.getAttribute("id").split("_")[0];
+    //});
+    //if (
+    //  itemsChildren.length < 5 &&
+    //  !itemsChildren.includes(element + "-toCart") &&
+    //  !itemsChildrenName.includes(elementAttributes[1].split(" ")[0])
+    //) {
+    //  let div = document.createElement("div");
+    //  div.setAttribute("id", element + "-toCart");
+    //  setCartStyle(div);
+    //  device.appendChild(div);
+    //  cart.push(elementAttributes[0]);
+    //  let divHeader = document.createElement("h2");
+    //  divHeader.innerHTML = elementAttributes[1];
+    //  div.appendChild(divHeader);
+    //  document.getElementById("items").appendChild(div);
+    //} else if (
+    //  itemsChildren.includes(element) ||
+    //  itemsChildrenName.includes(elementAttributes[1].split(" ")[0])
+    //) {
+    //  var toRemove = (Array.from(document.getElementById("items").children).splice(2))[itemsChildrenName.indexOf(elementAttributes[1].split(" ")[0])];
+    //  removeFromBuildList(index, toRemove);
+    //  itemsChildrenName.splice(
+    //    itemsChildrenName.indexOf(elementAttributes[1].split(" ")[0]),
+    //    1
+    //  );
+    //  cart.pop(cart.indexOf(elementAttributes[0]));
+    //  addToBuildList(element, object, index);
+    //}
   }
 }
 
@@ -226,7 +327,7 @@ function removeFromBuildList(index, element) {
     cart[1] = null;
   } else {
     //let cartDiv = document.getElementById("items");
-    document.getElementById(element + "-toCart").remove();
+    element.remove();
   }
 }
 
@@ -268,11 +369,39 @@ function createDiv(id, name, price) {
   return divIntern;
 }
 
-function setSelectionClickListener(elements, clickHandler, compatibleModules) {
+function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ, pairs) {
+  const divIntern = document.createElement("div");
+  setInternStyle(divIntern);
+  divIntern.setAttribute("id", id + "_" + pairs);
+
+  const divHeader = document.createElement("h2");
+  divHeader.innerHTML = name;
+
+  const divDimensions = document.createElement("p");
+  divDimensions.innerHTML =
+    "x: " + dimensionX + ", y: " + dimensionY + ", z: " + dimensionZ;
+
+  const divPrice = document.createElement("p");
+  divPrice.innerHTML = price;
+
+  divIntern.appendChild(divHeader);
+  divIntern.appendChild(divDimensions);
+  divIntern.appendChild(divPrice);
+
+  return divIntern;
+}
+
+function setSelectionClickListener(elements, clickHandler) {
   Array.from(elements).forEach((element) => {
     element.addEventListener("click", () => {
-      clickHandler(element.getAttribute("id"), compatibleModules);
+      clickHandler(element.getAttribute("id"));
     });
+  });
+}
+
+function setSentToCartAction(element){
+  element.addEventListener("click", () => {
+    sendSelection(cart);
   });
 }
 

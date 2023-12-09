@@ -29,42 +29,44 @@ def initClients():
 
 
 def main():
+    '''
     # Random Clients Creation
     for _ in range(20):
         client = initClients()
         client.save()
     print(Client.objects.all())
+    '''
     # Modules Creation
-    modules = {"Battery 11560mAh 11.55v" : 0,
-               "Battery 12560mAh 11.55v" : 0,
-               "Battery 14560mAh 11.55v" : 0,
-               'Screen 14" 16:9 fullHD LED' : 0,
-               'Screen 16" 16:9 UHD OLED' : 0,
-               'Screen 19" 16:9 4K QLED' : 0,
-               "Dock USB2.0 miniHDMI ChargePort" : 0,
-               "Dock USB3.0 HDMI ChargePort" : 0,
-               "Dock USB3.0 USB4.0 HDMI DisplayPort ChargePort" : 0,
-               "Keyboard es_ES" : 0,
-               "Keyboard en_US" : 0,
-               "Battery 3095mAh 3.6v" : 0,
-               "Battery 4323mAh 3.6v" : 0,
-               "Battery 4422mAh 3.6v" : 0,
-               'Screen 6.1" fullHD' : 0,
-               'Screen 6.7" 2k' : 0,
-               'Screen 7.2" 4K' : 0,
-               "Battery 4440mAh 3.6v" : 0,
-               "Battery 6930mAh 3.6v" : 0,
-               "Battery 11560mAh 3.6v" : 0,
-               'Screen 9.5" fullHD' : 0,
-               'Screen 10.9" 2k' : 0,
-               'Screen 11" 4K' : 0,
-               "Camera 10MP" : 0,
-               "Camera 12MP" : 0,
-               "Camera 14MP" : 0,
+    modules = {"Battery 11560mAh 11.55v" : [0, 1],
+               "Battery 12560mAh 11.55v" : [0, 1],
+               "Battery 14560mAh 11.55v" : [0, 1],
+               'Screen 14" 16:9 fullHD LED' : [0, 2],
+               'Screen 16" 16:9 UHD OLED' : [0, 2],
+               'Screen 19" 16:9 4K QLED' : [0, 2],
+               "Dock USB2.0 miniHDMI ChargePort" : [0, 3],
+               "Dock USB3.0 HDMI ChargePort" : [0, 3],
+               "Dock USB3.0 USB4.0 HDMI DisplayPort ChargePort" : [0, 3],
+               "Keyboard es_ES" : [0, 4],
+               "Keyboard en_US" : [0, 4],
+               "Battery 3095mAh 3.6v" : [0, 1],
+               "Battery 4323mAh 3.6v" : [0, 1],
+               "Battery 4422mAh 3.6v" : [0, 1],
+               'Screen 6.1" fullHD' : [0, 2],
+               'Screen 6.7" 2k' : [0, 2],
+               'Screen 7.2" 4K' : [0, 2],
+               "Battery 4440mAh 3.6v" : [0, 1],
+               "Battery 6930mAh 3.6v" : [0, 1],
+               "Battery 11560mAh 3.6v" : [0, 1],
+               'Screen 9.5" fullHD' : [0, 2],
+               'Screen 10.9" 2k' : [0, 2],
+               'Screen 11" 4K' : [0, 2],
+               "Camera 10MP" : [0, 5],
+               "Camera 12MP" : [0, 5],
+               "Camera 14MP" : [0, 5],
                }
     
     for element in modules:
-        Module(name=element, price=modules[element]).save()
+        Module(name=element, price=modules[element][0], pairs=modules[element][1]).save()
     # Products Creation
     plpmn = Product(id="LP-000", name="Laptop Mini", model="LP-Mn", price=0, dimensionX=277, dimensionY=219, dimensionZ=9)
     plpmn.save()
