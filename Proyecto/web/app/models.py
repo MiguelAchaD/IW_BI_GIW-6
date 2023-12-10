@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group, Permission
 from django.db import models
+from datetime import date
 
 
 """
@@ -48,13 +49,16 @@ class CartProduct(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     modules = models.ManyToManyField(Module)
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=0)
     
+    def delete(self, *args, **kwargs):
+        self.modules.clear()
+        super(CartProduct, self).delete(*args, **kwargs)
 
 class CartRelation(models.Model):
     id = models.AutoField(primary_key=True)
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING, null=False)
-    cartProduct = models.ForeignKey(CartProduct, on_delete=models.DO_NOTHING, null=False)
+    cartProduct = models.OneToOneField(CartProduct, on_delete=models.CASCADE, null=True)
 
 class selectedModules(models.Model):
     cartProduct = models.OneToOneField(CartProduct, on_delete=models.CASCADE, null=True)
@@ -62,11 +66,11 @@ class selectedModules(models.Model):
 
 class Purchase(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
-    client = models.OneToOneField(Client, on_delete=models.CASCADE)
-    date = models.DateField()
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
+    date = models.DateField(default=date.today)
     modulesForProducts = models.ManyToManyField(selectedModules)
 
 
- 
+
     
 #related_name: Si un modelo tiene una foreign key, el modelo asociado a esa foreign key podrá accceder a los modelos asociados mediante el nombre puesto como related_name

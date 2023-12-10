@@ -4,6 +4,7 @@
 
 {% block additionalLinks %}
   <link rel="stylesheet" href="{% static 'css/cart.css' %}" />
+  <script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -12,18 +13,34 @@
 
 {% block content %}
   <div class="cart-container">
-    <h1>MI CARRITO</h1>
-    {% if isEmpty %}
-      <img id="cart" src="{% static 'images/empty-cart.png' %}" alt="carrito vacio" />
-    {% else %}
-      {% for cart_Product in cart_Products %}
+    {% if cartProducts %}
+    <h1>CARRITO DE {{ user.first_name.upper }}</h1>
+      {% for cartProduct in cartProducts %}
         <div class="cart-item">
-          <h2>{{cart_Products.product.name}}</h2>
-          <p>Modelo: {{cart_Product.product.model}}</p>
-          <p>Precio: {{cart_Product.product.price}}€</p>
+          <img alt="{{ cartProduct.product.name }}">
+          <h2>{{ cartProduct.product.name }}</h2>
+          <p>{{ cartProduct.product.model }}</p>
+          <p>{{ cartProduct.product.price }}€</p>
+          <div>
+              <p>Módulos:</p>
+              <ul>
+                  {% for module in cartProduct.modules.all %}
+                      <li>{{ module.name }} (Precio: {{ module.price }}€)</li>
+                  {% empty %}
+                      <li>No hay módulos asociados</li>
+                  {% endfor %}
+              </ul>
+          </div>
+          <p id="quantity">{{cartProduct.quantity}}</p>
+          <button class="delete" data-id="{{ cartProduct.id }}">DELETE</button>
         </div>
       {% endfor %}
-      <p>Precio total: {{total_Price}}</p>
+      <div id="totalPriceContainer">
+          <p id="totalPrice">Total: {{ totalPrice }} €</p>
+      </div>
+    {% else %}
+    <h1>SIN PRODUCTOS EN EL CARRITO</h1>
+    <img id="cart" src="{% static 'images/empty-cart.png' %}" alt="carrito vacio" />
     {% endif %}
   </div>
 {% endblock %}

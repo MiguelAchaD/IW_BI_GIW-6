@@ -186,25 +186,47 @@ def authenticateUser(request):
 def viewCart(request):
     if request.method == "GET":
         client = Client.objects.get(user=request.user)
-        cart_relations = CartRelation.objects.filter(client=client)
-        if cart_relations.count() > 0:
-            cart_Products = CartProduct.objects.filter(
-                cartrelation__in=cart_relations)
-            modulesPrice = 0
-            
-            for cart_Product in cart_Products:
-                for module in cart_Product.modules.all():
-                    modulesPrice += module.price
-            
-            if cart_Products.count() > 0:
-                total_price = sum(cart_Product.product.price * cart_Product.quantity for cart_Product in cart_Products) + modulesPrice
-                print("ENTRA POR AQUÍ")
-                return render(request, "cart.html", {"isEmpty": False, "cart_Products": cart_Products, "total_price": total_price})
-        
-        return render(request, "cart.html", {"isEmpty": True})
-        #return HttpResponseRedirect('/builder/')
+        client = Client.objects.get(user=request.user)
+        totalPrice, cartProducts = calcTotalPrice(client)
+        return render(request, "cart.html", {"cartProducts": cartProducts, "totalPrice": totalPrice})
 
+def calcTotalPrice(client):
+    cartRelations = CartRelation.objects.filter(client=client)
+    print("Cart Relations = " + str(cartRelations.count()))
+    if cartRelations.count() > 0:
+        cartProducts = CartProduct.objects.filter(cartrelation__in=cartRelations)
+        print("Cart Productss = " + str(cartProducts.count()))
+        if cartProducts.count() > 0:
+            totalPrice = 0
+            for cartProduct in cartProducts:
+                for module in cartProduct.modules.all():
+                    totalPrice += module.price
+                totalPrice += cartProduct.product.price * cartProduct.quantity
+            return totalPrice, cartProducts
+    return -1, []
 
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def removeFromCart(request, cartProductId):
+    if request.method == "GET":
+        try:
+            cart_Product = CartProduct.objects.get(id=cartProductId)
+            cart_Product.quantity -= 1
+            quantity = cart_Product.quantity
+            if cart_Product.quantity <= 0:
+                cart_Product.delete()
+            else:
+                cart_Product.save()
+            client = Client.objects.get(user=request.user)
+            totalPrice, _ = calcTotalPrice(client)
+            if(totalPrice >= 0):
+                return JsonResponse({'status': 'success', 'newTotalPrice': totalPrice, 'newQuantity': quantity})
+            return JsonResponse({'status': 'empty'})
+        except CartProduct.DoesNotExist as e:
+            print(e)
+            return JsonResponse({'status': 'error', 'message': 'Producto no encontrado'}, status=404)
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status': 'error', 'message': 'Error eliminando el producto del carrito'}, status=500)
 
 def addToCart(request, product_id, modules):
     if request.method == 'POST':
@@ -234,27 +256,7 @@ def addToCart(request, product_id, modules):
             return JsonResponse("success", safe=False)
         else:
             return JsonResponse("failure", safe="False")
-
-
-@user_passes_test(isUserAuthenticated, login_url="logIn")
-def removeFromCart(request, product_id):
-    if request.method == "GET":
-        client = Client.objects.get(user=request.user)
-        product = Product.objects.get(id=product_id)
-
-        cart_relation = CartRelation.objects.get(client=client)
-        cart_Product = CartProduct.objects.get(
-            product=product, cartrelation=cart_relation)
-
-        cart_Product.quantity -= 1
-        if cart_Product.quantity <= 0:
-            cart_Product.delete()
-        else:
-            cart_Product.save()
-
-        return redirect("view_cart")
-
-
+        
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def products(request, product):
     products = ["phone", "tablet", "laptop"]

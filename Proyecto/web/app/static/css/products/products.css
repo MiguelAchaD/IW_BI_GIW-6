@@ -94,6 +94,12 @@ main {
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
+  transition: transform var(--ease-time) ease, color var(--ease-time) ease;
+}
+
+.select-custom-trigger:hover{
+  color: var(--color04);
+  transform: scale(1.05);
 }
 
 .custom-options {
@@ -116,6 +122,7 @@ main {
   text-align: center; 
   width: 100%;
   box-sizing: border-box;
+  transition: color var(--ease-time) ease;
 }
 
 .custom-option:hover {
