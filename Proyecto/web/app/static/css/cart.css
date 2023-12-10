@@ -64,21 +64,41 @@ p {
 .delete {
     height: 40px;
     width: 60px;
-    background-color: var(--color04);
-    border: 1px solid var(--color04);
-    border-radius: 5px;
-    color: white;
-    outline: none;
-    transition: background-color var(--ease-time) ease, border var(--ease-time) ease;
-}
-
-.delete:hover {
-    background-color: rgb(4, 114, 97);
-    border-color: rgb(4, 114, 97);
 }
 
 #cart{
     margin: auto;
     height: 200px;
     width: 200px;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-control button {
+    height: 30px;
+    width: 30px;
+}
+
+.delete,
+.quantity-control button{
+    background-color: var(--color04);
+    border: 1px solid var(--color04);
+    border-radius: 5px;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    transition: background-color var(--ease-time) ease, border var(--ease-time) ease;
+}
+
+.delete:hover,
+.quantity-control button:hover{
+    background-color: rgb(4, 114, 97);
+    border-color: rgb(4, 114, 97);
+}
+
+.quantity-control p {
+    margin: 0 10px;
 }

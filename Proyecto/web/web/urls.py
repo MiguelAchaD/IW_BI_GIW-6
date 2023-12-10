@@ -34,11 +34,12 @@ urlpatterns = [
     path('accounts/signUp/', signUp, name="signUp"),
     path('accounts/logOut/', logOut, name="logOut"),
     path('accounts/profile/', updateProfilePicture, name='updateProfilePicture'),
-    
+
     path('authenticate/newUser/', authenticateUser, name="authenticateUser"),
     
     path('myCart/', viewCart, name="viewCart"),
     path('myCart/remove/<int:cartProductId>/', removeFromCart, name='removeFromCart'),
+    path('myCart/updateQuantity/<int:cartProductId>/<slug:change>/', updateQuantity, name='updateQuantity'),
 
     path('addToCart/', viewCart, name="addToCart"),
     path('products/<str:product>', products, name="products"),

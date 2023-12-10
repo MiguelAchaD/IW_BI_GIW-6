@@ -14,33 +14,37 @@
 {% block content %}
   <div class="cart-container">
     {% if cartProducts %}
-    <h1>CARRITO DE {{ user.first_name.upper }}</h1>
+      <h1>CARRITO DE {{ user.first_name.upper }}</h1>
       {% for cartProduct in cartProducts %}
         <div class="cart-item">
-          <img alt="{{ cartProduct.product.name }}">
+          <img alt="{{ cartProduct.product.name }}" />
           <h2>{{ cartProduct.product.name }}</h2>
           <p>{{ cartProduct.product.model }}</p>
           <p>{{ cartProduct.product.price }}€</p>
           <div>
-              <p>Módulos:</p>
-              <ul>
-                  {% for module in cartProduct.modules.all %}
-                      <li>{{ module.name }} (Precio: {{ module.price }}€)</li>
-                  {% empty %}
-                      <li>No hay módulos asociados</li>
-                  {% endfor %}
-              </ul>
+            <p>Módulos:</p>
+            <ul>
+              {% for module in cartProduct.modules.all %}
+                <li>{{ module.name }}  -  {{ module.price }}€</li>
+                {% empty %}
+                <li>No hay módulos asociados</li>
+              {% endfor %}
+            </ul>
           </div>
-          <p id="quantity">{{cartProduct.quantity}}</p>
+          <div class="quantity-control">
+            <button class="decrease-quantity" data-id="{{ cartProduct.id }}">-</button>
+            <p id="quantity-{{ cartProduct.id }}">{{ cartProduct.quantity }}</p>
+            <button class="increase-quantity" data-id="{{ cartProduct.id }}">+</button>
+          </div>
           <button class="delete" data-id="{{ cartProduct.id }}">DELETE</button>
         </div>
       {% endfor %}
       <div id="totalPriceContainer">
-          <p id="totalPrice">Total: {{ totalPrice }} €</p>
+        <p id="totalPrice">Total: {{ totalPrice }} €</p>
       </div>
     {% else %}
-    <h1>SIN PRODUCTOS EN EL CARRITO</h1>
-    <img id="cart" src="{% static 'images/empty-cart.png' %}" alt="carrito vacio" />
+      <h1>SIN PRODUCTOS EN EL CARRITO</h1>
+      <img id="cart" src="{% static 'images/empty-cart.png' %}" alt="carrito vacio" />
     {% endif %}
   </div>
 {% endblock %}

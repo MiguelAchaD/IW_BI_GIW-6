@@ -192,10 +192,8 @@ def viewCart(request):
 
 def calcTotalPrice(client):
     cartRelations = CartRelation.objects.filter(client=client)
-    print("Cart Relations = " + str(cartRelations.count()))
     if cartRelations.count() > 0:
         cartProducts = CartProduct.objects.filter(cartrelation__in=cartRelations)
-        print("Cart Productss = " + str(cartProducts.count()))
         if cartProducts.count() > 0:
             totalPrice = 0
             for cartProduct in cartProducts:
@@ -205,12 +203,11 @@ def calcTotalPrice(client):
             return totalPrice, cartProducts
     return -1, []
 
-@user_passes_test(isUserAuthenticated, login_url="logIn")
-def removeFromCart(request, cartProductId):
+def updateQuantity(request, cartProductId, change):
     if request.method == "GET":
         try:
             cart_Product = CartProduct.objects.get(id=cartProductId)
-            cart_Product.quantity -= 1
+            cart_Product.quantity += int(change)
             quantity = cart_Product.quantity
             if cart_Product.quantity <= 0:
                 cart_Product.delete()
@@ -222,10 +219,27 @@ def removeFromCart(request, cartProductId):
                 return JsonResponse({'status': 'success', 'newTotalPrice': totalPrice, 'newQuantity': quantity})
             return JsonResponse({'status': 'empty'})
         except CartProduct.DoesNotExist as e:
-            print(e)
+            print("ERROR: " + str(e))
             return JsonResponse({'status': 'error', 'message': 'Producto no encontrado'}, status=404)
         except Exception as e:
-            print(e)
+            print("ERROR: " + str(e))
+            return JsonResponse({'status': 'error', 'message': 'Error eliminando el producto del carrito'}, status=500)
+
+def removeFromCart(request, cartProductId):
+    if request.method == "GET":
+        try:
+            cart_product = CartProduct.objects.get(id=cartProductId)
+            cart_product.delete()
+            client = Client.objects.get(user=request.user)
+            totalPrice, _ = calcTotalPrice(client)
+            if(totalPrice >= 0):
+                return JsonResponse({'status': 'success', 'newTotalPrice': totalPrice})
+            return JsonResponse({'status': 'empty'})
+        except CartProduct.DoesNotExist as e:
+            print("ERROR: " + str(e))
+            return JsonResponse({'status': 'error', 'message': 'Producto no encontrado'}, status=404)
+        except Exception as e:
+            print("ERROR: " + str(e))
             return JsonResponse({'status': 'error', 'message': 'Error eliminando el producto del carrito'}, status=500)
 
 def addToCart(request, product_id, modules):
