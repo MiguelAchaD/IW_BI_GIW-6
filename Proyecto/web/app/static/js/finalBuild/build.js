@@ -194,11 +194,11 @@ function sendSelection(cart) {
       success: function (response) {
         console.log(response)
         if (response == "success") {
-          console.log("bien")
+          alert("Se ha añadido el producto al carrito correctamente!")
         } else if (response == "failure"){
-          console.log("mal");
+          alert("Selecciona por lo menos un módulo!")
         } else {
-          console.log("Error: " + response);
+          alert("Error al añadir el producto al carrito!")
         }
       },
     });
@@ -206,7 +206,6 @@ function sendSelection(cart) {
 }
 
 function addToBuildList(element, object, index) {
-  //SUMAR EL COSTE
   var elementAttributes;
   //MODELO DE DISPOSITIVO
   if (index === 1) {
@@ -279,54 +278,16 @@ function addToBuildList(element, object, index) {
       divHeader.innerHTML = elementAttributes[1];
       div.appendChild(divHeader);
       document.getElementById("items").appendChild(div);
-      //cart += element.split("_")[0] + "-toCart_" + element.split("_")[1];
     }
-    //itemsChildren = itemsChildren.slice(2);
-    //let itemsChildrenName = [];
-    //itemsChildren.forEach((i) => {
-    //  itemsChildrenName.push(i.textContent.split(" ")[0]);
-    //});
-    //itemsChildren = itemsChildren.map((e) => {
-    //  return e.getAttribute("id").split("_")[0];
-    //});
-    //if (
-    //  itemsChildren.length < 5 &&
-    //  !itemsChildren.includes(element + "-toCart") &&
-    //  !itemsChildrenName.includes(elementAttributes[1].split(" ")[0])
-    //) {
-    //  let div = document.createElement("div");
-    //  div.setAttribute("id", element + "-toCart");
-    //  setCartStyle(div);
-    //  device.appendChild(div);
-    //  cart.push(elementAttributes[0]);
-    //  let divHeader = document.createElement("h2");
-    //  divHeader.innerHTML = elementAttributes[1];
-    //  div.appendChild(divHeader);
-    //  document.getElementById("items").appendChild(div);
-    //} else if (
-    //  itemsChildren.includes(element) ||
-    //  itemsChildrenName.includes(elementAttributes[1].split(" ")[0])
-    //) {
-    //  var toRemove = (Array.from(document.getElementById("items").children).splice(2))[itemsChildrenName.indexOf(elementAttributes[1].split(" ")[0])];
-    //  removeFromBuildList(index, toRemove);
-    //  itemsChildrenName.splice(
-    //    itemsChildrenName.indexOf(elementAttributes[1].split(" ")[0]),
-    //    1
-    //  );
-    //  cart.pop(cart.indexOf(elementAttributes[0]));
-    //  addToBuildList(element, object, index);
-    //}
   }
 }
 
 function removeFromBuildList(index, element) {
-  //TODO: RESTAR EL COSTE
   if (index === 1) {
     let deviceChildren = document.getElementById("device").children;
     deviceChildren[0].remove();
     cart[1] = null;
   } else {
-    //let cartDiv = document.getElementById("items");
     element.remove();
   }
 }
@@ -352,7 +313,7 @@ function createSelectionDiv(id) {
   return div;
 }
 
-function createDiv(id, name, price) {
+function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ) {
   const divIntern = document.createElement("div");
   setInternStyle(divIntern);
   divIntern.setAttribute("id", id);
@@ -360,10 +321,15 @@ function createDiv(id, name, price) {
   const divHeader = document.createElement("h2");
   divHeader.innerHTML = name;
 
+  const divDimensions = document.createElement("p");
+  divDimensions.innerHTML =
+    "x: " + dimensionX + ", y: " + dimensionY + ", z: " + dimensionZ;
+
   const divPrice = document.createElement("p");
-  divPrice.innerHTML = price;
+  divPrice.innerHTML = price + " $";
 
   divIntern.appendChild(divHeader);
+  divIntern.appendChild(divDimensions);
   divIntern.appendChild(divPrice);
 
   return divIntern;
@@ -382,7 +348,7 @@ function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ, pairs) {
     "x: " + dimensionX + ", y: " + dimensionY + ", z: " + dimensionZ;
 
   const divPrice = document.createElement("p");
-  divPrice.innerHTML = price;
+  divPrice.innerHTML = price + " $";
 
   divIntern.appendChild(divHeader);
   divIntern.appendChild(divDimensions);
@@ -449,18 +415,12 @@ function setInternStyle(element) {
 }
 
 function setCartStyle(element) {
-  //element.addEventListener("mouseover", () => {
-  //  element.style.border = "2px black solid";
-  //});
-
-  //element.addEventListener("mouseout", () => {
-  //  element.style.border = "2px gray solid";
-  //});
-
   element.style.textAlign = "center";
   element.style.height = "100%";
   element.style.width = "100%";
   element.style.fontSize = "10px";
+  element.style.marginBottom = "10px";
+  element.style.marginTop = "10px";
 }
 
 function noElementsShow(div, text) {

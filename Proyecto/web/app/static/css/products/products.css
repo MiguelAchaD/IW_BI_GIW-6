@@ -63,7 +63,6 @@ main {
 
 .currency:hover {
   cursor: pointer;
-  background-color: var(--color02);
 }
 
 .info {
@@ -131,4 +130,24 @@ main {
 
 .select-custom.open .custom-options {
   max-height: fit-content;
+}
+
+.showcase {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+
+@media screen and (max-width: 791px) {
+  .prod-name{
+    font-size: 1.5em;
+  }
+
+  .intern-wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+      align-items: center;
+  }
 }

@@ -7,6 +7,7 @@
 .info {
   margin-top: 20px;
   text-align: center;
+  color: white;
 }
 
 .clickableOption {
@@ -26,38 +27,63 @@
   right: 20px;
   top: 20vh;
   background-color: white;
-  border: 3px solid #bbb;
+  border: 3px solid black;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#items{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 90%;
-    min-height: 50%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#items {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 90%;
+  min-height: 50%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#device{
-    height: 162px;
-    width: 162px;
-    margin: 10px 0 10px;
-    border: 3px dashed #bbb;
+
+
+#device {
+  width: 162px;
+  margin: 10px 0 10px;
 }
 
-.separator{
-    border-top: 3px dashed #bbb;
-    width: 100%;
+.separator {
+  margin: 0 0 10px;
+  border-top: 3px dashed #bbb;
+  width: 100%;
 }
 
-#anyadirCarrito{
-    width: 70%;
-    height: 25px;
-    margin-bottom: 10px;
-    background-color: white;
+#anyadirCarrito {
+  width: 70%;
+  height: 25px;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+#phone-img {
+  width: 60%;
+}
+
+#tablet-img {
+  width: 80%;
+}
+
+#laptop-img {
+  width: 85%;
+}
+
+
+@media screen and (max-width: 1537px) {
+  .float-window {
+    width: 200px;
+    position: relative;
+    margin: 0 auto 0 auto;
+    right: 0;
+    top: 10px;
+  }
 }

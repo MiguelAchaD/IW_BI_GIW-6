@@ -23,6 +23,7 @@
   <div id="all">
     {% for generation in product_generations %}
       <h1 id="generation">Generación {{ generation }}</h1>
+      <img class="showcase" src="{% static productURI %}" alt=>
       <div class="wrapper">
         {% for product in product_generations|get_genToProds:generation %}
           <div class="product">
@@ -46,7 +47,7 @@
               <img class="dimension" alt="productZDimension" src="{% static 'images/z.svg' %}" /><p class="distance">{{ product.dimensionZ|formatDec }} mm</p>
             </div>
             <div class="intern-wrapper">
-              <a href="#" class="currency">{{ product.price|formatDec }} €</a>
+              <a class="currency">{{ product.price|formatDec }} €</a>
             </div>
           </div>
         {% endfor %}

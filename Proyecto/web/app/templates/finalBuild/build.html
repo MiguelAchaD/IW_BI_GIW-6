@@ -17,23 +17,21 @@
 {% endblock %}
 
 {% block content %}
-    <!-- <input type="hidden" name="csrfmiddlewaretoken" value="{% csrf_token %}"> -->
-    <div id="stage-1">
-        <h2 class="info">Elige el tipo de producto que desea construir</h2>
-        <div class="selection-wrapper">
-            <button class="clickableOption" id="PN" onClick='changeSelection("PN", {{products}})'>Imagen telefono</button>
-            <button class="clickableOption" id="TB" onClick='changeSelection("TB", {{products}})'>Imagen tablet</button>
-            <button class="clickableOption" id="LP" onClick='changeSelection("LP", {{products}})'>Imagen portatil</button>
-        </div>
-        <div id="deviceSelections"></div>
-        <div id="moduleSelections"></div>
-    </div>
     <div class="float-window">
       <div id="items">
         <div id="device"></div>
         <span class="separator"></span>
       </div>
-      <p id="finalPrice">0 $</p>
       <button id="anyadirCarrito">Añadir al Carrito</button>
+    </div>
+    <div id="stage-1">
+        <h2 class="info">Elige el tipo de producto que desea construir</h2>
+        <div class="selection-wrapper">
+            <button class="clickableOption" id="PN" onClick='changeSelection("PN", {{products}})'><img id="phone-img" src="{% static 'images/products/phone/Phone3-black2.png'%}"></button>
+            <button class="clickableOption" id="TB" onClick='changeSelection("TB", {{products}})'><img id="tablet-img" src="{% static 'images/products/tablet/Tablet2-black2.png'%}"></button>
+            <button class="clickableOption" id="LP" onClick='changeSelection("LP", {{products}})'><img id="laptop-img" src="{% static 'images/products/laptop/Laptop-black2.png'%}"></button>
+        </div>
+        <div id="deviceSelections"></div>
+        <div id="moduleSelections"></div>
     </div>
 {% endblock %}

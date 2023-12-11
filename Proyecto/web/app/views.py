@@ -273,13 +273,18 @@ def addToCart(request, product_id, modules):
         
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def products(request, product):
+    if product == "phone":
+        productURI = 'images/products/phone/phone.png'
+    elif product == "laptop":
+        productURI = 'images/products/laptop/laptop.png'
+    else:
+        productURI = 'images/products/tablet/tablet.png'
     products = ["phone", "tablet", "laptop"]
     print(products)
-    # TODO: error en una de estas dos templatetags
     generations = get_generations(Product.objects.all())
     product_generations = get_prodGenerations(product, generations)
     if product in products:
-        return render(request, "products/products.html", {"product": product, 'product_generations': product_generations})
+        return render(request, "products/products.html", {"product": product, 'product_generations': product_generations, 'productURI' : productURI})
 
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
