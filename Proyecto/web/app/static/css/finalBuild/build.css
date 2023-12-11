@@ -11,14 +11,17 @@
 }
 
 .clickableOption {
-  width: 300px;
-  height: 300px;
   margin-bottom: 20px;
   border: 0px;
   border-radius: 0px;
   margin: 10px;
-  background-color: white;
-  border: 2px solid #bbb;
+  background-color: var(--color02);
+  box-shadow: 0px 0px 15px black;
+  transition: transform var(--ease-time) ease;
+}
+
+.clickableOption:hover{
+  transform: scale(1.05);
 }
 
 .float-window {
@@ -39,13 +42,11 @@
   margin-bottom: 10px;
   width: 90%;
   min-height: 50%;
-  background-color: white;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-
 
 #device {
   width: 162px;
@@ -56,13 +57,6 @@
   margin: 0 0 10px;
   border-top: 3px dashed #bbb;
   width: 100%;
-}
-
-#anyadirCarrito {
-  width: 70%;
-  height: 25px;
-  margin-bottom: 10px;
-  background-color: white;
 }
 
 #phone-img {
@@ -93,4 +87,72 @@
     right: 0;
     top: 10px;
   }
+}
+
+
+.selection-container {
+  margin: 20px auto;
+  display: flex;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  flex-wrap: wrap;
+  width: 70vw;
+  height: 500px;
+}
+
+.selection-item {
+  text-align: center;
+  margin: 10px;
+  height: 300px;
+  min-height: 300px;
+  width: 275px;
+  min-width: 275px;
+  border-radius: 7px;
+  transition: transform var(--ease-time) ease;
+  box-shadow: 0px 0px 15px black;
+}
+
+.selection-item:hover {
+  transform: scale(1.05);
+}
+
+.cart-item {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  font-size: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.no-content {
+  text-align: center;
+  line-height: 450px;
+}
+
+.selected-option {
+  transform: scale(1.05);
+}
+
+
+#addToCart {
+  width: 70%;
+  height: fit-content;
+  margin-bottom: 10px;
+  transition: width var(--ease-time) ease;
+}
+
+#addToCart:hover {
+  width: 80%;
+}
+
+.element-style {
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap; 
+  height: fit-content;
+  overflow-x: hidden;
+  align-content: center;
+  color: white;
+  width: 70vw;
 }

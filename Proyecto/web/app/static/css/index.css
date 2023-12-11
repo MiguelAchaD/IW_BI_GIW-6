@@ -1,6 +1,7 @@
 .Top,
 .Middle,
 .Bottom {
+    display: flex;
     background-color: black;
     width: cal(100% - 10px);
     height: 400px;
@@ -11,5 +12,5 @@
 
 img{
     height: 400px;
-    align-self: center;
+    margin: auto;
 }

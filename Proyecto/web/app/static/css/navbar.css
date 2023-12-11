@@ -120,6 +120,7 @@ nav {
   transform-origin: top right;
   transform: translate(0, 0) scale(0);
   transition: transform 1s ease;
+  z-index: 1000000;
 }
 
 .show-profile {
@@ -196,7 +197,6 @@ input:-webkit-autofill {
   transform: translateX(-250px);
 }
 
-
 #profile-pic-menu {
   position: fixed;
   top: 50%;
@@ -210,7 +210,6 @@ input:-webkit-autofill {
   border-radius: 10px;
   border: 1px solid white;
   background-color: var(--color01);
-  z-index: 10000000;
   flex-direction: column;
   align-items: center; 
   justify-content: center;
@@ -219,6 +218,7 @@ input:-webkit-autofill {
 #profile-pic-menu.visible {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+  z-index: 10000000;
 }
 
 #profile-pic-menu ul {

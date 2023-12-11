@@ -2,17 +2,18 @@ const lastSelection = [null, null, null];
 cart = [0, null];
 
 setSelectionStyle();
-setSentToCartAction(document.getElementById("anyadirCarrito"));
+setSentToCartAction(document.getElementById("addToCart"));
 
 function changeSelection(type, products) {
-  if (lastSelection[0] !== document.getElementById(type)) {
+  const newSelection = document.getElementById(type);
+  if (lastSelection[0] !== newSelection) {
     clearLastSelection(0);
     clearModuleSelections();
     if (document.getElementById("device").children.length > 0) {
       clearCart();
     }
-    lastSelection[0] = document.getElementById(type);
-    lastSelection[0].style.backgroundColor = "gray";
+    lastSelection[0] = newSelection;
+    lastSelection[0].classList.add('selected-option');
     deviceSelection(lastSelection[0], products);
   } else {
     clearLastSelection(0);
@@ -23,19 +24,19 @@ function changeSelection(type, products) {
   }
 }
 
-function clearCart() {
-  var deviceOnCart = document.getElementById("device").children;
-  deviceOnCart[0].remove();
-  cart[1] = null;
-}
-
 function clearLastSelection(index) {
   if (lastSelection[index] !== null) {
-    lastSelection[index].style.backgroundColor = "white";
+    lastSelection[index].classList.remove('selected-option');
     if (index === 0) {
       clearDeviceSelections();
     }
   }
+}
+
+function clearCart() {
+  var deviceOnCart = document.getElementById("device").children;
+  deviceOnCart[0].remove();
+  cart[1] = null;
 }
 
 function clearDeviceSelections() {
@@ -99,14 +100,6 @@ function moduleSelection(type) {
           const div = createSelectionDiv(type + "Modules");
           document.getElementById("moduleSelections").appendChild(div);
           lastSelection[2] = div;
-          if (lastSelection[1] === document.getElementById(type)) {
-            document.getElementById(type).style.backgroundColor = "gray";
-          } else {
-            document.getElementById(
-              lastSelection[1].getAttribute("id")
-            ).style.backgroundColor = "#ddd";
-            document.getElementById(type).style.backgroundColor = "gray";
-          }
           var compatibleModules = response;
           compatibleModules.forEach(
             ([
@@ -141,14 +134,6 @@ function moduleSelection(type) {
           type + "ModulesSelection" !==
           lastSelection[2].getAttribute("id")
         ) {
-          let selectionChildren = document.getElementById(
-            lastSelection[1].getAttribute("id")
-          ).children;
-          for (let index = 0; index < selectionChildren.length; index++) {
-            document.getElementById(
-              selectionChildren[index].getAttribute("id")
-            ).style.backgroundColor = "#ddd";
-          }
           document.getElementById(lastSelection[2].getAttribute("id")).remove();
           lastSelection[2] = null;
           moduleSelection(type);
@@ -157,7 +142,6 @@ function moduleSelection(type) {
         } else {
           document.getElementById(lastSelection[2].getAttribute("id")).remove();
           lastSelection[2] = null;
-          document.getElementById(type).style.backgroundColor = "#ddd";
           clearModuleSelections();
         }
       },
@@ -183,7 +167,8 @@ function sendSelection(cart) {
     var dataToSend = cart;
     console.log(dataToSend)
     if(dataToSend.length <= 2){
-      alert("Selecciona por lo menos un módulo!")
+      addToCart.innerText = "Selecciona por lo menos un módulo"
+      setTimeout(() => addToCart.innerText = "Añadir al carrito", 2500);
       return;
     }
 
@@ -197,13 +182,15 @@ function sendSelection(cart) {
       },
       success: function (response) {
         console.log(response)
+        const addToCart = document.getElementById("addToCart");
         if (response == "success") {
-          alert("Se ha añadido el producto al carrito correctamente!")
+          addToCart.innerText = "Se ha añadido el producto al carrito correctamente"
         } else if (response == "failure"){
-          alert("Selecciona por lo menos un módulo!")
+          addToCart.innerText = "Selecciona por lo menos un módulo"
         } else {
-          alert("Error al añadir el producto al carrito!")
+          addToCart.innerText = "Error al añadir el producto al carrito"
         }
+        setTimeout(() => addToCart.innerText = "Añadir al carrito", 2500);
       },
     });
   });
@@ -340,29 +327,6 @@ function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ) {
   return divIntern;
 }
 
-function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ, pairs) {
-  const divIntern = document.createElement("div");
-  setInternStyle(divIntern);
-  divIntern.setAttribute("id", id + "_" + pairs);
-  divIntern.setAttribute("class", "info-container")
-
-  const divHeader = document.createElement("h2");
-  divHeader.innerHTML = name;
-
-  const divDimensions = document.createElement("p");
-  divDimensions.innerHTML =
-    "x: " + dimensionX + ", y: " + dimensionY + ", z: " + dimensionZ;
-
-  const divPrice = document.createElement("p");
-  divPrice.innerHTML = price + " $";
-
-  divIntern.appendChild(divHeader);
-  divIntern.appendChild(divDimensions);
-  divIntern.appendChild(divPrice);
-
-  return divIntern;
-}
-
 function setSelectionClickListener(elements, clickHandler) {
   Array.from(elements).forEach((element) => {
     element.addEventListener("click", () => {
@@ -391,34 +355,9 @@ function setCartClickListener(
 }
 
 function setStyle(element) {
-  element.style.margin = "20px auto 20px auto";
-  element.style.display = "flex";
-  element.style.overflowY = "scroll";
-  element.style.overflowX = "hidden";
-  element.style.flexWrap = "wrap";
-  element.style.backgroundColor = "#ddd";
-  element.style.width = "70vw";
-  element.style.height = "500px";
+  element.classList.add('element-style');
 }
 
-function setInternStyle(element) {
-  element.addEventListener("mouseover", () => {
-    element.style.border = "2px black solid";
-  });
-
-  element.addEventListener("mouseout", () => {
-    element.style.border = "2px gray solid";
-  });
-
-  element.style.textAlign = "center";
-  element.style.margin = "10px";
-  element.style.height = "300px";
-  element.style.minHeight = "300px";
-  element.style.width = "275px";
-  element.style.minWidth = "275px";
-  element.style.border = "2px gray solid";
-  element.style.borderRadius = "7px";
-}
 
 function setCartStyle(element) {
   element.style.textAlign = "center";
@@ -429,10 +368,23 @@ function setCartStyle(element) {
   element.style.marginTop = "10px";
 }
 
-function noElementsShow(div, text) {
-  const noElement = document.createElement("h1");
-  noElement.innerHTML = text;
-  noElement.style.textAlign = "center";
-  noElement.style.lineHeight = "450px";
-  document.getElementById(div.getAttribute("id")).appendChild(noElement);
+function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ, pairs) {
+  const divIntern = document.createElement("div");
+  divIntern.classList.add('selection-item');
+  divIntern.setAttribute("id", id + (pairs ? "_" + pairs : ""));
+  divIntern.innerHTML = `
+    <h2>${name}</h2>
+    <p>x: ${dimensionX}, y: ${dimensionY}, z: ${dimensionZ}</p>
+    <p>${price} $</p>`;
+
+  return divIntern;
 }
+
+function noElementsShow(divId, text) {
+  const div = document.getElementById(divId);
+  const noElement = document.createElement("h1");
+  noElement.classList.add('no-content');
+  noElement.innerHTML = text;
+  div.appendChild(noElement);
+}
+
