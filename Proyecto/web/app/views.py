@@ -276,8 +276,12 @@ def products(request, product):
     generations = get_generations(Product.objects.all())
     product_generations = get_prodGenerations(product, generations)
     if product in products:
-        product = product.capitalize()
-        productURI = Product.objects.get(name=product).image
+        if product == "phone":
+            productURI = "images/phone-gif.gif"
+        elif product == "tablet":
+            productURI = "images/tablet-gif.gif"
+        else:
+            productURI = "images/laptop-gif.gif"
         return render(request, "products/products.html", {'product_generations': product_generations, 'productURI' : productURI})
     raise Http404("Error cargando los productos")
 
