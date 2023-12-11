@@ -181,7 +181,6 @@ def authenticateUser(request):
             raise Http404(
                 "No se ha podido autentificar tu dirección de correo electrónico")
 
-
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def viewCart(request):
     if request.method == "GET":
@@ -198,7 +197,7 @@ def calcTotalPrice(client):
             totalPrice = 0
             for cartProduct in cartProducts:
                 for module in cartProduct.modules.all():
-                    totalPrice += module.price
+                    totalPrice += module.price * cartProduct.quantity
                 totalPrice += cartProduct.product.price * cartProduct.quantity
             return totalPrice, cartProducts
     return -1, []
@@ -219,10 +218,8 @@ def updateQuantity(request, cartProductId, change):
                 return JsonResponse({'status': 'success', 'newTotalPrice': totalPrice, 'newQuantity': quantity})
             return JsonResponse({'status': 'empty'})
         except CartProduct.DoesNotExist as e:
-            print("ERROR: " + str(e))
             return JsonResponse({'status': 'error', 'message': 'Producto no encontrado'}, status=404)
         except Exception as e:
-            print("ERROR: " + str(e))
             return JsonResponse({'status': 'error', 'message': 'Error eliminando el producto del carrito'}, status=500)
 
 def removeFromCart(request, cartProductId):
@@ -244,47 +241,45 @@ def removeFromCart(request, cartProductId):
 
 def addToCart(request, product_id, modules):
     if request.method == 'POST':
-        prodIDs = {}
-        for obj in compatibleModules.objects.all():
-            prodIDs[obj.product.id] = []
-            for module in obj.modules.all():
-                prodIDs[obj.product.id].append(module.id)
-        if properCart(([product_id] + modules), prodIDs):
-            client = Client.objects.get(user=request.user)
-            product = Product.objects.get(id=product_id)
-            mod = []
-            for element in modules:
-                mod.append((int(element.split("-")[0])))
-            with transaction.atomic():
-                cart_Product, created = CartProduct.objects.get_or_create(
-                    product=product)
-                cart_Product.modules.clear()
-                cart_Product.modules.add(*mod)
-                cart_relation, created = CartRelation.objects.get_or_create(
-                    client=client, cartProduct=cart_Product)
-                cart_Product.quantity += 1
-            
-            cart_Product.save()
-            cart_relation.save()
+        client = Client.objects.get(user=request.user)
+        product = Product.objects.get(id=product_id)
 
-            return JsonResponse("success", safe=False)
+        # Convertir IDs de módulos a enteros y ordenarlos para la comparación
+        module_ids = sorted([int(module_id.split("-")[0]) for module_id in modules])
+
+        # Buscar un CartProduct existente con el mismo producto y módulos
+        existing_cart_product = None
+        for cart_product in CartProduct.objects.filter(product=product, cartrelation__client=client):
+            if sorted([module.id for module in cart_product.modules.all()]) == module_ids:
+                existing_cart_product = cart_product
+                break
+
+        # Si existe, incrementar la cantidad
+        if existing_cart_product:
+            existing_cart_product.quantity += 1
+            existing_cart_product.save()
         else:
-            return JsonResponse("failure", safe="False")
+            # Si no existe, crear uno nuevo
+            with transaction.atomic():
+                new_cart_product = CartProduct.objects.create(product=product)
+                new_cart_product.modules.set(module_ids)
+                CartRelation.objects.create(client=client, cartProduct=new_cart_product)
+
+        return JsonResponse("success", safe=False)
+    else:
+        return JsonResponse("failure", safe="False")
+
         
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def products(request, product):
-    if product == "phone":
-        productURI = 'images/products/phone/phone.png'
-    elif product == "laptop":
-        productURI = 'images/products/laptop/laptop.png'
-    else:
-        productURI = 'images/products/tablet/tablet.png'
     products = ["phone", "tablet", "laptop"]
-    print(products)
     generations = get_generations(Product.objects.all())
     product_generations = get_prodGenerations(product, generations)
     if product in products:
-        return render(request, "products/products.html", {"product": product, 'product_generations': product_generations, 'productURI' : productURI})
+        product = product.capitalize()
+        productURI = Product.objects.get(name=product).image
+        return render(request, "products/products.html", {'product_generations': product_generations, 'productURI' : productURI})
+    raise Http404("Error cargando los productos")
 
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
@@ -341,11 +336,6 @@ def builder(request):
             return JsonResponse({"error": "Invalid data"}, status=400)
     else:
         return JsonResponse({"error": "Method not allowed"}, status=405)
-    
-    
-    # elif request.method == "POST":
-    #    print(datos_nuevos)
-    #    return JsonResponse({'mensaje': 'Modelo actualizado correctamente'})
 
 def properCart(cartData, prodIDs):
     proper = True

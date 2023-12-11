@@ -9,11 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        productContainer.remove()
+                        removeProductContainer(productContainer);
                         document.getElementById('totalPrice').innerText = `Total: ${data.newTotalPrice} €`;
-                    } else if (data.status === 'empty'){
-                        window.location.reload();
-                    }else {
+                    } else if (data.status === 'empty') {
+                        removeProductContainer(productContainer);
+                        setTimeout(() => window.location.reload(), 500);
+                    } else {
                         alert(data.message);
                     }
                 });
@@ -35,21 +36,37 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    document.querySelectorAll('.cart-item').forEach(item => {
+        item.addEventListener('click', function (event) {
+            if (event.target.tagName !== 'BUTTON' && !event.target.closest('button')) {
+                const moduleDetails = this.querySelector('.module-details');
+                if (moduleDetails) {
+                    moduleDetails.classList.toggle('open');
+                }
+            }
+        });
+    });
+
+    function removeProductContainer(productContainer) {
+        productContainer.classList.add('collapse');
+        setTimeout(() => productContainer.remove(), 500);
+    }
+
     function updateQuantity(productId, change, productContainer) {
-        fetch(`updateQuantity/${productId}/${change}/`, { 
+        fetch(`updateQuantity/${productId}/${change}/`, {
             method: 'GET',
-         }).then(response => response.json())
+        }).then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    if(data.newQuantity >= 0){
+                    if (data.newQuantity > 0) {
                         document.getElementById(`quantity-${productId}`).innerText = data.newQuantity;
-                    }else{
-                        productContainer.remove()                        
+                    } else {
+                        removeProductContainer(productContainer);
                     }
                     document.getElementById('totalPrice').innerText = `Total: ${data.newTotalPrice} €`;
-                } else if (data.status === 'empty'){
+                } else if (data.status === 'empty') {
                     window.location.reload();
-                }else {
+                } else {
                     alert(data.message);
                 }
             });

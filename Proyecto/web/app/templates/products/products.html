@@ -23,7 +23,7 @@
   <div id="all">
     {% for generation in product_generations %}
       <h1 id="generation">Generación {{ generation }}</h1>
-      <img class="showcase" src="{% static productURI %}" alt=>
+      <img class="showcase" src="{% static productURI %}">
       <div class="wrapper">
         {% for product in product_generations|get_genToProds:generation %}
           <div class="product">

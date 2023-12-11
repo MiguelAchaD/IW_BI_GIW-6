@@ -17,26 +17,27 @@
       <h1>CARRITO DE {{ user.first_name.upper }}</h1>
       {% for cartProduct in cartProducts %}
         <div class="cart-item">
-          <img alt="{{ cartProduct.product.name }}" />
-          <h2>{{ cartProduct.product.name }}</h2>
-          <p>{{ cartProduct.product.model }}</p>
-          <p>{{ cartProduct.product.price }}€</p>
-          <div>
-            <p>Módulos:</p>
+          <div class="product-details">
+            <img src="{% static cartProduct.product.image %}" alt="{{ cartProduct.product.name }}" />
+            <h2>{{ cartProduct.product.name }}</h2>
+            <p>{{ cartProduct.product.model }}</p>
+            <p>{{ cartProduct.product.price }}€</p>
+            <div class="quantity-control">
+              <button class="decrease-quantity" data-id="{{ cartProduct.id }}">-</button>
+              <p id="quantity-{{ cartProduct.id }}">{{ cartProduct.quantity }}</p>
+              <button class="increase-quantity" data-id="{{ cartProduct.id }}">+</button>
+            </div>
+            <button class="delete" data-id="{{ cartProduct.id }}">DELETE</button>
+          </div>
+          <div class="module-details">
             <ul>
               {% for module in cartProduct.modules.all %}
-                <li>{{ module.name }}  -  {{ module.price }}€</li>
+                <li>{{ module.name }} - {{ module.price }}€</li>
                 {% empty %}
                 <li>No hay módulos asociados</li>
               {% endfor %}
             </ul>
           </div>
-          <div class="quantity-control">
-            <button class="decrease-quantity" data-id="{{ cartProduct.id }}">-</button>
-            <p id="quantity-{{ cartProduct.id }}">{{ cartProduct.quantity }}</p>
-            <button class="increase-quantity" data-id="{{ cartProduct.id }}">+</button>
-          </div>
-          <button class="delete" data-id="{{ cartProduct.id }}">DELETE</button>
         </div>
       {% endfor %}
       <div id="totalPriceContainer">

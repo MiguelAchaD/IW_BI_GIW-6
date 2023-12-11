@@ -40,6 +40,7 @@ class Product(models.Model):
     dimensionX = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     dimensionY = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     dimensionZ = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    image = models.CharField(max_length=255, default="images/products/phone/phone.png")
 
 class compatibleModules(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
@@ -49,7 +50,7 @@ class CartProduct(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     modules = models.ManyToManyField(Module)
-    quantity = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=1)
     
     def delete(self, *args, **kwargs):
         self.modules.clear()

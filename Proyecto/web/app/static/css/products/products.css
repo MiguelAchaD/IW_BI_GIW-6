@@ -134,9 +134,8 @@ main {
 
 .showcase {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 30%;
+  margin: auto;
+  height: 300px;
 }
 
 @media screen and (max-width: 791px) {

@@ -182,6 +182,10 @@ function sendSelection(cart) {
     var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
     var dataToSend = cart;
     console.log(dataToSend)
+    if(dataToSend.length <= 2){
+      alert("Selecciona por lo menos un módulo!")
+      return;
+    }
 
     $.ajax({
       type: "POST",

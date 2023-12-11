@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         threshold: 0.1
     });
 
-    document.querySelectorAll('main *:not(.select-custom, .select-custom *)').forEach(el => {
+    document.querySelectorAll('main *:not(.select-custom, .select-custom *, .module-details *)').forEach(el => {
         observer.observe(el);
     });
 });
