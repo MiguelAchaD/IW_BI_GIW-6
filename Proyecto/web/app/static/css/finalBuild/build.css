@@ -77,6 +77,13 @@
   width: 85%;
 }
 
+.info-container p {
+  height: 30px;
+}
+
+.info-container h2 {
+  height: 200px;
+}
 
 @media screen and (max-width: 1537px) {
   .float-window {

@@ -317,6 +317,7 @@ function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ) {
   const divIntern = document.createElement("div");
   setInternStyle(divIntern);
   divIntern.setAttribute("id", id);
+  divIntern.setAttribute("class", "info-container")
 
   const divHeader = document.createElement("h2");
   divHeader.innerHTML = name;
@@ -339,6 +340,7 @@ function createDiv(id, name, price, dimensionX, dimensionY, dimensionZ, pairs) {
   const divIntern = document.createElement("div");
   setInternStyle(divIntern);
   divIntern.setAttribute("id", id + "_" + pairs);
+  divIntern.setAttribute("class", "info-container")
 
   const divHeader = document.createElement("h2");
   divHeader.innerHTML = name;
