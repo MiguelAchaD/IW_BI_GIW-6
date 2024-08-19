@@ -53,8 +53,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
+
 
 ROOT_URLCONF = 'web.urls'
 
@@ -70,8 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                
-                
+
                 'social_django.context_processors.backends',
             ],
         },
@@ -166,8 +166,8 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 LOGIN_URL = "logIn"
-LOGIN_REDIRECT_URL = "index"
+LOGIN_REDIRECT_URL = "home"
 LOGOUT_URL = "logout"
-LOGOUT_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "home"
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "618780654200-jmpasvk803c844qginh220ec2fbacbol.apps.googleusercontent.com"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"

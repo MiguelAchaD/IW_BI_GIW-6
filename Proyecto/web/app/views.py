@@ -24,9 +24,9 @@ def isUserAuthenticated(user):
     return user.is_authenticated
 
 
-def index(request):
+def home(request):
     if request.method == "GET":
-        return render(request, "index.html")
+        return render(request, "home.html")
     if request.method == "POST":
         user = request.user
         user.username = request.POST["username"]
@@ -38,7 +38,7 @@ def index(request):
         client = user.client
         client.save()
 
-        return redirect("index")
+        return redirect("home")
 
 
 def logIn(request):
@@ -57,14 +57,14 @@ def logIn(request):
             if next:
                 return redirect(next)
             else:
-                return redirect("index")
+                return redirect("home")
         else:
             return render(request, "accounts/logIn.html", {"errorMessage": "Credenciales inválidas"})
 
 
 def logOut(request):
     logout(request)
-    return redirect("index")
+    return redirect("home")
 
 
 def signUp(request):
@@ -173,7 +173,7 @@ def authenticateUser(request):
             if next:
                 return redirect(next)
             else:
-                return redirect(index)
+                return redirect(home)
         except User.DoesNotExist:
             raise Http404(
                 "El usuario que estás intentando autentificar no existe")

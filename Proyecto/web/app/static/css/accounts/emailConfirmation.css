@@ -48,7 +48,7 @@ button {
     background-color: var(--color04);
     border: 1px solid var(--color04);
     border-radius: 5px;
-    color: white;
+    color: var(--color05);
     outline: none;
     font-family: Arial;
     transition: background-color var(--ease-time) ease, border var(--ease-time) ease, width var(--ease-time) ease;

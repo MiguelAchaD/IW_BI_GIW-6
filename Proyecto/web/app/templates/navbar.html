@@ -8,7 +8,7 @@
 <nav>
   <ul class="navbar">
     <li>
-      <a href="{% url 'index' %}">
+      <a href="{% url 'home' %}">
         <img src="{% static 'images/icon.png' %}" alt="Ecomods Icon" id="icon">
       </a>
     </li>
@@ -57,7 +57,7 @@
       {% if request.user.is_authenticated %}
         <div class="profile-container">
           <img id="profilepic" class="profile" src="{% static request.user.client.profile %}" />
-          <form method="post" action="{% url 'index' %}">
+          <form method="post" action="{% url 'home' %}">
             {% csrf_token %}
             <div class="content">
               <label for="username">Nombre de usuario:</label>

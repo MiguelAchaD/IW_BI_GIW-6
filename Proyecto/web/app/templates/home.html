@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block additionalLinks %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock %}
+
+{% block title %}
+  Ecomods - Inicio
+{% endblock %}
+
+{% block content %}
+  <div class="Top section">
+    <div class="image-stack">
+      <img src="{% static 'images/prototypes/prototype.top.max.png' %}" alt="Top Max">
+      <img src="{% static 'images/prototypes/prototype.top.standard.png' %}" alt="Top Standard">
+      <img src="{% static 'images/prototypes/prototype.top.mini.png' %}" alt="Top Mini">
+    </div>
+  </div>
+  <div class="Middle section">
+    <div class="image-stack">
+      <img src="{% static 'images/prototypes/prototype.middle.max.png' %}" alt="Middle Max">
+      <img src="{% static 'images/prototypes/prototype.middle.standard.png' %}" alt="Middle Standard">
+      <img src="{% static 'images/prototypes/prototype.middle.mini.png' %}" alt="Middle Mini">
+    </div>
+  </div>
+  <div class="Bottom section">
+    <div class="image-stack">
+      <img src="{% static 'images/prototypes/prototype.bottom.max.png' %}" alt="Bottom Max">
+      <img src="{% static 'images/prototypes/prototype.bottom.standard.png' %}" alt="Bottom Standard">
+      <img src="{% static 'images/prototypes/prototype.bottom.mini.png' %}" alt="Bottom Mini">
+    </div>
+  </div>
+{% endblock %}
+

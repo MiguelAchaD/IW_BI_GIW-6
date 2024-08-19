@@ -7,7 +7,7 @@
 .info {
   margin-top: 20px;
   text-align: center;
-  color: white;
+  color: var(--color05);
 }
 
 .clickableOption {
@@ -16,7 +16,7 @@
   border-radius: 0px;
   margin: 10px;
   background-color: var(--color02);
-  box-shadow: 0px 0px 15px black;
+  box-shadow: 0px 0px 15px var(--color00);
   transition: transform var(--ease-time) ease;
 }
 
@@ -29,8 +29,8 @@
   position: fixed;
   right: 20px;
   top: 20vh;
-  background-color: white;
-  border: 3px solid black;
+  background-color: var(--color05);
+  border: 3px solid var(--color00);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -109,7 +109,7 @@
   min-width: 275px;
   border-radius: 7px;
   transition: transform var(--ease-time) ease;
-  box-shadow: 0px 0px 15px black;
+  box-shadow: 0px 0px 15px var(--color00);
 }
 
 .selection-item:hover {
@@ -153,6 +153,6 @@
   height: fit-content;
   overflow-x: hidden;
   align-content: center;
-  color: white;
+  color: var(--color05);
   width: 70vw;
 }
