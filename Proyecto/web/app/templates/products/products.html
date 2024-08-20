@@ -47,7 +47,7 @@
               <img class="dimension" alt="productZDimension" src="{% static 'images/z.svg' %}" /><p class="distance">{{ product.dimensionZ|formatDec }} mm</p>
             </div>
             <div class="intern-wrapper">
-              <a class="currency">{{ product.price|formatDec }} €</a>
+              <a class="currency" data-url="{% url 'builder' %}">{{ product.price|formatDec }} €</a>
             </div>
           </div>
         {% endfor %}

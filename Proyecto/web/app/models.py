@@ -70,8 +70,3 @@ class Purchase(models.Model):
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
     date = models.DateField(default=date.today)
     modulesForProducts = models.ManyToManyField(selectedModules)
-
-
-
-    
-#related_name: Si un modelo tiene una foreign key, el modelo asociado a esa foreign key podrá accceder a los modelos asociados mediante el nombre puesto como related_name

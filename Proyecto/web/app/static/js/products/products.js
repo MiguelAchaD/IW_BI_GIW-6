@@ -29,6 +29,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     initializeValuesAndFetchConversionRate();
+
+    // Redirigir al hacer clic en el precio
+    document.querySelectorAll('.currency').forEach(function(priceElement) {
+        priceElement.addEventListener('click', function() {
+            var url = this.getAttribute('data-url');
+            window.location.href = url;
+        });
+    });
 });
 
 var conversionRate;
