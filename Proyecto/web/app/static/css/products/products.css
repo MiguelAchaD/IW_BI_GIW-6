@@ -58,12 +58,25 @@ main {
   text-decoration: none;
   font-weight: 700;
   color: var(--color05);
-  transition: background-color var(--ease-time) ease;
+  transition: background-color var(--ease-time) ease, transform var(--ease-time) ease, box-shadow var(--ease-time) ease;
 }
 
 .currency:hover {
   cursor: pointer;
+  animation: bounce 0.5s ease-in-out;
+  background-color: var(--color04);
 }
+
+@keyframes bounce {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-10px);
+  }
+}
+
+
 
 .info {
   justify-content: space-evenly;

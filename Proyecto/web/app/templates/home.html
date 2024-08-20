@@ -13,25 +13,39 @@
 
 {% block content %}
   <div class="Top section">
-    <div class="image-stack">
-      <img data-url="{% url 'products' 'phone' %}" src="{% static 'images/prototypes/prototype.top.max.png' %}" alt="Top Max">
-      <img data-url="{% url 'products' 'phone' %}" src="{% static 'images/prototypes/prototype.top.standard.png' %}" alt="Top Standard">
-      <img data-url="{% url 'products' 'phone' %}" src="{% static 'images/prototypes/prototype.top.mini.png' %}" alt="Top Mini">
+    <div class="image-text-container">
+      <div class="image-stack">
+        <img data-url="{% url 'products' 'phone' %}" src="{% static 'images/prototypes/phone.top.max.png' %}" alt="Top Max">
+        <img data-url="{% url 'products' 'phone' %}" src="{% static 'images/prototypes/phone.top.standard.png' %}" alt="Top Standard">
+        <img data-url="{% url 'products' 'phone' %}" src="{% static 'images/prototypes/phone.top.mini.png' %}" alt="Top Mini">
+      </div>
+      <div class="image-description">
+        <p>Los mejores teléfonos modulares de la serie Top, adaptados a tus necesidades.</p>
+      </div>
     </div>
   </div>
   <div class="Middle section">
-    <div class="image-stack">
-      <img data-url="{% url 'products' 'tablet' %}" src="{% static 'images/prototypes/prototype.middle.max.png' %}" alt="Middle Max">
-      <img data-url="{% url 'products' 'tablet' %}" src="{% static 'images/prototypes/prototype.middle.standard.png' %}" alt="Middle Standard">
-      <img data-url="{% url 'products' 'tablet' %}" src="{% static 'images/prototypes/prototype.middle.mini.png' %}" alt="Middle Mini">
+    <div class="image-text-container">
+      <div class="image-stack">
+        <img data-url="{% url 'products' 'tablet' %}" src="{% static 'images/prototypes/tablet.middle.max.png' %}" alt="Middle Max">
+        <img data-url="{% url 'products' 'tablet' %}" src="{% static 'images/prototypes/tablet.middle.standard.png' %}" alt="Middle Standard">
+        <img data-url="{% url 'products' 'tablet' %}" src="{% static 'images/prototypes/tablet.middle.mini.png' %}" alt="Middle Mini">
+      </div>
+      <div class="image-description">
+        <p>Explora nuestras tablets modulares de la serie Middle, la mejor opción para la productividad.</p>
+      </div>
     </div>
   </div>
   <div class="Bottom section">
-    <div class="image-stack">
-      <img data-url="{% url 'products' 'laptop' %}" src="{% static 'images/prototypes/prototype.bottom.max.png' %}" alt="Bottom Max">
-      <img data-url="{% url 'products' 'laptop' %}" src="{% static 'images/prototypes/prototype.bottom.standard.png' %}" alt="Bottom Standard">
-      <img data-url="{% url 'products' 'laptop' %}" src="{% static 'images/prototypes/prototype.bottom.mini.png' %}" alt="Bottom Mini">
+    <div class="image-text-container">
+      <div class="image-stack">
+        <img data-url="{% url 'products' 'laptop' %}" src="{% static 'images/prototypes/laptop.bottom.max.png' %}" alt="Bottom Max">
+        <img data-url="{% url 'products' 'laptop' %}" src="{% static 'images/prototypes/laptop.bottom.standard.png' %}" alt="Bottom Standard">
+        <img data-url="{% url 'products' 'laptop' %}" src="{% static 'images/prototypes/laptop.bottom.mini.png' %}" alt="Bottom Mini">
+      </div>
+      <div class="image-description">
+        <p>Nuestros portátiles modulares de la serie Bottom ofrecen potencia y flexibilidad.</p>
+      </div>
     </div>
   </div>
 {% endblock %}
-
