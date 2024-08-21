@@ -1,8 +1,10 @@
 nav {
   background-color: var(--color01);
-  padding: 10px 0 10px 0;
   transition: border-bottom var(--ease-time) ease-in-out;
   height: var(--navHeight);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20vw 0 20vw;
 }
 
 #shoping-cart,
@@ -44,11 +46,8 @@ nav {
   list-style-type: none;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   background-color: var(--color01);
-  width: 60vw;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 1vmin 0 1vmin; 
 }
 
 .navbar li {
@@ -92,7 +91,11 @@ nav {
   top: calc(var(--navHeight) + 20px);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  transition: height var(--ease-time) ease-in-out, visibility var(--ease-time) ease-in-out, border-bottom var(--ease-time) ease-in-out, border-left var(--ease-time) ease-in-out, border-right var(--ease-time) ease-in-out;
+  transition: height var(--ease-time) ease-in-out,
+    visibility var(--ease-time) ease-in-out,
+    border-bottom var(--ease-time) ease-in-out,
+    border-left var(--ease-time) ease-in-out,
+    border-right var(--ease-time) ease-in-out;
   align-self: flex-start;
 }
 
@@ -124,7 +127,11 @@ nav {
 }
 
 .show-profile {
-  transform: translate(calc(21vw - 50vw + 50%), calc(50vh - (var(--navHeight) + 20px) - 50%)) scale(1);
+  transform: translate(
+      calc(21vw - 50vw + 50%),
+      calc(50vh - (var(--navHeight) + 20px) - 50%)
+    )
+    scale(1);
 }
 
 form {
@@ -170,7 +177,8 @@ input:-webkit-autofill {
   color: var(--color07);
   outline: none;
   font-family: Arial;
-  transition: background-color var(--ease-time) ease, border var(--ease-time) ease, width var(--ease-time) ease;
+  transition: background-color var(--ease-time) ease,
+    border var(--ease-time) ease, width var(--ease-time) ease;
 }
 
 #save:hover {
@@ -201,7 +209,7 @@ input:-webkit-autofill {
   position: fixed;
   top: 50%;
   left: 50%;
-  opacity: 0; 
+  opacity: 0;
   transform-origin: center;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 1s ease, opacity 0.5s ease;
@@ -211,7 +219,7 @@ input:-webkit-autofill {
   border: 1px solid var(--color07);
   background-color: var(--color01);
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
 }
 
