@@ -1,54 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap");
 
 :root {
-    --color00: rgba(0, 0, 0, 1);
-    --color01: rgba(15, 15, 15, 1);
-    --color02: rgba(35, 45, 63, 1);
-    --color03: rgba(0, 91, 65, 0.5);
-    --color05: rgba(0, 91, 65, 1);
-    --color06: rgba(0, 129, 112, 1);
-    --color07: rgba(255, 255, 255, 1);
-    --ease-time: 0.5s;
-    --navHeight: 60px;
+  --color00: rgba(0, 0, 0, 1);
+  --color01: rgba(15, 15, 15, 1);
+  --color02: rgba(35, 45, 63, 1);
+  --color03: rgba(0, 91, 65, 0.5);
+  --color05: rgba(0, 91, 65, 1);
+  --color06: rgba(0, 129, 112, 1);
+  --color07: rgba(255, 255, 255, 1);
+  --ease-time: 0.3s;
+  --navHeight: 70px;
+  --contentPadding: 10vw;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--color02);
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color02);
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    min-height: calc(100vh - var(--navHeight));
-    flex: 1;
-    padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: calc(100vh - var(--navHeight));
+  flex: 1;
+  padding: 0 var(--contentPadding) 0 var(--contentPadding);
 }
 
 @keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-1000px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-1000px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .slideInLeft {
-    animation-name: slideInLeft;
+  animation-name: slideInLeft;
 }
 
 .animated {
-    animation-duration: 1s;
+  animation-duration: 0.3s;
 }

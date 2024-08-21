@@ -10,7 +10,7 @@
     overflow: hidden;
     background-color: var(--color03);
     border: none;
-    transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
+    transition: transform var(--ease-time) ease-in-out, background-color var(--ease-time) ease-in-out;
 }
 
 .image-text-container:hover {
@@ -18,14 +18,13 @@
 }
 
 .image-text-container:hover .image-stack {
-    transform: translateX(20%);
 }
 
 .image-stack {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    transition: transform 0.5s ease-in-out, margin-right 0.5s ease-in-out;
+    justify-content: space-between;
+    transition: transform var(--ease-time) ease-in-out, margin-right var(--ease-time) ease-in-out;
     cursor: pointer;
 }
 
@@ -35,7 +34,7 @@
     width: auto;
     height: auto;
     margin: 10px;
-    transition: transform 0.5s ease-in-out, margin-right 0.5s ease-in-out;
+    transition: transform var(--ease-time) ease-in-out, margin-right var(--ease-time) ease-in-out;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -64,7 +63,7 @@
     justify-content: center;
     text-align: center;
     padding: 20px;
-    transition: transform 0.5s ease-in-out;
+    transition: transform var(--ease-time) ease-in-out;
     transform: translateX(100%);
 }
 

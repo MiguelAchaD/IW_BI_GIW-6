@@ -1,6 +1,6 @@
 import json
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -11,12 +11,11 @@ from django.db import IntegrityError
 from app.utils import getURL
 from django.http import Http404
 from django.contrib.auth.decorators import user_passes_test
-from .models import Client, CartRelation, CartProduct, Product, Module
+from .models import Client, CartRelation, CartProduct, Product, Type
 from app.templatetags.custom_tags import *
 from app.models import Product, compatibleModules
 from django.http import JsonResponse
 from django.db import transaction
-from django.http import HttpResponseRedirect
 
 
 
@@ -26,10 +25,11 @@ def isUserAuthenticated(user):
 def home(request):
     if request.method == "GET":
         products = {
-            'phones': Product.objects.filter(model__startswith='PN'),
-            'tablets': Product.objects.filter(model__startswith='TB'),
-            'laptops': Product.objects.filter(model__startswith='LP')
+            'phones': Product.objects.filter(id__startswith='PN'),
+            'tablets': Product.objects.filter(id__startswith='TB'),
+            'laptops': Product.objects.filter(id__startswith='LP')
         }
+
         return render(request, "home.html", {'products': products})
 
     if request.method == "POST":
@@ -44,7 +44,6 @@ def home(request):
         client.save()
 
         return redirect("home")
-
 
 
 def logIn(request):
@@ -249,22 +248,18 @@ def addToCart(request, product_id, modules):
         client = Client.objects.get(user=request.user)
         product = Product.objects.get(id=product_id)
 
-        # Convertir IDs de módulos a enteros y ordenarlos para la comparación
         module_ids = sorted([int(module_id.split("-")[0]) for module_id in modules])
 
-        # Buscar un CartProduct existente con el mismo producto y módulos
         existing_cart_product = None
         for cart_product in CartProduct.objects.filter(product=product, cartrelation__client=client):
             if sorted([module.id for module in cart_product.modules.all()]) == module_ids:
                 existing_cart_product = cart_product
                 break
 
-        # Si existe, incrementar la cantidad
         if existing_cart_product:
             existing_cart_product.quantity += 1
             existing_cart_product.save()
         else:
-            # Si no existe, crear uno nuevo
             with transaction.atomic():
                 new_cart_product = CartProduct.objects.create(product=product)
                 new_cart_product.modules.set(module_ids)
@@ -276,14 +271,21 @@ def addToCart(request, product_id, modules):
 
         
 @user_passes_test(isUserAuthenticated, login_url="logIn")
-def products(request, product):
-    generations = get_generations(Product.objects.all())
-    product_generations = get_prodGenerations(product, generations)
-    productURI = get_product_URI(product)
-    if productURI is not None:
-        return render(request, "products/products.html", {'product_generations': product_generations, 'productURI' : productURI})
-    raise Http404("Error cargando los productos")
-
+def products(request, id):
+    product_type = None
+    
+    try:
+        product = Product.objects.get(id=id)
+        product_type = product.type
+    except Product.DoesNotExist:
+        product_type = get_object_or_404(Type, id=id)
+    
+    products_of_same_type = Product.objects.filter(type=product_type)
+    
+    return render(request, "products.html", {
+        "type": product_type,
+        "products": products_of_same_type
+    })
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def updateProfilePicture(request):
@@ -304,7 +306,7 @@ def updateProfilePicture(request):
 
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
-def builder(request):
+def builder(request, id=None):
     allcompatibleModules = compatibleModules.objects.all()
 
     products = {}

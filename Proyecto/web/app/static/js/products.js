@@ -39,19 +39,19 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-var conversionRate;
+var conversionRate = 1; // Por defecto, tasa de conversión inicial
 var originalPrices = [];
-var originalDistances = [];
+var originalMetrics = []; // Usamos "metrics" en lugar de "distances" para mayor claridad
 
 function initializeValuesAndFetchConversionRate() {
     var currencies = document.getElementsByClassName("currency");
-    var distances = document.getElementsByClassName("distance");
+    var metrics = document.getElementsByClassName("metric");
     
     for (var i = 0; i < currencies.length; i++) {
         originalPrices.push(parseFloat(currencies[i].innerText.split(" ")[0].replace(",", ".")));
     }
-    for (var i = 0; i < distances.length; i++) {
-        originalDistances.push(parseFloat(distances[i].innerText.split(" ")[0].replace(",", ".")));
+    for (var i = 0; i < metrics.length; i++) {
+        originalMetrics.push(parseFloat(metrics[i].innerText.split(" ")[0].replace(",", ".")));
     }
     getConversionRate();
 }
@@ -68,15 +68,15 @@ function getConversionRate() {
 }
 
 function handleMetricChange(selectedValue) {
-    var distances = document.getElementsByClassName("distance");
+    var metrics = document.getElementsByClassName("metric");
     var currencies = document.getElementsByClassName("currency");
 
-    for (var i = 0; i < distances.length; i++) {
+    for (var i = 0; i < metrics.length; i++) {
         if (selectedValue === "SI") {
-            distances[i].innerText = originalDistances[i] + " mm";
+            metrics[i].innerText = originalMetrics[i].toFixed(2) + " mm";
         } else if (selectedValue === "Imperial") {
-            var convertedDistance = (originalDistances[i] / 25.4).toFixed(2);
-            distances[i].innerText = convertedDistance + " inch";
+            var convertedMetric = (originalMetrics[i] / 25.4).toFixed(2);
+            metrics[i].innerText = convertedMetric + " inch";
         }
     }
 
