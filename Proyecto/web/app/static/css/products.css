@@ -34,7 +34,6 @@ main {
 
 .product {
   width: 300px;
-  margin-bottom: 30px;
   text-align: center;
 }
 
@@ -49,23 +48,17 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 .dimension-item img {
   width: 150px;
   height: 150px;
-  margin-bottom: 15px;
 }
 
 .metric {
   font-size: 1.2em;
   font-weight: bold;
-}
-
-.intern-wrapper {
-  margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 .currency {
