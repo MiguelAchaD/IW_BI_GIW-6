@@ -35,6 +35,7 @@ class Module(models.Model):
 
 class Type(models.Model):
     id = models.CharField(max_length=2, primary_key=True)
+    name = models.CharField(max_length=255)
     gif_path = models.CharField(max_length=255, default="images/products/defult.gif")
     x_svg_path = models.CharField(max_length=255, default="images/products/defult.png")
     y_svg_path = models.CharField(max_length=255, default="images/products/defult.png")

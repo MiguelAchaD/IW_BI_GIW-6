@@ -19,6 +19,7 @@ main {
   text-align: center;
   font-size: 2em;
   font-weight: 700;
+  margin-bottom: 20px;
 }
 
 #generation {
@@ -31,32 +32,52 @@ main {
   font-size: 2.2em;
 }
 
-.intern-wrapper {
-  display: flex;
-  line-height: 100px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.intern-wrapper img {
-  max-width: 100px;
-}
-
 .product {
-  width: 400px;
+  width: 300px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.dimension-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px; 
+}
+
+.dimension-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
+.dimension-item img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 15px;
+}
+
+.metric {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.intern-wrapper {
+  margin-top: 20px;
+}
+
 .currency {
-  text-align: center;
+  display: inline-block;
   line-height: 50px;
   width: 150px;
-  max-width: 150px;
   height: 50px;
   border-radius: 5px;
   text-decoration: none;
   font-weight: 700;
   color: var(--color07);
+  background-color: var(--color04);
   transition: background-color var(--ease-time) ease, transform var(--ease-time) ease, box-shadow var(--ease-time) ease;
 }
 
@@ -75,24 +96,6 @@ main {
   }
 }
 
-
-
-.info {
-  justify-content: space-evenly;
-}
-
-.metric-wrapper {
-  margin: 20px auto;
-  text-align: center;
-  color: var(--color07);
-}
-
-.metric-wrapper label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 10px;
-}
-
 .select-custom {
   display: block;
   margin: 0 auto;
@@ -108,7 +111,7 @@ main {
   transition: transform var(--ease-time) ease, color var(--ease-time) ease;
 }
 
-.select-custom-trigger:hover{
+.select-custom-trigger:hover {
   color: var(--color06);
   transform: scale(1.05);
 }
@@ -130,7 +133,7 @@ main {
   display: block;
   padding: 10px;
   cursor: pointer;
-  text-align: center; 
+  text-align: center;
   width: 100%;
   box-sizing: border-box;
   transition: color var(--ease-time) ease;
@@ -151,14 +154,17 @@ main {
 }
 
 @media screen and (max-width: 791px) {
-  .prod-name{
+  .prod-name {
     font-size: 1.5em;
   }
 
   .intern-wrapper {
-    display: flex;
-    flex-direction: column;
     text-align: center;
-      align-items: center;
+    align-items: center;
+  }
+
+  .product {
+    width: 100%;
+    margin-bottom: 20px;
   }
 }

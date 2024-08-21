@@ -16,7 +16,7 @@
     <div class="image-text-container">
       <div class="image-stack">
         {% for phone in products.phones %}
-          <img data-url="{% url 'products' 'phone' %}" src="{% static phone.image %}" alt="{{ phone.name }}">
+          <img data-url="{% url 'products' phone.id %}" src="{% static phone.media_path %}" alt="{{ phone.name }}">
         {% endfor %}
       </div>
       <div class="image-description">
@@ -29,7 +29,7 @@
     <div class="image-text-container">
       <div class="image-stack">
         {% for tablet in products.tablets %}
-          <img data-url="{% url 'products' 'tablet' %}" src="{% static tablet.image %}" alt="{{ tablet.name }}">
+          <img data-url="{% url 'products' tablet.id %}" src="{% static tablet.media_path %}" alt="{{ tablet.name }}">
         {% endfor %}
       </div>
       <div class="image-description">
@@ -42,7 +42,7 @@
     <div class="image-text-container">
       <div class="image-stack">
         {% for laptop in products.laptops %}
-          <img data-url="{% url 'products' 'laptop' %}" src="{% static laptop.image %}" alt="{{ laptop.name }}">
+          <img data-url="{% url 'products' laptop.id %}" src="{% static laptop.media_path %}" alt="{{ laptop.name }}">
         {% endfor %}
       </div>
       <div class="image-description">

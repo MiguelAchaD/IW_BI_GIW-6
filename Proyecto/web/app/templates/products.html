@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block additionalLinks %}
+  <link rel="stylesheet" href="{% static 'css/products.css' %}" />
+  <script src="{% static 'js/products.js' %}" defer></script>
+{% endblock %}
+
+{% block title %}
+  Ecomods - {{ type.name }}
+{% endblock %}
+
+{% block content %}
+  <div class="select-custom">
+    <div class="select-custom-trigger">Cambiar Métrica</div>
+    <div class="custom-options">
+      <span class="custom-option" data-value="SI">SI (Europa)</span>
+      <span class="custom-option" data-value="Imperial">Imperial (América del Norte)</span>
+    </div>
+  </div>
+
+  <div id="all">
+    <h1 id="generation">Nuestros {{ type.name }}s</h1>
+    <img class="showcase" src="{% static type.gif_path %}" />
+    <div class="wrapper">
+      {% for product in products %}
+        <div class="product">
+          <p class="prod-name">{{ product.name }}</p>
+          <div class="intern-wrapper">
+            <a class="currency" data-url="{% url 'builder' product.id %}">{{ product.price|formatDec }} €</a>
+          </div>
+          <div class="dimension-row">
+            <div class="dimension-item">
+              <img alt="x metric" src="{% static type.x_svg_path %}" />
+              <p class="metric">{{product.x}} mm</p>
+            </div>
+            <div class="dimension-item">
+              <img alt="y metric" src="{% static type.y_svg_path %}" />
+              <p class="metric">{{product.y}} mm</p>
+            </div>
+            <div class="dimension-item">
+              <img alt="z metric" src="{% static type.z_svg_path %}" />
+              <p class="metric">{{product.z}} mm</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
