@@ -8,13 +8,13 @@
     display: flex;
     width: 100%;
     overflow: hidden;
-    background-color: var(--color06);
+    background-color: var(--color03);
     border: none;
     transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
 }
 
 .image-text-container:hover {
-    background-color: var(--color06);
+    background-color: var(--color03);
 }
 
 .image-text-container:hover .image-stack {
@@ -57,8 +57,8 @@
     top: 0;
     bottom: 0;
     width: 30%;
-    background-color: var(--color04); 
-    color: var(--color05); 
+    background-color: var(--color06); 
+    color: var(--color07); 
     display: flex;
     align-items: center;
     justify-content: center;

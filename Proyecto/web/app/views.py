@@ -23,10 +23,15 @@ from django.http import HttpResponseRedirect
 def isUserAuthenticated(user):
     return user.is_authenticated
 
-
 def home(request):
     if request.method == "GET":
-        return render(request, "home.html")
+        products = {
+            'phones': Product.objects.filter(model__startswith='PN'),
+            'tablets': Product.objects.filter(model__startswith='TB'),
+            'laptops': Product.objects.filter(model__startswith='LP')
+        }
+        return render(request, "home.html", {'products': products})
+
     if request.method == "POST":
         user = request.user
         user.username = request.POST["username"]
@@ -39,6 +44,7 @@ def home(request):
         client.save()
 
         return redirect("home")
+
 
 
 def logIn(request):
@@ -185,7 +191,6 @@ def authenticateUser(request):
 def viewCart(request):
     if request.method == "GET":
         client = Client.objects.get(user=request.user)
-        client = Client.objects.get(user=request.user)
         totalPrice, cartProducts = calcTotalPrice(client)
         return render(request, "cart.html", {"cartProducts": cartProducts, "totalPrice": totalPrice})
 
@@ -272,16 +277,10 @@ def addToCart(request, product_id, modules):
         
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def products(request, product):
-    products = ["phone", "tablet", "laptop"]
     generations = get_generations(Product.objects.all())
     product_generations = get_prodGenerations(product, generations)
-    if product in products:
-        if product == "phone":
-            productURI = "images/phone-gif.gif"
-        elif product == "tablet":
-            productURI = "images/tablet-gif.gif"
-        else:
-            productURI = "images/laptop-gif.gif"
+    productURI = get_product_URI(product)
+    if productURI is not None:
         return render(request, "products/products.html", {'product_generations': product_generations, 'productURI' : productURI})
     raise Http404("Error cargando los productos")
 
@@ -316,7 +315,7 @@ def builder(request):
                                         int(obj.product.dimensionX), int(obj.product.dimensionY), int(obj.product.dimensionZ)])
         else:
             products[product_id] = [[obj.product.id, obj.product.name, int(obj.product.price),
-                                    int(obj.product.dimensionX), int(obj.product.dimensionY), int(obj.product.dimensionZ)]]
+                                    int(obj.product.dimensionX), int(obj.product.y), int(obj.product.z)]]
 
     modules = {}
     for obj in allcompatibleModules:

@@ -2,6 +2,22 @@ from django import template
 
 register = template.Library()
 
+GENERATIONS = {
+        "phone" : "PN",
+        "tablet" : "TB",
+        "laptop" : "LP"
+    }
+
+URIS = {
+        "phone" : "images/products/phone.gif",
+        "tablet" : "images/products/tablet.gif",
+        "laptop" : "images/products/laptop.gif"
+    }
+
+@register.tag(name="get_product_URI")
+def get_product_URI(product):
+    return URIS.get(product, None)
+
 @register.filter(name="get_generations")
 def get_generations(products):
     generations = {}
@@ -20,8 +36,7 @@ def get_generations(products):
 
 @register.filter(name="get_prodGenerations")
 def get_prodGenerations(product, generations):
-    prodToGen = {"phone" : "PN", "tablet" : "TB", "laptop" : "LP"}
-    return generations[prodToGen[product]]
+    return generations[GENERATIONS[product]]
 
 @register.filter(name="get_genToProds")
 def get_genToProds(gens, gen):
@@ -30,10 +45,10 @@ def get_genToProds(gens, gen):
 @register.filter(name="formatDec")
 def formatDec(dec):
     parts = str(dec).split(".")
-    decimalPart = parts[len(parts)-1]
-    if (decimalPart == "00"):
+    decimalPart = parts[len(parts)-1] if len(parts) > 1 else None
+    if decimalPart is None or decimalPart == "00":
         return parts[0]
-    elif (decimalPart[1] == "0"):
+    elif len(decimalPart) > 1 and decimalPart[1] == "0":
         return str(dec)[:len(str(dec))-1]
     else:
         return str(dec)

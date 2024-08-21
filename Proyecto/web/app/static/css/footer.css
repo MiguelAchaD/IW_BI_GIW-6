@@ -1,8 +1,8 @@
 footer {
   width: 100%;
   padding: 20px 0;
-  background-color: var(--color04);
-  color: var(--color05);
+  background-color: var(--color06);
+  color: var(--color07);
   text-align: center;
 }
 
@@ -41,20 +41,20 @@ footer {
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--color05);
+  border-top: 1px solid var(--color07);
   padding-top: 10px;
 }
 
 .footer-section ul li a {
   display: inline-block;
-  color: var(--color05);
+  color: var(--color07);
   text-decoration: none;
   transition: color 0.5s ease, transform 0.5s ease;
   transform-origin: bottom;
 }
 
 .footer-section ul li a:hover {
-  color: var(--color03);
+  color: var(--color05);
   transform: scale(1.1);
 }
 

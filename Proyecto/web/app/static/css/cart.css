@@ -8,7 +8,7 @@ h1 {
 }
 
 p {
-    color: var(--color05);
+    color: var(--color07);
 }
 
 .cart-container {
@@ -45,7 +45,7 @@ p {
 .cart-item:hover {
     transform: scale(1.01);
     border-radius: 10px;
-    box-shadow: 0px 0px 15px var(--color03);
+    box-shadow: 0px 0px 15px var(--color05);
 }
 
 .cart-item img {
@@ -95,10 +95,10 @@ p {
 
 .delete,
 .quantity-control button{
-    background-color: var(--color04);
-    border: 1px solid var(--color04);
+    background-color: var(--color06);
+    border: 1px solid var(--color06);
     border-radius: 5px;
-    color: var(--color05);
+    color: var(--color07);
     outline: none;
     cursor: pointer;
     transition: background-color var(--ease-time) ease, border var(--ease-time) ease;

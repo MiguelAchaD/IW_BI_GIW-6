@@ -28,19 +28,27 @@ class Module(models.Model):
     name = models.CharField(max_length=20)
     price = models.DecimalField(decimal_places=2, max_digits=9)
     pairs = models.PositiveIntegerField(default=0)
-    dimensionX = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    dimensionY = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    dimensionZ = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    x = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    y = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    z = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    media_path = models.CharField(max_length=255, default="images/modules/default.png")
+
+class Type(models.Model):
+    id = models.CharField(max_length=2, primary_key=True)
+    gif_path = models.CharField(max_length=255, default="images/products/defult.gif")
+    x_svg_path = models.CharField(max_length=255, default="images/products/defult.png")
+    y_svg_path = models.CharField(max_length=255, default="images/products/defult.png")
+    z_svg_path = models.CharField(max_length=255, default="images/products/defult.png")
 
 class Product(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=20)
-    model = models.CharField(max_length=10)
+    type = models.ForeignKey(Type, on_delete=models.DO_NOTHING, null=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
-    dimensionX = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    dimensionY = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    dimensionZ = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    image = models.CharField(max_length=255, default="images/products/phone/phone.png")
+    x = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    y = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    z = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    media_path = models.CharField(max_length=255, default="images/products/defult.png")
 
 class compatibleModules(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)

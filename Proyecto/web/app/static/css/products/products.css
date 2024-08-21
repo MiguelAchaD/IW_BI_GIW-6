@@ -1,5 +1,5 @@
 main {
-  color: var(--color05);
+  color: var(--color07);
   background-color: var(--color02);
 }
 
@@ -54,17 +54,16 @@ main {
   max-width: 150px;
   height: 50px;
   border-radius: 5px;
-  background-color: var(--color03);
   text-decoration: none;
   font-weight: 700;
-  color: var(--color05);
+  color: var(--color07);
   transition: background-color var(--ease-time) ease, transform var(--ease-time) ease, box-shadow var(--ease-time) ease;
 }
 
 .currency:hover {
   cursor: pointer;
   animation: bounce 0.5s ease-in-out;
-  background-color: var(--color04);
+  background-color: var(--color06);
 }
 
 @keyframes bounce {
@@ -85,7 +84,7 @@ main {
 .metric-wrapper {
   margin: 20px auto;
   text-align: center;
-  color: var(--color05);
+  color: var(--color07);
 }
 
 .metric-wrapper label {
@@ -110,7 +109,7 @@ main {
 }
 
 .select-custom-trigger:hover{
-  color: var(--color04);
+  color: var(--color06);
   transform: scale(1.05);
 }
 
@@ -138,7 +137,7 @@ main {
 }
 
 .custom-option:hover {
-  color: var(--color04);
+  color: var(--color06);
 }
 
 .select-custom.open .custom-options {
