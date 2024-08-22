@@ -5,7 +5,11 @@ nav {
   max-height: var(--navHeight);
   display: flex;
   justify-content: space-between;
-  padding: 0 var(--contentPadding) 0 var(--contentPadding);
+  padding: 0 var(--contentPadding) 0 calc(var(--contentPadding) - 8px - 1vmin + 10px);
+}
+
+h1 {
+  margin-left: 10px;
 }
 
 #shoping-cart,
@@ -32,7 +36,7 @@ nav {
 }
 
 #icon {
-  margin: 10px;
+  margin: 8px;
   height: 40px;
   width: 40px;
   display: inline-block;

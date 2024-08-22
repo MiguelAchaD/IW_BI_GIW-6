@@ -18,10 +18,6 @@
   transition: transform var(--ease-time) ease-in-out, background-color var(--ease-time) ease-in-out;
 }
 
-.image-text-container:hover {
-  background-color: var(--color03);
-}
-
 .image-stack {
   display: flex;
   flex-direction: row;
@@ -38,6 +34,7 @@
   margin: 10px;
   transition: transform var(--ease-time) ease-in-out, margin-right var(--ease-time) ease-in-out;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
 }
 
 .image-stack img:hover {
@@ -55,6 +52,8 @@
   bottom: 0;
   width: 30%;
   background-color: var(--color06);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   color: var(--color07);
   display: flex;
   align-items: center;
