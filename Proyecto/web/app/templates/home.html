@@ -12,12 +12,12 @@
 {% endblock %}
 
 {% block content %}
-  <div class="Top section">
-    <h1 class="section-title">Phones</h1>
-    <div class="image-text-container">
+  <div class="Phones section">
+    <h1>Phones</h1>
+    <div class="image-text-container" data-url="{% url 'products' 'PN' %}">
       <div class="image-stack">
         {% for phone in products.phones %}
-          <img data-url="{% url 'products' phone.id %}" src="{% static phone.media_path %}" alt="{{ phone.name }}">
+          <img data-url="{% url 'builder' phone.id %}" src="{% static phone.media_path %}" alt="{{ phone.name }}">
         {% endfor %}
       </div>
       <div class="image-description">
@@ -26,12 +26,12 @@
     </div>
   </div>
 
-  <div class="Middle section">
-    <h1 class="section-title">Tablets</h1>
-    <div class="image-text-container">
+  <div class="Tablets section">
+    <h1>Tablets</h1>
+    <div class="image-text-container" data-url="{% url 'products' 'TB' %}">
       <div class="image-stack">
         {% for tablet in products.tablets %}
-          <img data-url="{% url 'products' tablet.id %}" src="{% static tablet.media_path %}" alt="{{ tablet.name }}">
+          <img data-url="{% url 'builder' tablet.id %}" src="{% static tablet.media_path %}" alt="{{ tablet.name }}">
         {% endfor %}
       </div>
       <div class="image-description">
@@ -40,12 +40,12 @@
     </div>
   </div>
 
-  <div class="Bottom section">
-    <h1 class="section-title">Laptops</h1>
-    <div class="image-text-container">
+  <div class="Laptops section">
+    <h1>Laptops</h1>
+    <div class="image-text-container" data-url="{% url 'products' 'LP' %}">
       <div class="image-stack">
         {% for laptop in products.laptops %}
-          <img data-url="{% url 'products' laptop.id %}" src="{% static laptop.media_path %}" alt="{{ laptop.name }}">
+          <img data-url="{% url 'builder' laptop.id %}" src="{% static laptop.media_path %}" alt="{{ laptop.name }}">
         {% endfor %}
       </div>
       <div class="image-description">
