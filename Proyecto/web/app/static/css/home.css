@@ -2,6 +2,11 @@
   position: relative;
   width: 100%;
   color: var(--color07);
+  margin: 2.5vh 0 2.5vh 0;
+}
+
+.Laptops {
+  margin-bottom: 5vh;
 }
 
 .image-text-container {
