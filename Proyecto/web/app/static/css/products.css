@@ -11,7 +11,8 @@ main {
 
 #all {
   background-color: var(--color03);
-  margin: 6vw 11vw 5vw 11vw;
+  margin: 6vw 0 5vw 0;
+  width: 100%;
   border-radius: 20px;
 }
 
