@@ -1,73 +1,62 @@
 .section {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.section-title {
+  color: var(--color07);
 }
 
 .image-text-container {
-    position: relative;
-    display: flex;
-    width: 100%;
-    overflow: hidden;
-    background-color: var(--color03);
-    border: none;
-    transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
-}
-
-.image-text-container:hover {
-    background-color: var(--color03);
-}
-
-.image-text-container:hover .image-stack {
-    transform: translateX(20%);
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color02);
+  border: none;
+  transition: transform var(--ease-time) ease-in-out,
+    background-color var(--ease-time) ease-in-out;
 }
 
 .image-stack {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    transition: transform 0.5s ease-in-out, margin-right 0.5s ease-in-out;
-    cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: transform var(--ease-time) ease-in-out,
+    margin-right var(--ease-time) ease-in-out;
+  cursor: pointer;
 }
 
 .image-stack img {
-    max-width: 20vw;
-    max-height: 20vh;
-    width: auto;
-    height: auto;
-    margin: 10px;
-    transition: transform 0.5s ease-in-out, margin-right 0.5s ease-in-out;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 20vw;
+  max-height: 20vh;
+  width: auto;
+  height: auto;
+  transition: transform var(--ease-time) ease-in-out;
+  margin-right: 20px;
 }
 
 .image-stack img:hover {
-    transform: scale(1.1);  
-}
-
-.image-stack img {
-    margin-right: 20px;  
-}
-
-.image-text-container:hover .image-stack img {
-    margin-right: 10px;  
+  transform: scale(1.1);
 }
 
 .image-description {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 30%;
-    background-color: var(--color06); 
-    color: var(--color07); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    transition: transform 0.5s ease-in-out;
-    transform: translateX(100%);
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  height: 101%;
+  background-color: var(--color06);
+  color: var(--color07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform var(--ease-time) ease-in-out;
+  transform: translateX(100%);
 }
 
 .image-text-container:hover .image-description {
-    transform: translateX(0);
+  transform: translateX(0);
 }
