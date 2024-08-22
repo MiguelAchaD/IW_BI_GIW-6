@@ -89,14 +89,12 @@ nav {
   position: absolute;
   background-color: var(--color01);
   min-width: 160px;
-  top: calc(var(--navHeight) + 20px);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  transition: height var(--ease-time) ease-in-out,
-    visibility var(--ease-time) ease-in-out,
-    border-bottom var(--ease-time) ease-in-out,
-    border-left var(--ease-time) ease-in-out,
-    border-right var(--ease-time) ease-in-out;
+  top: calc(var(--navHeight));
+  transition: height var(--ease-time2) ease-in-out,
+    visibility var(--ease-time2) ease-in-out,
+    border-bottom var(--ease-time2) ease-in-out,
+    border-left var(--ease-time2) ease-in-out,
+    border-right var(--ease-time2) ease-in-out;
   align-self: flex-start;
 }
 
