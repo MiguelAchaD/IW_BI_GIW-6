@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.image-stack img').forEach(function(image) {
-        image.addEventListener('click', function() {
-            const url = image.getAttribute('data-url');
+    document.addEventListener('click', function(event) {
+        const closestElement = event.target.closest('[data-url]');
+        if (closestElement) {
+            const url = closestElement.getAttribute('data-url');
             window.location.href = url;
-        });
+        }
     });
 });

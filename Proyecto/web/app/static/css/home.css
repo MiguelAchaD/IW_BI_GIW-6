@@ -1,6 +1,8 @@
 .section {
   position: relative;
   width: 100%;
+  color: var(--color07);
+  margin: 2.5vh 0 2.5vh 0;
 }
 
 .section-title {
@@ -13,10 +15,8 @@
   display: flex;
   width: 100%;
   overflow: hidden;
-  background-color: var(--color02);
   border: none;
-  transition: transform var(--ease-time) ease-in-out,
-    background-color var(--ease-time) ease-in-out;
+  transition: transform var(--ease-time) ease-in-out, background-color var(--ease-time) ease-in-out;
 }
 
 .image-stack {
@@ -58,13 +58,15 @@
   top: 0;
   bottom: 0;
   width: 30%;
-  height: 101%;
   background-color: var(--color06);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   color: var(--color07);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 20px;
   transition: transform var(--ease-time) ease-in-out;
   transform: translateX(100%);
 }

@@ -5,7 +5,11 @@ nav {
   max-height: var(--navHeight);
   display: flex;
   justify-content: space-between;
-  padding: 0 var(--contentPadding) 0 var(--contentPadding);
+  padding: 0 var(--contentPadding) 0 calc(var(--contentPadding) - 8px - 1vmin + 10px);
+}
+
+h1 {
+  margin-left: 10px;
 }
 
 #shoping-cart,
@@ -32,7 +36,7 @@ nav {
 }
 
 #icon {
-  margin: 10px;
+  margin: 8px;
   height: 40px;
   width: 40px;
   display: inline-block;
@@ -96,6 +100,8 @@ nav {
     border-left var(--ease-time2) ease-in-out,
     border-right var(--ease-time2) ease-in-out;
   align-self: flex-start;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 #account-info li,
@@ -121,7 +127,7 @@ nav {
   right: 21%;
   transform-origin: top right;
   transform: translate(0, 0) scale(0);
-  transition: transform var(--ease-time) ease;
+  transition: transform 1s ease;
   z-index: 1000000;
 }
 
