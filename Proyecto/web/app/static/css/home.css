@@ -5,6 +5,7 @@
 
 .section-title {
   color: var(--color07);
+  margin-bottom: .5em;
 }
 
 .image-text-container {
@@ -21,23 +22,34 @@
 .image-stack {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: flex-end;
+  overflow: hidden;
   transition: transform var(--ease-time) ease-in-out,
     margin-right var(--ease-time) ease-in-out;
-  cursor: pointer;
 }
 
 .image-stack img {
-  max-width: 20vw;
-  max-height: 20vh;
-  width: auto;
-  height: auto;
+  margin-right: 1em;
   transition: transform var(--ease-time) ease-in-out;
+  transition: filter var(--ease-time) ease-in-out;
   margin-right: 20px;
+  cursor: pointer;
 }
 
-.image-stack img:hover {
-  transform: scale(1.1);
+.image-stack img:hover + * {
+  filter: brightness(0.3);
+}
+
+.image-stack img:hover + * + * {
+  filter: brightness(0.3);
+}
+
+.image-stack img:has(+ *:hover) {
+  filter: brightness(0.3);
+}
+
+.image-stack img:has(+ * + *:hover) {
+  filter: brightness(0.3);
 }
 
 .image-description {

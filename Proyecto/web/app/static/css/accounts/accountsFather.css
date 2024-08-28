@@ -8,6 +8,7 @@ body {
 .accountContainer,
 .infoMessage {
     width: 50%;
+    height: 100vh;
     box-sizing: border-box;
 }
 
@@ -43,6 +44,18 @@ body {
 
 .infoMessage ol{
     margin-left: 50px;
+}
+
+.infoMessage p, span {
+    margin-left: 25px;
+}
+
+.infoMessage h1 {
+    margin-bottom: 7px;
+}
+
+.infoMessage h2 {
+    margin-bottom: 5px;
 }
 
 .myForm,

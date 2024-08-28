@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load custom_tags %}
 
 {% block additionalLinks %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}" />
@@ -17,7 +18,7 @@
     <div class="image-text-container">
       <div class="image-stack">
         {% for phone in products.phones %}
-          <img data-url="{% url 'products' phone.id %}" src="{% static phone.media_path %}" alt="{{ phone.name }}">
+          <img data-url="{% url 'products' phone.id %}" src="{% static phone.media_path %}" alt="{{ phone.name }}" id="{{ phone.name|get_id }}">
         {% endfor %}
       </div>
       <div class="image-description">
@@ -31,7 +32,7 @@
     <div class="image-text-container">
       <div class="image-stack">
         {% for tablet in products.tablets %}
-          <img data-url="{% url 'products' tablet.id %}" src="{% static tablet.media_path %}" alt="{{ tablet.name }}">
+          <img data-url="{% url 'products' tablet.id %}" src="{% static tablet.media_path %}" alt="{{ tablet.name }}" id="{{ tablet.name|get_id }}">
         {% endfor %}
       </div>
       <div class="image-description">
@@ -45,7 +46,7 @@
     <div class="image-text-container">
       <div class="image-stack">
         {% for laptop in products.laptops %}
-          <img data-url="{% url 'products' laptop.id %}" src="{% static laptop.media_path %}" alt="{{ laptop.name }}">
+          <img data-url="{% url 'products' laptop.id %}" src="{% static laptop.media_path %}" alt="{{ laptop.name }}" id="{{ laptop.name|get_id }}">
         {% endfor %}
       </div>
       <div class="image-description">

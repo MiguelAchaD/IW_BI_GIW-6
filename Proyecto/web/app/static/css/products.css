@@ -1,25 +1,26 @@
-main {
-  color: var(--color07);
-  background-color: var(--color02);
-}
-
 .wrapper {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  margin: 10px 20px 0 20px;
+  justify-content: center;
 }
 
 #all {
   background-color: var(--color03);
-  margin: 6vw 11vw 5vw 11vw;
+  width: 50vw;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .prod-name {
   text-align: center;
   font-size: 2em;
   font-weight: 700;
-  margin-bottom: 20px;
+  color: white;
 }
 
 #generation {
@@ -30,64 +31,60 @@ main {
   font-family: "Poppins";
   font-weight: 900;
   font-size: 2.2em;
+  color: white;
 }
 
 .product {
-  width: 300px;
-<<<<<<< HEAD
-=======
-  margin-bottom: 30px;
->>>>>>> miguel
+  width: 80%;
   text-align: center;
+}
+
+.product table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 1em;
+}
+
+th * {
+  color: white;
+}
+
+.left {
+  text-align: left;
 }
 
 .dimension-row {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .dimension-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-<<<<<<< HEAD
-}
-
-.dimension-item img {
-  width: 150px;
-  height: 150px;
 }
 
 .metric {
   font-size: 1.2em;
   font-weight: bold;
-  margin-bottom: 50px;
-=======
-  margin-top: 20px;
-  margin-bottom: 20px;
->>>>>>> miguel
+  color: white; 
 }
 
-.dimension-item img {
+.metric-image {
   width: 150px;
   height: 150px;
   margin-bottom: 15px;
 }
 
-.metric {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-.intern-wrapper {
-  margin-top: 20px;
-}
-
 .currency {
-  display: inline-block;
-  line-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 150px;
   height: 50px;
   border-radius: 5px;
@@ -95,7 +92,16 @@ main {
   font-weight: 700;
   color: var(--color07);
   background-color: var(--color04);
+  border: 2px var(--color06) solid;
   transition: background-color var(--ease-time) ease, transform var(--ease-time) ease, box-shadow var(--ease-time) ease;
+}
+
+.header-table, .lateral-table {
+  background-color: var(--color03);
+}
+
+th {
+  text-align: center;
 }
 
 .currency:hover {
@@ -106,10 +112,10 @@ main {
 
 @keyframes bounce {
   0%, 100% {
-      transform: translateY(0);
+    transform: translateY(0);
   }
   50% {
-      transform: translateY(-10px);
+    transform: translateY(-3px);
   }
 }
 
@@ -126,6 +132,7 @@ main {
   cursor: pointer;
   text-align: center;
   transition: transform var(--ease-time) ease, color var(--ease-time) ease;
+  color: white;
 }
 
 .select-custom-trigger:hover {
@@ -154,6 +161,7 @@ main {
   width: 100%;
   box-sizing: border-box;
   transition: color var(--ease-time) ease;
+  color: white;
 }
 
 .custom-option:hover {
@@ -167,7 +175,6 @@ main {
 .showcase {
   display: block;
   margin: auto;
-  height: 300px;
 }
 
 @media screen and (max-width: 791px) {

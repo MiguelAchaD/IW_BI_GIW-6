@@ -47,3 +47,7 @@ def get_productType(product):
 @register.filter(name="get_range")
 def get_range(value):
     return range(value)
+
+@register.filter(name="get_id")
+def get_id(value):
+    return value.replace(' ', '_')
