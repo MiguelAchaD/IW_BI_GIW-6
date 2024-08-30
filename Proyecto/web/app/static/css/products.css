@@ -175,6 +175,7 @@ th {
 .showcase {
   display: block;
   margin: auto;
+  margin-bottom: 2em;
 }
 
 @media screen and (max-width: 791px) {
