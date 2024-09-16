@@ -44,6 +44,8 @@ urlpatterns = [
     path('addToCart/', viewCart, name="addToCart"),
     path('products/<str:id>', products, name="products"),
 
-    re_path(r'^builder(?:/(?P<id>[^/]+))?$', builder, name="builder"),
+    re_path(r'^productSelect(?:/(?P<id>[^/]+))?$', productSelect, name="productSelect"),
+    re_path(r'^moduleSelect(?:/(?P<id>[^/]+))?$', moduleSelect, name="moduleSelect"),
+    re_path(r'^finalBuild(?:/(?P<id>[^/]+))?(?:/(?P<module_ids>(?:[^/-]+(?:-[^/-]+)*)?))?(?:/(?P<color_id>[^/]+))?$', finalBuild, name="finalBuild"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

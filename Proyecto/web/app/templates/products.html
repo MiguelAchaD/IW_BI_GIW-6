@@ -56,7 +56,7 @@ Ecomods - {{ type.name }}
             <p class="metric">{{product.z}} mm</p>
           </th>
           <th>
-            <a class="currency" data-url="{% url 'builder' product.id %}">{{ product.price|formatDec }} €</a>
+            <a class="currency" data-url="{% url 'productSelect' product.id %}">{{ product.price|formatDec }} €</a>
           </th>
         </tr>
         {% endfor %}

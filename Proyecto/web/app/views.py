@@ -193,6 +193,109 @@ def viewCart(request):
         totalPrice, cartProducts = calcTotalPrice(client)
         return render(request, "cart.html", {"cartProducts": cartProducts, "totalPrice": totalPrice})
 
+
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def products(request, id):
+    product_type = None
+    
+    try:
+        product = Product.objects.get(id=id)
+        product_type = product.type
+    except Product.DoesNotExist:
+        product_type = get_object_or_404(Type, id=id)
+    
+    products_of_same_type = Product.objects.filter(type=product_type)
+    
+    return render(request, "products.html", {
+        "type": product_type,
+        "products": products_of_same_type
+    })
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def updateProfilePicture(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        image_url = data.get('imageUrl')
+
+        if not image_url:
+            return JsonResponse({'status': 'error', 'message': 'No se proporcionó URL de imagen'}, status=400)
+
+        client = Client.objects.get(user=request.user)
+        client.profile = image_url
+        client.save()
+
+        return JsonResponse({'status': 'success', 'message': 'Imagen actualizada correctamente'})
+
+    return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def productSelect(request, id=None):
+    if request.method == 'GET':
+        if (id != None):
+            return redirect('moduleSelect', id=id)
+        retrievedProducts = Product.objects.all()
+        checked_ids = []
+        products = []
+        for product in retrievedProducts:
+            product_id = str(str(product.id).split("-")[0])
+            if (product_id not in checked_ids):
+                product.id = product_id
+                products.append(product)
+                checked_ids.append(product_id)
+        return render(request, "finalBuild/deviceSelection.html", {"products" : products})
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def moduleSelect(request, id=None):
+    if request.method == 'GET':
+        if (id == None):
+            return JsonResponse({"error": "Invalid data"}, status=400)
+        productModels = Product.objects.all()
+        models = []
+        for product in productModels:
+            product_id = str(str(product.id).split("-")[0])
+            if product_id == id:
+                models.append(product)
+        return render(request, "finalBuild/moduleSelection.html", {"models": models})
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
+def finalBuild(request, id=None):
+    pass
+    #allCompatibleModules = compatibleModules.objects.all()
+#
+    #products = {}
+    #for obj in allCompatibleModules:
+    #    product_id = str(obj.product.id).split("-")[0]
+    #    if product_id in products:
+    #        products[product_id].append([obj.product.id, obj.product.name, int(obj.product.price),
+    #                                    int(obj.product.x), int(obj.product.y), int(obj.product.z)])
+    #    else:
+    #        products[product_id] = [[obj.product.id, obj.product.name, int(obj.product.price),
+    #                                int(obj.product.x), int(obj.product.y), int(obj.product.z)]]
+#
+    #modules = {}
+    #for obj in allCompatibleModules:
+    #    mods = []
+    #    for module in obj.modules.all():
+    #        mods.append([module.id, module.name, module.price,
+    #                    module.x, module.y, module.z, module.pairs])
+    #    modules[obj.product.id] = mods
+#
+    #if request.method == "GET":
+    #    return render(request, "finalBuild/build.html", {"products": products})
+    #elif request.method == "POST":
+    #    moduleData = request.POST.get('datos', None)
+    #    cartData = request.POST.getlist('datos[]')
+    #    if moduleData and moduleData.split("_")[0] == "modulesFor":
+    #        response_data = modules.get(moduleData.split("_")[1], [])
+    #        return JsonResponse(response_data, safe=False)
+    #    elif cartData and len(list(cartData)) > 2:
+    #        return addToCart(request, cartData[1], cartData[2:])
+    #    else:
+    #        return JsonResponse({"error": "Invalid data"}, status=400)
+    #else:
+    #    return JsonResponse({"error": "Method not allowed"}, status=405)
+
 def calcTotalPrice(client):
     cartRelations = CartRelation.objects.filter(client=client)
     if cartRelations.count() > 0:
@@ -268,79 +371,6 @@ def addToCart(request, product_id, modules):
         return JsonResponse("success", safe=False)
     else:
         return JsonResponse("failure", safe="False")
-
-        
-@user_passes_test(isUserAuthenticated, login_url="logIn")
-def products(request, id):
-    product_type = None
-    
-    try:
-        product = Product.objects.get(id=id)
-        product_type = product.type
-    except Product.DoesNotExist:
-        product_type = get_object_or_404(Type, id=id)
-    
-    products_of_same_type = Product.objects.filter(type=product_type)
-    
-    return render(request, "products.html", {
-        "type": product_type,
-        "products": products_of_same_type
-    })
-
-@user_passes_test(isUserAuthenticated, login_url="logIn")
-def updateProfilePicture(request):
-    if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        image_url = data.get('imageUrl')
-
-        if not image_url:
-            return JsonResponse({'status': 'error', 'message': 'No se proporcionó URL de imagen'}, status=400)
-
-        client = Client.objects.get(user=request.user)
-        client.profile = image_url
-        client.save()
-
-        return JsonResponse({'status': 'success', 'message': 'Imagen actualizada correctamente'})
-
-    return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
-
-
-@user_passes_test(isUserAuthenticated, login_url="logIn")
-def builder(request, id=None):
-    allcompatibleModules = compatibleModules.objects.all()
-
-    products = {}
-    for obj in allcompatibleModules:
-        product_id = str(obj.product.id).split("-")[0]
-        if product_id in products:
-            products[product_id].append([obj.product.id, obj.product.name, int(obj.product.price),
-                                        int(obj.product.dimensionX), int(obj.product.dimensionY), int(obj.product.dimensionZ)])
-        else:
-            products[product_id] = [[obj.product.id, obj.product.name, int(obj.product.price),
-                                    int(obj.product.dimensionX), int(obj.product.y), int(obj.product.z)]]
-
-    modules = {}
-    for obj in allcompatibleModules:
-        mods = []
-        for module in obj.modules.all():
-            mods.append([module.id, module.name, module.price,
-                        module.dimensionX, module.dimensionY, module.dimensionZ, module.pairs])
-        modules[obj.product.id] = mods
-
-    if request.method == "GET":
-        return render(request, "finalBuild/build.html", {"products": products})
-    elif request.method == "POST":
-        moduleData = request.POST.get('datos', None)
-        cartData = request.POST.getlist('datos[]')
-        if moduleData and moduleData.split("_")[0] == "modulesFor":
-            response_data = modules.get(moduleData.split("_")[1], [])
-            return JsonResponse(response_data, safe=False)
-        elif cartData and len(list(cartData)) > 2:
-            return addToCart(request, cartData[1], cartData[2:])
-        else:
-            return JsonResponse({"error": "Invalid data"}, status=400)
-    else:
-        return JsonResponse({"error": "Method not allowed"}, status=405)
 
 def properCart(cartData, prodIDs):
     proper = True
