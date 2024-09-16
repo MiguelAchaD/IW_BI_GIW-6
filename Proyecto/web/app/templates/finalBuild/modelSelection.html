@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block additionalLinks %}
+<link rel="stylesheet" href="{% static 'css/finalBuild/modelSelection.css' %}" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{% endblock %}
+
+{% block title %}
+Ecomods - Selección de Módulos
+{% endblock %}
+
+{% block content %}
+<div id="stage-2" class="stage">
+  <h2 class="info">Elige el tipo de producto que desea construir</h2>
+  <div class="selection-wrapper" id="modelSelections">
+    {% for model in models %}
+    <a class="clickableOption" id="{{model.id}}" href="{% url 'finalBuild' model.id %}">
+      <img class="deviceImage" src="{% static model.media_path %}" alt="{{model.name}}">
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

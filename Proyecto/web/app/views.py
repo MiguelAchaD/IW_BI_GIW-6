@@ -246,7 +246,7 @@ def productSelect(request, id=None):
         return render(request, "finalBuild/deviceSelection.html", {"products" : products})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
-def moduleSelect(request, id=None):
+def modelSelect(request, id=None):
     if request.method == 'GET':
         if (id == None):
             return JsonResponse({"error": "Invalid data"}, status=400)
@@ -256,7 +256,7 @@ def moduleSelect(request, id=None):
             product_id = str(str(product.id).split("-")[0])
             if product_id == id:
                 models.append(product)
-        return render(request, "finalBuild/moduleSelection.html", {"models": models})
+        return render(request, "finalBuild/modelSelection.html", {"models": models})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def finalBuild(request, id=None):

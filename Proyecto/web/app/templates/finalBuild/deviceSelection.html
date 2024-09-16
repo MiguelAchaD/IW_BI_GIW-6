@@ -17,7 +17,7 @@ Ecomods - Selección de Dispositivos
   <h2 class="info">Elige el tipo de producto que desea construir</h2>
   <div class="selection-wrapper" id="deviceSelections">
     {% for product in products %}
-    <a class="clickableOption" id="{{product.id}}" href="{% url 'moduleSelect' product.id %}">
+    <a class="clickableOption" id="{{product.id}}" href="{% url 'modelSelect' product.id %}">
       <img class="deviceImage" src="{% static product.media_path %}" alt="{{product.name}}">
     </a>
     {% endfor %}
