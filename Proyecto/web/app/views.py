@@ -233,7 +233,7 @@ def updateProfilePicture(request):
 def productSelect(request, id=None):
     if request.method == 'GET':
         if (id != None):
-            return redirect('moduleSelect', id=id)
+            return redirect('modelSelect_specific', id=id)
         retrievedProducts = Product.objects.all()
         checked_ids = []
         products = []
@@ -259,8 +259,14 @@ def modelSelect(request, id=None):
         return render(request, "finalBuild/modelSelection.html", {"models": models})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
+def modelSelectSpecific(request, id=None):
+    if request.method == 'GET':
+        return redirect('finalBuild', id=id)
+
+@user_passes_test(isUserAuthenticated, login_url="logIn")
 def finalBuild(request, id=None):
-    pass
+    if request.method == 'GET':
+        return render(request, "finalBuild/build.html")
     #allCompatibleModules = compatibleModules.objects.all()
 #
     #products = {}

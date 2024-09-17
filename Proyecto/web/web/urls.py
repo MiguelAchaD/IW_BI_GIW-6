@@ -45,7 +45,8 @@ urlpatterns = [
     path('products/<str:id>', products, name="products"),
 
     re_path(r'^productSelect(?:/(?P<id>[^/]+))?$', productSelect, name="productSelect"),
-    re_path(r'^modelSelect(?:/(?P<id>[^/]+))?$', modelSelect, name="modelSelect"),
+    re_path(r'^modelSelect/(?P<id>[a-zA-Z]{2})/$', modelSelect, name="modelSelect"),
+    re_path(r'^modelSelect/(?P<id>[a-zA-Z]{2}-\d{3})/$', modelSelectSpecific, name="modelSelect_specific"),
     re_path(r'^finalBuild(?:/(?P<id>[^/]+))?(?:/(?P<module_ids>(?:[^/-]+(?:-[^/-]+)*)?))?(?:/(?P<color_id>[^/]+))?$', finalBuild, name="finalBuild"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
