@@ -16,13 +16,8 @@ Ecomods - Construcción
 {% block content %}
 <div id="stage-3" class="stage">
   <h2 class="info">Elige el tipo de producto que desea construir</h2>
-  <div class="selection-wrapper" id="finalView">
-    <button class="clickableOption" id="PN" onClick='changeSelection("PN", {{products}})'><img id="phone-img"
-        src="{% static products.phone.media_path %}"></button>
-    <button class="clickableOption" id="TB" onClick='changeSelection("TB", {{products}})'><img id="tablet-img"
-        src="{% static tablet.media_path %}"></button>
-    <button class="clickableOption" id="LP" onClick='changeSelection("LP", {{products}})'><img id="laptop-img"
-        src="{% static laptop.media_path %}"></button>
+  <div class="selection-wrapper" id="deviceSelections">
+    <img class="deviceImage" src="{% static product.media_path %}" alt="{{product.name}}">
   </div>
 </div>
 {% endblock %}

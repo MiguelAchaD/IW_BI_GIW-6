@@ -264,9 +264,39 @@ def modelSelectSpecific(request, id=None):
         return redirect('finalBuild', id=id)
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
-def finalBuild(request, id=None):
+def finalBuild(request, id=None, modules=None, color=None):
     if request.method == 'GET':
-        return render(request, "finalBuild/build.html")
+        if (id == None):
+            return JsonResponse({"error": "Invalid data"}, status=400)
+        
+        try:
+            products_retreive = Product.objects.all()
+            isRealProduct = False
+            for product_iteration in list(products_retreive):
+                if product_iteration.id == id:
+                    product = product_iteration
+                    isRealProduct = True
+            if not isRealProduct:
+                raise Exception
+        except Exception:
+            return JsonResponse({"error": "Invalid data"}, status=400)
+        modules_retreive = compatibleModules.objects.get(product=product)
+        print(modules_retreive)
+        # TODO: ...
+        if (modules != None and type(modules)==list):
+            try:
+                modules_retreive = compatibleModules.objects.get(product=product).modules.all()
+                #TODO: verify models with the product specific compatible modules
+                
+                #
+                for module in modules:
+                    if (module not in modules_retreive):
+                        raise Exception
+            except Exception:
+                return JsonResponse({"error": "Invalid data"}, status=400)
+            addToCart(request, product.id, modules)
+            return render(request, "cart.html")
+        return render(request, "finalBuild/build.html", {"product" : product})
     #allCompatibleModules = compatibleModules.objects.all()
 #
     #products = {}
