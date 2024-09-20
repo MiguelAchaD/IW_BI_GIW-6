@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 toggleAccountDropdown(!isDropdownVisible);
                 isDropdownVisible = !isDropdownVisible;
             }
-        }, 100);
+        }, 200);
     });
 
     document.getElementById('profilepic').addEventListener('click', function () {
