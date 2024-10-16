@@ -4,6 +4,7 @@
 
 {% block additionalLinks %}
 <link rel="stylesheet" href="{% static 'css/products.css' %}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="{% static 'js/products.js' %}" defer></script>
 {% endblock %}
 
@@ -12,55 +13,56 @@ Ecomods - {{ type.name }}
 {% endblock %}
 
 {% block content %}
-<div class="select-custom">
-  <div class="select-custom-trigger">Cambiar Métrica</div>
-  <div class="custom-options">
-    <span class="custom-option" data-value="SI">SI (Europa)</span>
-    <span class="custom-option" data-value="Imperial">Imperial (América del Norte)</span>
-  </div>
-</div>
-
 <div id="all">
   <h1 id="generation">Nuestros {{ type.name }}s</h1>
   <img class="showcase" src="{% static type.gif_path %}" />
+
+  <div class="select-custom">
+    <div class="select-custom-trigger">Cambiar Métrica</div>
+    <div class="custom-options">
+      <span class="custom-option" data-value="SI">SI (Europa)</span>
+      <span class="custom-option" data-value="Imperial">Imperial (América del Norte)</span>
+    </div>
+  </div>
+
   <div class="wrapper">
-    <div class="product">
-      <table border="0">
-        <tr>
-          <th></th>
-          <th class="header-table">
-            <h2>Largo</h2>
-          </th>
-          <th class="header-table">
-            <h2>Alto</h2>
-          </th>
-          <th class="header-table">
-            <h2>Ancho</h2>
-          </th>
-          <th class="header-table">
-            <h2>Precio</h2>
-          </th>
-        </tr>
-        {% for product in products %}
-        <tr>
-          <th class="lateral-table">
-            <p class="prod-name left">{{ product.name }}</p>
-          </th>
-          <th>
-            <p class="metric">{{product.x}} mm</p>
-          </th>
-          <th>
-            <p class="metric">{{product.y}} mm</p>
-          </th>
-          <th>
-            <p class="metric">{{product.z}} mm</p>
-          </th>
-          <th>
-            <a class="currency" data-url="{% url 'productSelect' product.id %}">{{ product.price|formatDec }} €</a>
-          </th>
-        </tr>
-        {% endfor %}
-      </table>
+    <div class="product-list">
+      {% for product in products %}
+      <div class="product-item">
+        <h2 class="prod-name">{{ product.name }}</h2>
+
+        <div class="metric-item">
+          <div class="metric-wrapper">
+            <span class="metric" data-type="x">{{ product.x }} mm</span>
+            <span class="info-icon" data-tooltip="Largo del producto" aria-label="Información sobre la longitud" role="img">
+              <i class="fas fa-info-circle"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="metric-item">
+          <div class="metric-wrapper">
+            <span class="metric" data-type="y">{{ product.y }} mm</span>
+            <span class="info-icon" data-tooltip="Alto del producto" aria-label="Información sobre la altura" role="img">
+              <i class="fas fa-info-circle"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="metric-item">
+          <div class="metric-wrapper">
+            <span class="metric" data-type="z">{{ product.z }} mm</span>
+            <span class="info-icon" data-tooltip="Ancho del producto" aria-label="Información sobre el ancho" role="img">
+              <i class="fas fa-info-circle"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="price-item">
+          <a class="currency" data-url="{% url 'productSelect' product.id %}">{{ product.price|formatDec }} €</a>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   </div>
 </div>

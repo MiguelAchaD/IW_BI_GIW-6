@@ -3,10 +3,20 @@ document.addEventListener("DOMContentLoaded", function() {
     var optionsContainer = document.querySelector('.custom-options');
     var selectTrigger = selectCustom.querySelector('.select-custom-trigger');
 
+    // Configurar el valor inicial como "SI" y realizar el cálculo inicial
+    selectTrigger.textContent = "SI (Europa)";
+    selectTrigger.dataset.value = "SI";
+    initializeValuesAndFetchConversionRate();
+    handleMetricChange("SI");
+
     selectCustom.addEventListener('click', function(e) {
         var isOpen = optionsContainer.style.maxHeight === '150px';
         optionsContainer.style.maxHeight = isOpen ? '0px' : '150px';
         selectCustom.classList.toggle('open', !isOpen);
+        
+        // Añadir funcionalidad para centrar la pantalla en el selector de métricas si está en el 25% inferior de la pantalla
+        scrollToSelectCustom();
+        
         e.stopPropagation();
     });
 
@@ -28,8 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    initializeValuesAndFetchConversionRate();
-
     // Redirigir al hacer clic en el precio
     document.querySelectorAll('.currency').forEach(function(priceElement) {
         priceElement.addEventListener('click', function() {
@@ -38,6 +46,22 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+function scrollToSelectCustom() {
+    // Seleccionar el elemento selectCustom y desplazar la vista hacia él solo si está en el 25% inferior de la pantalla
+    var selectCustom = document.querySelector('.select-custom');
+    if (selectCustom) {
+        var rect = selectCustom.getBoundingClientRect();
+        var windowHeight = window.innerHeight;
+        
+        // Verificar si el elemento está en el 25% inferior de la pantalla visible
+        if (rect.bottom > windowHeight * 0.65) {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var offsetTop = rect.top + scrollTop - 20; // Ajuste para colocar el elemento justo debajo de la parte superior
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+    }
+}
 
 var conversionRate = 1; // Por defecto, tasa de conversión inicial
 var originalPrices = [];
