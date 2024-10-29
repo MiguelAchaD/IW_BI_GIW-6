@@ -10,13 +10,16 @@ document.addEventListener("DOMContentLoaded", function() {
     handleMetricChange("SI");
 
     selectCustom.addEventListener('click', function(e) {
-        var isOpen = optionsContainer.style.maxHeight === '150px';
-        optionsContainer.style.maxHeight = isOpen ? '0px' : '150px';
+        var isOpen = selectCustom.classList.contains('open');
         selectCustom.classList.toggle('open', !isOpen);
         
-        // Añadir funcionalidad para centrar la pantalla en el selector de métricas si está en el 25% inferior de la pantalla
-        scrollToSelectCustom();
-        
+        if (!isOpen) {
+            // Si está abriendo y es una pantalla pequeña, desplaza el contenido
+            if (window.innerWidth <= 768) {
+                scrollToSelectCustom();
+            }
+        }
+
         e.stopPropagation();
     });
 
@@ -25,15 +28,14 @@ document.addEventListener("DOMContentLoaded", function() {
         option.addEventListener('click', function(e) {
             selectTrigger.textContent = this.textContent;
             selectTrigger.dataset.value = this.dataset.value;
-            optionsContainer.style.maxHeight = '0px';
+            selectCustom.classList.remove('open');
             handleMetricChange(this.dataset.value);
             e.stopPropagation();
         });
     });
 
     document.addEventListener('click', function(event) {
-        if (!selectCustom.contains(event.target) && optionsContainer.style.maxHeight === '150px') {
-            optionsContainer.style.maxHeight = '0px';
+        if (!selectCustom.contains(event.target) && selectCustom.classList.contains('open')) {
             selectCustom.classList.remove('open');
         }
     });
@@ -54,7 +56,7 @@ function scrollToSelectCustom() {
         var rect = selectCustom.getBoundingClientRect();
         var windowHeight = window.innerHeight;
         
-        // Verificar si el elemento está en el 25% inferior de la pantalla visible
+        // Verificar si el elemento está en el 65% inferior de la pantalla visible
         if (rect.bottom > windowHeight * 0.65) {
             var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             var offsetTop = rect.top + scrollTop - 20; // Ajuste para colocar el elemento justo debajo de la parte superior
