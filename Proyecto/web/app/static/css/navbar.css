@@ -256,3 +256,30 @@ input:-webkit-autofill {
 #profile-pic-menu img.loaded {
   opacity: 1;
 }
+
+/* CSS adicional para pantallas pequeñas */
+@media only screen and (max-width: 768px) {
+  /* Ocultar la segunda lista de navegación que contiene 'create', 'shopping-cart' y 'profile' */
+  nav ul.navbar:nth-child(2) {
+    display: none;
+  }
+
+  /* Opcional: Ajustar la primera barra de navegación para centrar el logo y los enlaces */
+  nav ul.navbar:first-child {
+    width: 100%;
+    justify-content: space-around; /* Distribuye uniformemente los elementos */
+  }
+
+  /* Opcional: Reducir el tamaño del logo para pantallas pequeñas */
+  #icon {
+    height: 35px;
+    width: 35px;
+    margin: 5px;
+  }
+
+  /* Opcional: Ajustar el tamaño de los enlaces de navegación */
+  .navbar li a {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
