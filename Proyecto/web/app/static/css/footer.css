@@ -93,3 +93,61 @@ footer {
   height: 3vw;
   width: 3vw;
 }
+
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-section {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px 0;
+  }
+
+  /* Asegura que los iconos de redes sociales estén en una fila */
+  .social ul {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espacio entre iconos */
+    margin-top: 15px;
+  }
+
+  .social ul li {
+    margin: 0;
+  }
+
+  .social ul li a svg {
+    width: 8vw;
+    height: auto;
+  }
+
+  /* Centrado y alineación de los logos de patrocinadores */
+  .sponsors-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra verticalmente las imágenes */
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .sponsors-logos img {
+    height: 8vw; /* Define una altura uniforme */
+    width: auto;
+    align-self: center;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .social ul li a svg,
+  .sponsors-logos img {
+    height: 12vw;
+    width: auto;
+  }
+}
+
