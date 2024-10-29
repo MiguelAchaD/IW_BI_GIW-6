@@ -107,11 +107,10 @@ footer {
     margin: 20px 0;
   }
 
-  /* Asegura que los iconos de redes sociales estén en una fila */
   .social ul {
     display: flex;
     justify-content: center;
-    gap: 15px; /* Espacio entre iconos */
+    gap: 15px;
     margin-top: 15px;
   }
 
@@ -124,18 +123,17 @@ footer {
     height: auto;
   }
 
-  /* Centrado y alineación de los logos de patrocinadores */
   .sponsors-logos {
     display: flex;
     justify-content: center;
-    align-items: center; /* Centra verticalmente las imágenes */
+    align-items: center;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 15px;
   }
 
   .sponsors-logos img {
-    height: 8vw; /* Define una altura uniforme */
+    height: 8vw;
     width: auto;
     align-self: center;
     display: block;
