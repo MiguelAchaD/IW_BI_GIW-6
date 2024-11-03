@@ -28,7 +28,7 @@ Ecomods - {{ type.name }}
   <div class="wrapper">
     <div class="product-list">
       {% for product in products %}
-      <div class="product-item">
+      <div class="product-item" data-url="{% url 'productSelect' product.id %}">
         <h2 class="prod-name">{{ product.name }}</h2>
 
         <div class="metric-item">
@@ -59,7 +59,7 @@ Ecomods - {{ type.name }}
         </div>
 
         <div class="price-item">
-          <a class="currency" data-url="{% url 'productSelect' product.id %}">{{ product.price|formatDec }} €</a>
+          <a class="currency">{{ product.price|formatDec }} €</a>
         </div>
       </div>
       {% endfor %}

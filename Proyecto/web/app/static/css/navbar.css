@@ -256,3 +256,25 @@ input:-webkit-autofill {
 #profile-pic-menu img.loaded {
   opacity: 1;
 }
+
+@media only screen and (max-width: 768px) {
+  nav ul.navbar:nth-child(2) {
+    display: none;
+  }
+
+  nav ul.navbar:first-child {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  #icon {
+    height: 35px;
+    width: 35px;
+    margin: 5px;
+  }
+
+  .navbar li a {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

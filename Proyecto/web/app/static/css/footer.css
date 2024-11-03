@@ -1,6 +1,6 @@
 footer {
   width: 100%;
-  padding: 20px 0;
+  padding: 1.25rem 0; 
   background-color: var(--color06);
   color: var(--color07);
   text-align: center;
@@ -9,25 +9,24 @@ footer {
 .footer-container {
   display: flex;
   justify-content: space-around;
-  align-items: start;
+  align-items: flex-start;
   flex-wrap: wrap;
-  padding-bottom: 20px;
+  padding-bottom: 1.25rem;  
 }
 
 .footer-section {
-  display: block;
-  width: 30%;
-  min-width: 200px;
-  margin: 10px;
+  flex: 1 1 200px; 
+  margin: 0.625rem;  
+  max-width: 300px;
 }
 
 .footer-section h3 {
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
   font-size: 1.2em;
 }
 
 .footer-section p {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   line-height: 1.5;
 }
 
@@ -37,12 +36,12 @@ footer {
 }
 
 .footer-section ul li {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .footer-bottom {
   border-top: 1px solid var(--color07);
-  padding-top: 10px;
+  padding-top: 0.625rem; 
 }
 
 .footer-section ul li a {
@@ -63,33 +62,82 @@ footer {
   padding: 0;
   display: flex;
   justify-content: center;
-  margin-top: 15px;
+  margin-top: 0.9375rem; 
 }
 
 .social ul li {
-  margin: 0 1.5vw;
+  margin: 0 1rem;
 }
 
 .social ul li a svg {
-  width: 1.5vw;
-  height: 1.5vw;
+  width: 2rem;
+  height: 2rem;
   display: inline-block;
-  transition: transform 0.3s ease; 
+  transition: transform 0.3s ease;
 }
 
 .social ul li a svg:hover {
   transform: scale(1.2);
 }
 
-.sponsors-logos{
+.sponsors-logos {
   list-style-type: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-.sponsors-logos img{
-  margin: 0 3vw;
-  height: 3vw;
-  width: 3vw;
+.sponsors-logos img {
+  margin: 0.625rem;
+  height: 3rem;
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-section {
+    width: 100%;
+    max-width: 400px;
+    margin: 1.25rem 0; /* 20px */
+  }
+
+  .social ul {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .social ul li {
+    margin: 0;
+  }
+
+  .social ul li a svg {
+    width: 2.5rem;
+    height: auto;
+  }
+
+  .sponsors-logos {
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .sponsors-logos img {
+    height: 3rem;
+    width: auto;
+    margin: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .social ul li a svg,
+  .sponsors-logos img {
+    height: 2.5rem;
+    width: auto;
+  }
 }
