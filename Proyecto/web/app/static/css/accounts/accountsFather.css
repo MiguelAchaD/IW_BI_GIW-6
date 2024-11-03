@@ -1,134 +1,182 @@
-body {
+/* accountsFather.css */
+
+/* Reiniciar margen y padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Estilos generales */
+  
+  body {
     background-color: var(--color02);
     display: flex;
     align-items: stretch;
     flex-direction: row;
-}
-
-.accountContainer,
-.infoMessage {
+    margin: 0;
+  }
+  
+  .accountContainer,
+  .infoMessage {
     width: 50%;
-    height: 100vh;
+    min-height: 100vh;
     box-sizing: border-box;
-}
-
-.accountContainer {
+  }
+  
+  .accountContainer {
     background-color: var(--color03);
     color: var(--color07);
-    border-top-right-radius: 100px;
+    border-top-right-radius: 6.25rem; /* 100px -> 6.25rem */
     padding: 5% 9% 5% 20%;
-}
-
-.accountContainer h1{
-    margin-bottom: 20px;
-}
-
-.accountContainer p,
-.accountContainer a{
-    margin-top: 20px;
-    color: var(--color07);
-    text-decoration: none;
-}
-
-.infoMessage {
-    background-color: var(--color02);
-    color: var(--color07);
-    padding: 5% 13% 5% 9%;
-}
-
-.infoMessage p,
-.infoMessage span,
-.infoMessage li{
-    font-family: Arial;
-}
-
-.infoMessage ol{
-    margin-left: 50px;
-}
-
-.infoMessage p, span {
-    margin-left: 25px;
-}
-
-.infoMessage h1 {
-    margin-bottom: 7px;
-}
-
-.infoMessage h2 {
-    margin-bottom: 5px;
-}
-
-.myForm,
-form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
+  }
+  
+  .accountContainer h1 {
+    margin-bottom: 1.25rem; /* 20px -> 1.25rem */
+  }
+  
+  .accountContainer p,
+  .accountContainer a {
+    margin-top: 1.25rem; /* 20px -> 1.25rem */
+    color: var(--color07);
+    text-decoration: none;
+  }
+  
+  .infoMessage {
+    background-color: var(--color02);
+    color: var(--color07);
+    padding: 5% 13% 5% 9%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .infoMessage p,
+  .infoMessage span,
+  .infoMessage li {
+    font-family: Arial;
+  }
+  
+  .infoMessage ol {
+    margin-left: 3.125rem; /* 50px -> 3.125rem */
+  }
+  
+  .infoMessage p,
+  .infoMessage span {
+    margin-left: 1.5625rem; /* 25px -> 1.5625rem */
+  }
+  
+  .infoMessage h1 {
+    margin-bottom: 0.4375rem; /* 7px -> 0.4375rem */
+  }
+  
+  .infoMessage h2 {
+    margin-bottom: 0.3125rem; /* 5px -> 0.3125rem */
+  }
+  
+  .myForm,
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-}
-
-form input {
+  }
+  
+  form input {
     width: 100%;
-    height: 40px;
-    margin-top: 50px;
-    margin-bottom: 20px;
+    height: 2.5rem; /* 40px -> 2.5rem */
+    margin-top: 3.125rem; /* 50px -> 3.125rem */
+    margin-bottom: 1.25rem; /* 20px -> 1.25rem */
     background-color: var(--color04);
     color: var(--color07);
     border: 1px solid var(--color07);
-    border-radius: 5px;
+    border-radius: 0.3125rem; /* 5px -> 0.3125rem */
     outline: none;
     font-family: Arial;
-    padding-left: 10px;
-}
-
-button {
-    height: 40px;
-    margin-top: 30px;
-    width: 250px;
+    padding-left: 0.625rem; /* 10px -> 0.625rem */
+  }
+  
+  button {
+    height: 2.5rem; /* 40px -> 2.5rem */
+    margin-top: 1.875rem; /* 30px -> 1.875rem */
+    width: 50%; /* 250px -> 15.625rem */
     background-color: var(--color06);
     border: 1px solid var(--color06);
-    border-radius: 5px;
+    border-radius: 0.3125rem; /* 5px -> 0.3125rem */
     color: var(--color07);
     outline: none;
     font-family: Arial;
-    transition: background-color var(--ease-time) ease, border var(--ease-time) ease, width var(--ease-time) ease;
-}
-
-button:hover {
+    transition: background-color var(--ease-time) ease,
+                border var(--ease-time) ease,
+                width var(--ease-time) ease;
+  }
+  
+  button:hover {
     background-color: rgb(4, 114, 97);
     border-color: rgb(4, 114, 97);
-    width: 103%;
-}
-
-.link:hover,
-.link:focus {
+    width: 100%;
+  }
+  
+  .link:hover,
+  .link:focus {
     text-decoration: underline;
-}
-
-.input-label {
-    margin-top: 60px;
-    margin-left: 10px;
+  }
+  
+  .input-label {
+    margin-top: 3.75rem; /* 60px -> 3.75rem */
+    margin-left: 0.625rem; /* 10px -> 0.625rem */
     position: absolute;
-    transition: margin-top var(--ease-time) ease, margin-left var(--ease-time) ease;
-}
-
-.input-label.focused {
-    margin-top: 20px;
-    margin-left: 0px;
-}
-
-form input.written {
+    transition: margin-top var(--ease-time) ease,
+                margin-left var(--ease-time) ease;
+  }
+  
+  .input-label.focused {
+    margin-top: 1.25rem; /* 20px -> 1.25rem */
+    margin-left: 0;
+  }
+  
+  form input.written {
     border: 2px solid var(--color06);
-}
-
-form input:-webkit-autofill {
+  }
+  
+  form input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px var(--color03) inset;
     -webkit-text-fill-color: var(--color07);
     border: 2px solid var(--color06);
-}
-
-#errorMessage{
+  }
+  
+  #errorMessage {
     color: var(--color07);
     align-self: center;
     margin: 0;
-}
+  }
+  
+  @media (max-width: 900px) {
+    body {
+      flex-direction: column;
+    }
+  
+    .accountContainer {
+      width: 100%;
+      min-height: 100vh;
+      border-top-right-radius: 0;
+      padding: 5% 10%;
+    }
+  
+    body .infoMessage {
+      display: none;
+    }
+  
+    button {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .accountContainer {
+      padding: 5% 5%;
+    }
+  }
+  
