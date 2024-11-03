@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var optionsContainer = document.querySelector('.custom-options');
     var selectTrigger = selectCustom.querySelector('.select-custom-trigger');
 
-    // Configurar el valor inicial como "SI" y realizar el cálculo inicial
     selectTrigger.textContent = "SI (Europa)";
     selectTrigger.dataset.value = "SI";
     initializeValuesAndFetchConversionRate();
@@ -11,13 +10,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     selectCustom.addEventListener('click', function(e) {
         var isOpen = selectCustom.classList.contains('open');
-        selectCustom.classList.toggle('open', !isOpen);
         
         if (!isOpen) {
-            // Si está abriendo y es una pantalla pequeña, desplaza el contenido
-            if (window.innerWidth <= 768) {
-                scrollToSelectCustom();
-            }
+            fadeText(selectTrigger, "Seleccionar medida");
+        } else {
+            restoreSelectedText(selectTrigger); // Pasa selectTrigger como parámetro
+        }
+
+        selectCustom.classList.toggle('open', !isOpen);
+
+        if (!isOpen && window.innerWidth <= 768) {
+            scrollToSelectCustom();
         }
 
         e.stopPropagation();
@@ -26,8 +29,11 @@ document.addEventListener("DOMContentLoaded", function() {
     var allOptions = document.querySelectorAll('.custom-option');
     allOptions.forEach(function(option) {
         option.addEventListener('click', function(e) {
-            selectTrigger.textContent = this.textContent;
+            var selectedText = this.textContent;
             selectTrigger.dataset.value = this.dataset.value;
+
+            fadeText(selectTrigger, selectedText);
+
             selectCustom.classList.remove('open');
             handleMetricChange(this.dataset.value);
             e.stopPropagation();
@@ -37,11 +43,11 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener('click', function(event) {
         if (!selectCustom.contains(event.target) && selectCustom.classList.contains('open')) {
             selectCustom.classList.remove('open');
+            restoreSelectedText(selectTrigger); // Pasa selectTrigger como parámetro
         }
     });
 
-    // Redirigir al hacer clic en el precio
-    document.querySelectorAll('.currency').forEach(function(priceElement) {
+    document.querySelectorAll('.product-item').forEach(function(priceElement) {
         priceElement.addEventListener('click', function() {
             var url = this.getAttribute('data-url');
             window.location.href = url;
@@ -49,25 +55,37 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+function restoreSelectedText(selectTrigger) { // Recibe selectTrigger como parámetro
+    var selectedValue = selectTrigger.dataset.value;
+    var restoredText = selectedValue === "SI" ? "SI (Europa)" : "Imperial (América del Norte)";
+    fadeText(selectTrigger, restoredText);
+}
+
+function fadeText(element, newText) {
+    element.classList.add('hidden');
+    setTimeout(function() {
+        element.textContent = newText;
+        element.classList.remove('hidden');
+    }, 250); 
+}
+
 function scrollToSelectCustom() {
-    // Seleccionar el elemento selectCustom y desplazar la vista hacia él solo si está en el 25% inferior de la pantalla
     var selectCustom = document.querySelector('.select-custom');
     if (selectCustom) {
         var rect = selectCustom.getBoundingClientRect();
         var windowHeight = window.innerHeight;
         
-        // Verificar si el elemento está en el 65% inferior de la pantalla visible
         if (rect.bottom > windowHeight * 0.65) {
             var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var offsetTop = rect.top + scrollTop - 20; // Ajuste para colocar el elemento justo debajo de la parte superior
+            var offsetTop = rect.top + scrollTop - 20;  
             window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         }
     }
 }
 
-var conversionRate = 1; // Por defecto, tasa de conversión inicial
+var conversionRate = 1; 
 var originalPrices = [];
-var originalMetrics = []; // Usamos "metrics" en lugar de "distances" para mayor claridad
+var originalMetrics = [];
 
 function initializeValuesAndFetchConversionRate() {
     var currencies = document.getElementsByClassName("currency");
