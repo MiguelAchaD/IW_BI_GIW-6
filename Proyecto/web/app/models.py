@@ -25,6 +25,7 @@ class Client(models.Model):
 User._meta.get_field("email")._unique = True
 
 class Module(models.Model):
+    id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=20)
     price = models.DecimalField(decimal_places=2, max_digits=9)
     pairs = models.PositiveIntegerField(default=0)

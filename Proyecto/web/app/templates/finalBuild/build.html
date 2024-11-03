@@ -15,9 +15,25 @@ Ecomods - Construcción
 
 {% block content %}
 <div id="stage-3" class="stage">
-  <h2 class="info">Elige el tipo de producto que desea construir</h2>
-  <div class="selection-wrapper" id="deviceSelections">
+  <h2 class="info">Elige los módulos y el color para el producto</h2>
+  <div class="selection-wrapper">
     <img class="deviceImage" src="{% static product.media_path %}" alt="{{product.name}}">
+    <div class="color-selector">
+      <div class="circle red" onclick="selectColor('red')"></div>
+      <div class="circle black" onclick="selectColor('black')"></div>
+      <div class="circle blue" onclick="selectColor('blue')"></div>
+    </div>
+    <div class="picklist">
+      {% for module in modules %}
+      <div class="selectable" data-id="{{module.id}}" data-pair="{{module.pairs}}" onclick="selectModule('{{module.id}}', '{{module.pairs}}')">
+        <p>{{module.name}}</p>
+        <img src="{{module.media_path}}" alt="imagen">
+      </div>
+      {% endfor %}
+    </div>
+    <button id="add" onclick="addToCart('{{product.id}}')">
+      añadir al carrito
+    </button>
   </div>
 </div>
 {% endblock %}

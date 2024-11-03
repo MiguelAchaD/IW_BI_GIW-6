@@ -18,6 +18,7 @@ Ecomods - Selección de Módulos
   <div class="selection-wrapper" id="modelSelections">
     {% for model in models %}
     <a class="clickableOption" id="{{model.id}}" href="{% url 'finalBuild' model.id %}">
+      <h2>{{model.name}}</h2>
       <img class="deviceImage" src="{% static model.media_path %}" alt="{{model.name}}">
     </a>
     {% endfor %}

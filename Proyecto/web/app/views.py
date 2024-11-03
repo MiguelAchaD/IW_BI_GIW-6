@@ -193,8 +193,6 @@ def viewCart(request):
         totalPrice, cartProducts = calcTotalPrice(client)
         return render(request, "cart.html", {"cartProducts": cartProducts, "totalPrice": totalPrice})
 
-
-
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def products(request, id):
     product_type = None
@@ -239,8 +237,10 @@ def productSelect(request, id=None):
         products = []
         for product in retrievedProducts:
             product_id = str(str(product.id).split("-")[0])
+            product_name = str(str(product.name).split(" ")[0])
             if (product_id not in checked_ids):
                 product.id = product_id
+                product.name = product_name
                 products.append(product)
                 checked_ids.append(product_id)
         return render(request, "finalBuild/deviceSelection.html", {"products" : products})
@@ -270,33 +270,24 @@ def finalBuild(request, id=None, modules=None, color=None):
             return JsonResponse({"error": "Invalid data"}, status=400)
         
         try:
-            products_retreive = Product.objects.all()
             isRealProduct = False
-            for product_iteration in list(products_retreive):
-                if product_iteration.id == id:
-                    product = product_iteration
-                    isRealProduct = True
+            if (Product.objects.filter(id=id)):
+                isRealProduct=True
             if not isRealProduct:
                 raise Exception
+            product = Product.objects.get(id=id)
         except Exception:
             return JsonResponse({"error": "Invalid data"}, status=400)
         modules_retreive = compatibleModules.objects.get(product=product)
-        print(modules_retreive)
-        # TODO: ...
-        if (modules != None and type(modules)==list):
+        if (modules_retreive != None):
             try:
                 modules_retreive = compatibleModules.objects.get(product=product).modules.all()
-                #TODO: verify models with the product specific compatible modules
                 
-                #
-                for module in modules:
-                    if (module not in modules_retreive):
-                        raise Exception
             except Exception:
                 return JsonResponse({"error": "Invalid data"}, status=400)
-            addToCart(request, product.id, modules)
-            return render(request, "cart.html")
-        return render(request, "finalBuild/build.html", {"product" : product})
+        return render(request, "finalBuild/build.html", {"product" : product, "modules": modules_retreive})
+    
+
     #allCompatibleModules = compatibleModules.objects.all()
 #
     #products = {}

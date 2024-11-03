@@ -11,6 +11,10 @@
 }
 
 .clickableOption {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
   border: 0px;
   border-radius: 0px;
@@ -20,6 +24,17 @@
   padding: 2em;
   border: 3px black solid;
   border-radius: 1em;
+  text-decoration: none;
+}
+
+.clickableOption h2 {
+  order: -1;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.clickableOption img {
+  order: 0;
 }
 
 .clickableOption:hover {
