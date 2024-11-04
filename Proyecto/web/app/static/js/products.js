@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener('click', function(event) {
         if (!selectCustom.contains(event.target) && selectCustom.classList.contains('open')) {
             selectCustom.classList.remove('open');
-            restoreSelectedText(selectTrigger); // Pasa selectTrigger como parámetro
+            restoreSelectedText(selectTrigger);
         }
     });
 
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-function restoreSelectedText(selectTrigger) { // Recibe selectTrigger como parámetro
+function restoreSelectedText(selectTrigger) {
     var selectedValue = selectTrigger.dataset.value;
     var restoredText = selectedValue === "SI" ? "SI (Europa)" : "Imperial (América del Norte)";
     fadeText(selectTrigger, restoredText);

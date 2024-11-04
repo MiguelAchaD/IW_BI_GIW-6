@@ -22,11 +22,6 @@ function selectModule(elementId, pair) {
 }
 
 function addToCart(product_id) {
-  if (selectedPairs.length === 0) {
-    console.log("No modules selected");
-    return;
-  }
-
   const cartItems = selectedPairs.map(item => ({
     id: item.element.getAttribute('data-id'),
     pair: item.pair,

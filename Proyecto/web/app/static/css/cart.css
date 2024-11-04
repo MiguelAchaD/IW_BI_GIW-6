@@ -107,7 +107,7 @@ p {
 #cart {
     margin: auto;
     height: auto;
-    max-width: 100%;
+    max-width: 20%;
 }
 
 .quantity-control {
@@ -115,7 +115,6 @@ p {
     align-items: center;
     justify-content: center;
 }
-
 
 .quantity-control button {
     height: 1.875rem;

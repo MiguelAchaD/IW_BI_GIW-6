@@ -221,6 +221,10 @@
     margin-bottom: 0;
   }
 
+  .product-item{
+    width: 100%;
+  }
+
   .custom-options {
     position: relative;
     max-height: 0;

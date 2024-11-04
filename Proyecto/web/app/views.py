@@ -231,31 +231,18 @@ def updateProfilePicture(request):
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def productSelect(request):
     if request.method == 'GET':
-        retrievedProducts = Product.objects.all()
-        checked_ids = []
-        products = []
-        for product in retrievedProducts:
-            product_id = str(str(product.id).split("-")[0])
-            product_name = str(str(product.name).split(" ")[0])
-            if (product_id not in checked_ids):
-                product.id = product_id
-                product.name = product_name
-                products.append(product)
-                checked_ids.append(product_id)
-        return render(request, "finalBuild/deviceSelection.html", {"products" : products})
+        retrievedProducts = Product.objects.filter(name="Medium")[::-1]
+        return render(request, "finalBuild/deviceSelection.html", {"products" : retrievedProducts})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def modelSelect(request, id=None):
     if request.method == 'GET':
         if (id == None):
             return JsonResponse({"error": "Invalid data"}, status=400)
-        productModels = Product.objects.all()
-        models = []
-        for product in productModels:
-            product_id = str(str(product.id).split("-")[0])
-            if product_id == id:
-                models.append(product)
-        return render(request, "finalBuild/modelSelection.html", {"models": models})
+        
+        product = Product.objects.get(id=id)
+        models = Product.objects.filter(type_id=product.type_id)
+        return render(request, "finalBuild/modelSelection.html", {"product": product, "models": models})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def finalBuild(request, product_id=None, modules=None, color=None):
