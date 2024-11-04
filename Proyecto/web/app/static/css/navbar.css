@@ -103,33 +103,6 @@ h1 {
   margin: 20px 50px 20px 50px;
 }
 
-.profile-container {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  background-color: var(--color01);
-  color: var(--color07);
-  border-radius: 10px;
-  padding: 25px;
-  border: 1px solid var(--color07);
-  align-items: center;
-  position: fixed;
-  top: calc(var(--navHeight) + 20px);
-  right: 21%;
-  transform-origin: top right;
-  transform: translate(0, 0) scale(0);
-  transition: transform 1s ease;
-  z-index: 1000000;
-}
-
-.show-profile {
-  transform: translate(
-      calc(21vw - 50vw + 50%),
-      calc(50vh - (var(--navHeight) + 20px) - 50%)
-    )
-    scale(1);
-}
-
 form {
   display: flex;
   flex-direction: column;
@@ -201,53 +174,6 @@ input:-webkit-autofill {
   transform: translateX(-250px);
 }
 
-#profile-pic-menu {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  opacity: 0;
-  transform-origin: center;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 1s ease, opacity 0.5s ease;
-  height: 100px;
-  width: 700px;
-  border-radius: 10px;
-  border: 1px solid var(--color07);
-  background-color: var(--color01);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#profile-pic-menu.visible {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  z-index: 10000000;
-}
-
-#profile-pic-menu ul {
-  list-style-type: none;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#profile-pic-menu img {
-  padding: 10px;
-  opacity: 0;
-  transition: transform var(--ease-time) ease, opacity var(--ease-time) ease;
-}
-
-#profile-pic-menu img:hover,
-#profilepic:hover {
-  transform: scale(1.1);
-}
-
-#profile-pic-menu img.loaded {
-  opacity: 1;
-}
-
 nav {
   background-color: var(--color01);
   transition: border-bottom var(--ease-time) ease-in-out;
@@ -287,6 +213,84 @@ nav {
   background-color: var(--color01);
 }
 
+/* Estilo del contenedor principal del perfil (profile-container) */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--color01);
+  color: var(--color07);
+  border-radius: 10px;
+  padding: 25px;
+  border: 1px solid var(--color07);
+  align-items: center;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, 0) scale(0);
+  transform-origin: top center;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  z-index: 1000000;
+  opacity: 0; 
+}
+
+.show-profile {
+  transform: translate(-50%, 0) scale(1);
+  opacity: 1;
+}
+
+#profile-pic-menu {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  opacity: 0;
+  transform-origin: center;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--color07);
+  background-color: var(--color01);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+#profile-pic-menu.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 10000000;
+}
+
+#profile-pic-menu ul {
+  list-style-type: none;
+  width: 100%;
+  display: flex;
+  flex-direction: row;  
+  justify-content: center;
+  align-items: center;
+}
+
+#profile-pic-menu img {
+  margin: 10px;
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#profile-pic-menu img:hover,
+#profilepic:hover {
+  transform: scale(1.1);
+}
+
+#profile-pic-menu img.loaded {
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .hamburger-menu {
     display: flex;
@@ -298,13 +302,13 @@ nav {
     align-items: center;
     background-color: var(--color01);
     width: 100%;
-    overflow: hidden; 
-    max-height: 0; 
-    transition: max-height 0.5s ease;  
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease;
   }
 
   .navbar.dropdown.active {
-      max-height: 500px;  
+    max-height: 500px;
   }
 
   nav {
@@ -329,4 +333,40 @@ nav {
     margin-top: calc(var(--navHeight) * 3.93);
   }
 
+  .profile-container {
+    width: 90%;
+    max-width: 95%;
+    padding: 15px;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0);
+    opacity: 0;
+  }
+
+  .show-profile {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
+
+  #profile-pic-menu {
+    width: auto;
+    max-width: 70px;
+    padding: 10px;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0);
+  }
+
+  #profile-pic-menu.visible {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  #profile-pic-menu ul {
+    flex-direction: column; 
+    align-items: center;
+  }
+
+  #profile-pic-menu img {
+    width: auto;
+  }
 }
