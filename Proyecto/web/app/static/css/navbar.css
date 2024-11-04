@@ -2,7 +2,6 @@ nav {
   background-color: var(--color01);
   transition: border-bottom var(--ease-time) ease-in-out;
   min-height: var(--navHeight);
-  max-height: var(--navHeight);
   display: flex;
   justify-content: space-between;
   padding: 0 var(--contentPadding) 0 calc(var(--contentPadding) - 8px - 1vmin + 10px);
@@ -50,15 +49,23 @@ h1 {
 .navbar {
   list-style-type: none;
   display: flex;
-  justify-content: space-between;
   background-color: var(--color01);
+  width: 100%;
+}
+
+.navbar:first-of-type {
+  justify-content: flex-start;
+}
+
+.navbar:last-of-type {
+  justify-content: flex-end;
 }
 
 .navbar li {
   text-align: center;
   display: inline-block;
   overflow: hidden;
-  margin: 0 1vmin 0 1vmin; 
+  margin: 0 1vmin 0 1vmin;
 }
 
 .navbar a {
@@ -82,6 +89,30 @@ h1 {
 
 .navbar a:hover {
   background-position: 0 100%;
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .navbar:first-of-type {
+    margin-bottom: 5px;
+  }
+
+  #account-info,
+  #account-options {
+    margin-top: calc(var(--navHeight) * 3.93);
+  }
 }
 
 #account-info,
@@ -255,26 +286,4 @@ input:-webkit-autofill {
 
 #profile-pic-menu img.loaded {
   opacity: 1;
-}
-
-@media only screen and (max-width: 768px) {
-  nav ul.navbar:nth-child(2) {
-    display: none;
-  }
-
-  nav ul.navbar:first-child {
-    width: 100%;
-    justify-content: space-around;
-  }
-
-  #icon {
-    height: 35px;
-    width: 35px;
-    margin: 5px;
-  }
-
-  .navbar li a {
-    font-size: 14px;
-    padding: 10px;
-  }
 }
