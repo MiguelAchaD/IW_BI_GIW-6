@@ -41,11 +41,17 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.target.tagName !== 'BUTTON' && !event.target.closest('button')) {
                 const moduleDetails = this.querySelector('.module-details');
                 if (moduleDetails) {
+                    if (moduleDetails.classList.contains('open')) {
+                        moduleDetails.style.height = '0px';
+                    } else {
+                        moduleDetails.style.height = moduleDetails.scrollHeight -1  + 'px';
+                    }
                     moduleDetails.classList.toggle('open');
                 }
             }
         });
     });
+    
 
     function removeProductContainer(productContainer) {
         productContainer.classList.add('collapse');

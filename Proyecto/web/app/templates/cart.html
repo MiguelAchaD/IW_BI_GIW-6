@@ -18,9 +18,9 @@
       {% for cartProduct in cartProducts %}
         <div class="cart-item">
           <div class="product-details">
-            <img src="{% static cartProduct.product.image %}" alt="{{ cartProduct.product.name }}" />
-            <h2>{{ cartProduct.product.name }}</h2>
-            <p>{{ cartProduct.product.model }}</p>
+            <img src="{% static cartProduct.product.media_path %}" alt="{{ cartProduct.product.name }}" />
+            <h2>{{ cartProduct.product.type.name }}</h2>
+            <p>{{ cartProduct.product.name }}</p>
             <p>{{ cartProduct.product.price }}€</p>
             <div class="quantity-control">
               <button class="decrease-quantity" data-id="{{ cartProduct.id }}">-</button>
@@ -32,8 +32,11 @@
           <div class="module-details">
             <ul>
               {% for module in cartProduct.modules.all %}
-                <li>{{ module.name }} - {{ module.price }}€</li>
-                {% empty %}
+                <li>
+                  <img src="{% static module.media_path %}" alt="{{ module.name }}" class="module-image"/>
+                  <span class="module-price">{{ module.price }}€</span>
+                </li>
+              {% empty %}
                 <li>No hay módulos asociados</li>
               {% endfor %}
             </ul>
