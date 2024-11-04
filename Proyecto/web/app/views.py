@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -264,64 +265,26 @@ def modelSelectSpecific(request, id=None):
         return redirect('finalBuild', id=id)
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
-def finalBuild(request, id=None, modules=None, color=None):
+def finalBuild(request, product_id=None, modules=None, color=None):
     if request.method == 'GET':
-        if (id == None):
+        if (product_id == None):
             return JsonResponse({"error": "Invalid data"}, status=400)
-        
         try:
             isRealProduct = False
-            if (Product.objects.filter(id=id)):
+            if (Product.objects.filter(id=product_id)):
                 isRealProduct=True
             if not isRealProduct:
                 raise Exception
-            product = Product.objects.get(id=id)
+            product = Product.objects.get(id=product_id)
         except Exception:
             return JsonResponse({"error": "Invalid data"}, status=400)
         modules_retreive = compatibleModules.objects.get(product=product)
         if (modules_retreive != None):
             try:
                 modules_retreive = compatibleModules.objects.get(product=product).modules.all()
-                
             except Exception:
                 return JsonResponse({"error": "Invalid data"}, status=400)
         return render(request, "finalBuild/build.html", {"product" : product, "modules": modules_retreive})
-    
-
-    #allCompatibleModules = compatibleModules.objects.all()
-#
-    #products = {}
-    #for obj in allCompatibleModules:
-    #    product_id = str(obj.product.id).split("-")[0]
-    #    if product_id in products:
-    #        products[product_id].append([obj.product.id, obj.product.name, int(obj.product.price),
-    #                                    int(obj.product.x), int(obj.product.y), int(obj.product.z)])
-    #    else:
-    #        products[product_id] = [[obj.product.id, obj.product.name, int(obj.product.price),
-    #                                int(obj.product.x), int(obj.product.y), int(obj.product.z)]]
-#
-    #modules = {}
-    #for obj in allCompatibleModules:
-    #    mods = []
-    #    for module in obj.modules.all():
-    #        mods.append([module.id, module.name, module.price,
-    #                    module.x, module.y, module.z, module.pairs])
-    #    modules[obj.product.id] = mods
-#
-    #if request.method == "GET":
-    #    return render(request, "finalBuild/build.html", {"products": products})
-    #elif request.method == "POST":
-    #    moduleData = request.POST.get('datos', None)
-    #    cartData = request.POST.getlist('datos[]')
-    #    if moduleData and moduleData.split("_")[0] == "modulesFor":
-    #        response_data = modules.get(moduleData.split("_")[1], [])
-    #        return JsonResponse(response_data, safe=False)
-    #    elif cartData and len(list(cartData)) > 2:
-    #        return addToCart(request, cartData[1], cartData[2:])
-    #    else:
-    #        return JsonResponse({"error": "Invalid data"}, status=400)
-    #else:
-    #    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 def calcTotalPrice(client):
     cartRelations = CartRelation.objects.filter(client=client)
@@ -373,31 +336,40 @@ def removeFromCart(request, cartProductId):
             print("ERROR: " + str(e))
             return JsonResponse({'status': 'error', 'message': 'Error eliminando el producto del carrito'}, status=500)
 
-def addToCart(request, product_id, modules):
+@csrf_exempt
+def addToCart(request):
     if request.method == 'POST':
-        client = Client.objects.get(user=request.user)
-        product = Product.objects.get(id=product_id)
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        module_ids = data.get('modules', [])
 
-        module_ids = sorted([int(module_id.split("-")[0]) for module_id in modules])
+        try:
+            client = Client.objects.get(user=request.user)
+            product = Product.objects.get(id=product_id)
 
-        existing_cart_product = None
-        for cart_product in CartProduct.objects.filter(product=product, cartrelation__client=client):
-            if sorted([module.id for module in cart_product.modules.all()]) == module_ids:
-                existing_cart_product = cart_product
-                break
+            module_ids = sorted([int(module_id) for module_id in module_ids])
 
-        if existing_cart_product:
-            existing_cart_product.quantity += 1
-            existing_cart_product.save()
-        else:
-            with transaction.atomic():
-                new_cart_product = CartProduct.objects.create(product=product)
-                new_cart_product.modules.set(module_ids)
-                CartRelation.objects.create(client=client, cartProduct=new_cart_product)
+            existing_cart_product = None
+            for cart_product in CartProduct.objects.filter(product=product, cartrelation__client=client):
+                if sorted([module.id for module in cart_product.modules.all()]) == module_ids:
+                    existing_cart_product = cart_product
+                    break
 
-        return JsonResponse("success", safe=False)
+            if existing_cart_product:
+                existing_cart_product.quantity += 1
+                existing_cart_product.save()
+            else:
+                with transaction.atomic():
+                    new_cart_product = CartProduct.objects.create(product=product)
+                    new_cart_product.modules.set(module_ids)
+                    CartRelation.objects.create(client=client, cartProduct=new_cart_product)
+
+            return JsonResponse("success", safe=False)
+        except Exception as e:
+            print(f"Error: {e}")
+            return JsonResponse("failure", safe=False)
     else:
-        return JsonResponse("failure", safe="False")
+        return JsonResponse("failure", safe=False)
 
 def properCart(cartData, prodIDs):
     proper = True

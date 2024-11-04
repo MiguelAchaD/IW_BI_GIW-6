@@ -32,7 +32,7 @@ function addToCart(product_id) {
     pair: item.pair,
   }));
 
-  const moduleIds = cartItems.map(item => item.id).join('-');
+  const moduleIds = cartItems.map(item => item.id);
 
   const cart = [];
   cart[0] = product_id;
@@ -43,23 +43,22 @@ function addToCart(product_id) {
     var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
     var dataToSend = cart;
     console.log(dataToSend)
-    if(dataToSend.length <= 2){
-      addToCart.innerText = "Selecciona por lo menos un módulo"
-      setTimeout(() => addToCart.innerText = "Añadir al carrito", 2500);
-      return;
-    }
 
     $.ajax({
       type: "POST",
-      url: "builder",
-      data: { datos: dataToSend },
-      dataType: "json",
+      url: "/addToCart/",
+      data: JSON.stringify({ product_id: product_id, modules: moduleIds }),
+      contentType: "application/json",
+      dataType: "json",  
       headers: {
         "X-CSRFToken": csrfToken,
       },
       success: function (response) {
-        console.log(response)
+        console.log(response);  
       },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud:", error)
+      } 
     });
   });
 }

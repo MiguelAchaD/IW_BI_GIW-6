@@ -216,7 +216,7 @@
   visibility: visible;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1210px) {
   .select-custom {
     margin-bottom: 0;
   }

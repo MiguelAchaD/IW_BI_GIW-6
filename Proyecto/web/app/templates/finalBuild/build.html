@@ -31,7 +31,7 @@ Ecomods - Construcción
       </div>
       {% endfor %}
     </div>
-    <button id="add" onclick="addToCart('{{product.id}}')">
+    <button id="add" onclick="addToCart('{{ product.id }}')" data-url="{% url 'addToCart' %}">
       añadir al carrito
     </button>
   </div>
