@@ -7,7 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const profileContainer = document.querySelector(".profile-container");
     const viewProfileLink = document.querySelector("#account-info a[href='']");
     const easeTime = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ease-time')) * 1000;
+    const hamburgerMenu = document.getElementById("hamburger-menu");
+    const dropdownNavbars = document.querySelectorAll(".navbar.dropdown");
     let isDropdownVisible = false;
+    
+    hamburgerMenu.addEventListener("click", function () {
+      dropdownNavbars.forEach(navbar => {
+        navbar.classList.toggle("active");
+      });
+    });
 
     profileSvg.addEventListener("click", function () {
         toggleAccountDropdown(!isDropdownVisible);

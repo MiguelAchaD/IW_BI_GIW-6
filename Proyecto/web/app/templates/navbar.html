@@ -6,7 +6,12 @@
   <script src="{% static 'js/navbar.js' %}"></script>
 </head>
 <nav>
-  <ul class="navbar">
+  <div class="hamburger-menu" id="hamburger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul class="navbar dropdown">
     <li>
       <a href="{% url 'home' %}">
         <img src="{% static 'images/icon.png' %}" alt="Ecomods Icon" id="icon">
@@ -22,7 +27,7 @@
       <a href="{% url 'products' 'LP' %}">Portatiles</a>
     </li>
   </ul>
-  <ul class="navbar">
+  <ul class="navbar dropdown">
     <li>
       <a href="{% url 'productSelect' %}">
         <svg width="50%" height="50%" viewBox="0 0 24 24" id="create">
