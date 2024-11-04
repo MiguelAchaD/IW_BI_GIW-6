@@ -229,10 +229,8 @@ def updateProfilePicture(request):
     return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
-def productSelect(request, id=None):
+def productSelect(request):
     if request.method == 'GET':
-        if (id != None):
-            return redirect('modelSelect_specific', id=id)
         retrievedProducts = Product.objects.all()
         checked_ids = []
         products = []
@@ -258,11 +256,6 @@ def modelSelect(request, id=None):
             if product_id == id:
                 models.append(product)
         return render(request, "finalBuild/modelSelection.html", {"models": models})
-
-@user_passes_test(isUserAuthenticated, login_url="logIn")
-def modelSelectSpecific(request, id=None):
-    if request.method == 'GET':
-        return redirect('finalBuild', id=id)
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def finalBuild(request, product_id=None, modules=None, color=None):

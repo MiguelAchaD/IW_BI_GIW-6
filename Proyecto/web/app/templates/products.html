@@ -28,7 +28,7 @@ Ecomods - {{ type.name }}
   <div class="wrapper">
     <div class="product-list">
       {% for product in products %}
-      <div class="product-item" data-url="{% url 'productSelect' product.id %}">
+      <div class="product-item" data-url="{% url 'finalBuild' product.id %}">
         <h2 class="prod-name">{{ product.name }}</h2>
 
         <div class="metric-item">
