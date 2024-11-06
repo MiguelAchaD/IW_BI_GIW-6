@@ -11,17 +11,17 @@
   margin-top: 20px;
   text-align: center;
   color: var(--color07);
-  font-size: 2em;
+  font-size: 1.5em; 
 }
 
 .clickableOption {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 1 300px;
-  max-width: 300px;
+  flex: 1 1 200px; 
+  max-width: 200px;
   margin: 10px;
-  padding: 2em;
+  padding: 1.5em;
   border: 3px black solid;
   border-radius: 1em;
   text-decoration: none;
@@ -33,7 +33,7 @@
   order: -1;
   margin-bottom: 10px;
   color: white;
-  font-size: 1.5em;
+  font-size: 1.2em; 
 }
 
 .clickableOption img {
@@ -58,7 +58,13 @@
 
 @media (max-width: 1200px) {
   .clickableOption {
-    flex: 1 1 45%;
+    flex: 1 1 250px; 
+    max-width: 250px;
+    padding: 1.75em; 
+  }
+
+  .clickableOption h2 {
+    font-size: 1.4em;
   }
 }
 
@@ -69,11 +75,12 @@
 
   .clickableOption {
     flex: 1 1 90%;
+    max-width: none;
     padding: 1.5em;
   }
 
   .clickableOption h2 {
-    font-size: 1.2em;
+    font-size: 1.5em;
   }
 
   .info {
@@ -87,7 +94,7 @@
   }
 
   .clickableOption h2 {
-    font-size: 1em;
+    font-size: 1.2em;
   }
 
   .info {

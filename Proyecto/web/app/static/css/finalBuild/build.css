@@ -1,27 +1,9 @@
-/* Estilos específicos para la página de construcción */
-
-/* Ajustes del cuerpo y el contenedor principal */
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-  padding: 0 var(--contentPadding);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: calc(100vh - var(--navHeight));
-}
-
 h2.info {
   margin-top: 20px;
   text-align: center;
   color: var(--color07);
 }
 
-/* Contenedor de selección */
 .selection-wrapper {
   width: 100%;
   max-width: 1200px;
@@ -142,18 +124,16 @@ h2.info {
   width: 30rem;
 }
 
-/* Adaptación para pantallas medianas */
 @media (max-width: 1024px) {
   .selectable {
     flex: 1 1 calc(25% - 40px);
     max-width: calc(25% - 40px);
   }
   #add:hover {
-    width: 15rem; /* El ancho del botón no cambia en pantallas medianas */
+    width: 15rem;
   }
 }
 
-/* Adaptación para pantallas pequeñas */
 @media (max-width: 768px) {
   .selection-wrapper {
     max-width: 90%;
@@ -175,7 +155,6 @@ h2.info {
     padding: 0.8em 1.5em;
   }
 
-  /* Hover sin cambio de tamaño en pantallas pequeñas */
   #add:hover {
     width: 12rem;
   }
@@ -190,7 +169,6 @@ h2.info {
   }
 }
 
-/* Adaptación para pantallas extra pequeñas */
 @media (max-width: 480px) {
   .selection-wrapper {
     padding: 0 1em;
@@ -207,12 +185,11 @@ h2.info {
   }
 
   #add {
-    width: 12rem; /* Ancho fijo para pantallas extra pequeñas */
+    width: 12rem;
     font-size: 0.9em;
     padding: 0.7em 1em;
   }
 
-  /* Hover sin cambio de tamaño en pantallas extra pequeñas */
   #add:hover {
     width: 12rem;
   }
