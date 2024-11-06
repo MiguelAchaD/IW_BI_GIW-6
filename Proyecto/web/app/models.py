@@ -51,6 +51,7 @@ class Product(models.Model):
     y = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     z = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     media_path = models.CharField(max_length=255, default="images/products/defult.png")
+    color = models.CharField(max_length=255, default="black")
 
 class compatibleModules(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)

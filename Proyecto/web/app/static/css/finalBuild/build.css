@@ -1,77 +1,46 @@
-.selection-wrapper {
+/* Estilos específicos para la página de construcción */
+
+/* Ajustes del cuerpo y el contenedor principal */
+body {
   display: flex;
-  justify-content: space-around;
-  margin: 0 13vw 0 13vw;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding: 0 var(--contentPadding);
+  display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: calc(100vh - var(--navHeight));
 }
 
-.selection-wrapper *{
-  margin-top: 20px;
-}
-
-.deviceImage {
-  max-width: 20em;
-}
-
-.info {
+h2.info {
   margin-top: 20px;
   text-align: center;
   color: var(--color07);
 }
 
-.picklist {
-  width: 70vw;
-  min-height: 200px;
-  max-height: 300px;
-  background-color: lightgray;
+/* Contenedor de selección */
+.selection-wrapper {
+  width: 100%;
+  max-width: 1200px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 2em 0;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.deviceImage {
+  max-width: 300px;
   margin-bottom: 20px;
-  overflow-y: scroll;
-}
-
-.selectable {
-  width: 20%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 1em 0;
-}
-
-.selectable p {
-  margin: 0;
-  font-size: 1em;
-  align-self: stretch;
-}
-
-.selectable {
-  width: 20%;
-  min-height: 50%;
-  max-height: 50%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 1em 0;
-  background-color: lightgray;
-  transition: background-color 0.5s ease;
-  border: 2px black solid;
-  border-radius: 2em;
-  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .color-selector {
   display: flex;
   gap: 15px;
+  margin-bottom: 20px;
 }
 
 .circle {
@@ -79,19 +48,127 @@
   height: 3em;
   border-radius: 50%;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.2s;
   box-shadow: 0 0 0 2px transparent;
-  transition: .2s box-shadow;
 }
 
-.circle.red { background-color: #FF4C4C; }
-.circle.black { background-color: #1f1f1f; }
-.circle.blue { background-color: #4C6AFF; }
+.circle.red {
+  background-color: #FF4C4C;
+}
+
+.circle.black {
+  background-color: #1f1f1f;
+}
+
+.circle.blue {
+  background-color: #4C6AFF;
+}
 
 .circle.selected {
-  box-shadow: 0 0 0 5px #ffffff, 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 5px var(--color07), 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.moduleSelected{
-  background-color: gray;
+.picklist {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 2em;
+  background-color: var(--color02);
+  border-radius: 10px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  justify-content: center; 
+}
+
+.selectable {
+  flex: 1 1 calc(20% - 40px);
+  max-width: calc(20% - 40px);
+  background-color: var(--color08);
+  color: var(--color07);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color var(--ease-time), transform var(--ease-time), box-shadow var(--ease-time);
+}
+
+.selectable img {
+  max-width: 100%;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+}
+
+.selectable p {
+  margin: 0;
+  font-size: 1em;
+  color: var(--color07);
+}
+
+.selectable:hover {
+  background-color: var(--color09);
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.selectable.moduleSelected {
+  background-color: var(--color06);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px) scale(1.05); 
+}
+
+.selectable.moduleSelected img {
+  transform: scale(1.05); 
+  transition: transform var(--ease-time);
+}
+
+#add {
+  background-color: var(--color06);
+  color: var(--color07);
+  border: none;
+  padding: 1em 2em;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: width var(--ease-time) ease;
+  width: 15rem; 
+}
+
+#add:hover {
+  width: 30rem;
+}
+
+
+/* Diseño responsivo */
+@media (max-width: 1024px) {
+  .selectable {
+    flex: 1 1 calc(25% - 40px);
+    max-width: calc(25% - 40px);
+  }
+}
+
+@media (max-width: 768px) {
+  .selectable {
+    flex: 1 1 calc(33.333% - 40px);
+    max-width: calc(33.333% - 40px);
+  }
+}
+
+@media (max-width: 480px) {
+  .selectable {
+    flex: 1 1 calc(100% - 40px);
+    max-width: calc(100% - 40px);
+  }
+
+  .selection-wrapper {
+    padding: 0 1em;
+  }
+
+  .picklist {
+    padding: 1em;
+  }
 }

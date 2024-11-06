@@ -14,10 +14,12 @@ Ecomods - Construcción
 {% endblock %}
 
 {% block content %}
-<div id="stage-3" class="stage">
-  <h2 class="info">Personaliza tu {{product.type.name}} {{product.name}}</h2>
+<main>
+  <h2 class="info">Personaliza tu {{ product.type.name }} {{ product.name }}</h2>
   <div class="selection-wrapper">
-    <img class="deviceImage" src="{% static product.media_path %}" alt="{{product.name}}">
+    <img id="deviceImage" class="deviceImage" src="{% static product.media_path %}" alt="{{ product.name }}"
+         data-product-type="{{ product.type.name|lower }}"
+         data-product-name="{{ product.name|lower }}">
     <div class="color-selector">
       <div class="circle red" onclick="selectColor('red')"></div>
       <div class="circle black" onclick="selectColor('black')"></div>
@@ -25,15 +27,15 @@ Ecomods - Construcción
     </div>
     <div class="picklist">
       {% for module in modules %}
-      <div class="selectable" data-id="{{module.id}}" data-pair="{{module.pairs}}" onclick="selectModule('{{module.id}}', '{{module.pairs}}')">
-        <p>{{module.name}}</p>
-        <img src="{{module.media_path}}" alt="imagen">
+      <div class="selectable" data-id="{{ module.id }}" data-pair="{{ module.pairs }}">
+        <img src="{% static module.media_path %}" alt="{{ module.name }}">
+        <p>{{ module.name }}</p>
       </div>
       {% endfor %}
     </div>
     <button id="add" onclick="addToCart('{{ product.id }}')" data-url="{% url 'addToCart' %}">
-      añadir al carrito
+      Añadir al carrito
     </button>
   </div>
-</div>
+</main>
 {% endblock %}
