@@ -32,7 +32,7 @@ h2.info {
 }
 
 .deviceImage {
-  max-width: 300px;
+  max-width: 100%;
   margin-bottom: 20px;
   transition: opacity 0.3s ease-in-out;
 }
@@ -79,7 +79,7 @@ h2.info {
   border-radius: 10px;
   overflow-y: auto;
   margin-bottom: 20px;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .selectable {
@@ -118,11 +118,11 @@ h2.info {
 .selectable.moduleSelected {
   background-color: var(--color06);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  transform: translateY(-5px) scale(1.05); 
+  transform: translateY(-5px) scale(1.05);
 }
 
 .selectable.moduleSelected img {
-  transform: scale(1.05); 
+  transform: scale(1.05);
   transition: transform var(--ease-time);
 }
 
@@ -135,40 +135,90 @@ h2.info {
   border-radius: 5px;
   cursor: pointer;
   transition: width var(--ease-time) ease;
-  width: 15rem; 
+  width: 15rem;
 }
 
 #add:hover {
   width: 30rem;
 }
 
-
-/* Diseño responsivo */
+/* Adaptación para pantallas medianas */
 @media (max-width: 1024px) {
   .selectable {
     flex: 1 1 calc(25% - 40px);
     max-width: calc(25% - 40px);
   }
+  #add:hover {
+    width: 15rem; /* El ancho del botón no cambia en pantallas medianas */
+  }
 }
 
+/* Adaptación para pantallas pequeñas */
 @media (max-width: 768px) {
+  .selection-wrapper {
+    max-width: 90%;
+  }
+
+  .picklist {
+    padding: 1em;
+  }
+
   .selectable {
     flex: 1 1 calc(33.333% - 40px);
     max-width: calc(33.333% - 40px);
+    padding: 0.8em;
+  }
+
+  #add {
+    width: 12rem;
+    font-size: 0.9em;
+    padding: 0.8em 1.5em;
+  }
+
+  /* Hover sin cambio de tamaño en pantallas pequeñas */
+  #add:hover {
+    width: 12rem;
+  }
+
+  .color-selector {
+    gap: 10px;
+  }
+
+  .circle {
+    width: 2.5em;
+    height: 2.5em;
   }
 }
 
+/* Adaptación para pantallas extra pequeñas */
 @media (max-width: 480px) {
-  .selectable {
-    flex: 1 1 calc(100% - 40px);
-    max-width: calc(100% - 40px);
-  }
-
   .selection-wrapper {
     padding: 0 1em;
   }
 
   .picklist {
-    padding: 1em;
+    padding: 0.5em;
+  }
+
+  .selectable {
+    flex: 1 1 calc(100% - 40px);
+    max-width: calc(100% - 40px);
+    padding: 0.5em;
+  }
+
+  #add {
+    width: 12rem; /* Ancho fijo para pantallas extra pequeñas */
+    font-size: 0.9em;
+    padding: 0.7em 1em;
+  }
+
+  /* Hover sin cambio de tamaño en pantallas extra pequeñas */
+  #add:hover {
+    width: 12rem;
+  }
+
+  .circle {
+    width: 2em;
+    height: 2em;
   }
 }
