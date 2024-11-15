@@ -27,7 +27,7 @@
 
         {% block additionalLinks %}
         {% endblock %}
-        <a class="link" href="{% url 'social:begin' 'google-oauth2' %}">Iniciar sesión con Google</a>
+        <a class="link" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.GET.next|default:"/" }}">Iniciar sesión con Google</a>
       </div>
     </div>
     <div class="infoMessage">
