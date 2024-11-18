@@ -11,22 +11,25 @@
 }
 
 .image-text-container {
+  display: flex; 
   position: relative;
-  display: flex;
   width: 100%;
   overflow: hidden;
   border: none;
   transition: transform var(--ease-time) ease-in-out, background-color var(--ease-time) ease-in-out;
 }
 
+
 .image-stack {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   overflow: hidden;
-  transition: transform var(--ease-time) ease-in-out,
-    margin-right var(--ease-time) ease-in-out;
+  margin-right: 1em;
+  flex: 0 0 auto;
+  transition: transform var(--ease-time) ease-in-out, margin-right var(--ease-time) ease-in-out;
 }
+
 
 .image-stack img {
   margin-right: 1em;
@@ -34,6 +37,7 @@
   transition: filter var(--ease-time) ease-in-out;
   margin-right: 20px;
   cursor: pointer;
+  height: 15em;
 }
 
 .image-stack img:hover + * {
@@ -53,11 +57,10 @@
 }
 
 .image-description {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 30%;
+  flex: 1; 
+  transform: translateX(100%);
+  transition: transform var(--ease-time) ease-in-out;
+  
   background-color: var(--color06);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -67,8 +70,7 @@
   justify-content: center;
   text-align: center;
   padding: 20px;
-  transition: transform var(--ease-time) ease-in-out;
-  transform: translateX(100%);
+  overflow: hidden;
 }
 
 .image-text-container:hover .image-description {

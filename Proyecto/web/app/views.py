@@ -17,6 +17,15 @@ from app.templatetags.custom_tags import *
 from app.models import Product, compatibleModules
 from django.http import JsonResponse
 from django.db import transaction
+import random
+from django.core.exceptions import ImproperlyConfigured
+from .models import (
+    Product,
+    Module,
+    Client,
+    CartProduct,
+    CartRelation,
+)
 
 
 
@@ -25,26 +34,47 @@ def isUserAuthenticated(user):
 
 def home(request):
     if request.method == "GET":
-        products = {
-            'phones': Product.objects.filter(id__startswith='PN'),
-            'tablets': Product.objects.filter(id__startswith='TB'),
-            'laptops': Product.objects.filter(id__startswith='LP')
+        types = Type.objects.all()
+
+        available_colors = list(Product.objects.values_list('color', flat=True).distinct())
+
+        if not available_colors or len(available_colors) < types.count():
+            raise ImproperlyConfigured(
+                "No hay suficientes colores únicos disponibles para asignar a cada tipo. "
+                f"Se requieren al menos {types.count()} colores, pero solo hay {len(available_colors)} disponibles."
+            )
+
+        random.shuffle(available_colors)
+
+        type_color_mapping = {type_obj.id: color for type_obj, color in zip(types, available_colors)}
+
+        products = {}
+        for type_obj in types:
+            key = type_obj.name.lower()
+            assigned_color = type_color_mapping[type_obj.id]
+            products[key] = Product.objects.filter(type=type_obj, color=assigned_color)
+
+        context = {
+            'products': products,
         }
 
-        return render(request, "home.html", {'products': products})
+        print(products)
 
-    if request.method == "POST":
+        return render(request, "home.html", context)
+
+    elif request.method == "POST":
         user = request.user
-        user.username = request.POST["username"]
-        user.email = request.POST["email"]
-        user.first_name = request.POST["first_name"]
-        user.last_name = request.POST["last_name"]
+        user.username = request.POST.get("username", user.username)
+        user.email = request.POST.get("email", user.email)
+        user.first_name = request.POST.get("first_name", user.first_name)
+        user.last_name = request.POST.get("last_name", user.last_name)
         user.save()
 
         client = user.client
         client.save()
 
         return redirect("home")
+
 
 
 def logIn(request):
@@ -204,7 +234,7 @@ def products(request, id):
     except Product.DoesNotExist:
         product_type = get_object_or_404(Type, id=id)
     
-    products_of_same_type = Product.objects.filter(type=product_type)
+    products_of_same_type = Product.objects.filter(type=product_type, color="blue")
     
     return render(request, "products.html", {
         "type": product_type,
@@ -231,7 +261,7 @@ def updateProfilePicture(request):
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def productSelect(request):
     if request.method == 'GET':
-        retrievedProducts = Product.objects.filter(name="Medium")[::-1]
+        retrievedProducts = Product.objects.filter(name="Medium", color="black")[::-1]
         return render(request, "finalBuild/deviceSelection.html", {"products" : retrievedProducts})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
@@ -241,30 +271,50 @@ def modelSelect(request, id=None):
             return JsonResponse({"error": "Invalid data"}, status=400)
         
         product = Product.objects.get(id=id)
-        models = Product.objects.filter(type_id=product.type_id)
+        models = Product.objects.filter(type_id=product.type_id, color="black")
         return render(request, "finalBuild/modelSelection.html", {"product": product, "models": models})
+
+# views.py
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
+from django.contrib.auth.decorators import user_passes_test
+from .models import Product, compatibleModules
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def finalBuild(request, product_id=None, modules=None, color=None):
     if request.method == 'GET':
-        if (product_id == None):
+        if not product_id:
             return JsonResponse({"error": "Invalid data"}, status=400)
         try:
-            isRealProduct = False
-            if (Product.objects.filter(id=product_id)):
-                isRealProduct=True
-            if not isRealProduct:
-                raise Exception
             product = Product.objects.get(id=product_id)
-        except Exception:
-            return JsonResponse({"error": "Invalid data"}, status=400)
-        modules_retreive = compatibleModules.objects.get(product=product)
-        if (modules_retreive != None):
-            try:
-                modules_retreive = compatibleModules.objects.get(product=product).modules.all()
-            except Exception:
-                return JsonResponse({"error": "Invalid data"}, status=400)
-        return render(request, "finalBuild/build.html", {"product" : product, "modules": modules_retreive})
+        except Product.DoesNotExist:
+            return JsonResponse({"error": "Product does not exist"}, status=400)
+        
+        try:
+            modules_retrieve = compatibleModules.objects.get(product=product).modules.all()
+        except compatibleModules.DoesNotExist:
+            modules_retrieve = None 
+        
+        context = {
+            "product": product,
+            "modules": modules_retrieve
+        }
+        return render(request, "finalBuild/build.html", context)
+    
+    elif request.method == "POST":
+        user = request.user
+        user.username = request.POST.get("username", user.username)
+        user.email = request.POST.get("email", user.email)
+        user.first_name = request.POST.get("first_name", user.first_name)
+        user.last_name = request.POST.get("last_name", user.last_name)
+        user.save()
+
+        client = user.client
+        client.save()
+
+        return redirect("home")
+
 
 def calcTotalPrice(client):
     cartRelations = CartRelation.objects.filter(client=client)
@@ -319,38 +369,76 @@ def removeFromCart(request, cartProductId):
 @csrf_exempt
 def addToCart(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        product_id = data.get('product_id')
-        module_ids = data.get('modules', [])
-
         try:
-            client = Client.objects.get(user=request.user)
-            product = Product.objects.get(id=product_id)
+            data = json.loads(request.body)
+            product_id = data.get('product_id')
+            module_ids = data.get('modules', [])
+            color = data.get("color")
 
-            module_ids = sorted([int(module_id) for module_id in module_ids])
+            if not product_id or not color:
+                return JsonResponse({"error": "Product ID and color are required."}, status=400)
+
+            client = Client.objects.get(user=request.user)
+
+            try:
+                base_product = Product.objects.get(id=product_id)
+                product_type = base_product.type
+                product_name = base_product.name
+            except Product.DoesNotExist:
+                return JsonResponse({"error": "Product does not exist."}, status=404)
+
+            try:
+                product = Product.objects.get(
+                    type=product_type,
+                    name=product_name,
+                    color=color
+                )
+            except Product.DoesNotExist:
+                return JsonResponse({"error": f"No product found with name '{product_name}', type '{product_type}', and color '{color}'."}, status=404)
+
+            valid_module_ids = []
+            for module_id in module_ids:
+                try:
+                    Module.objects.get(id=str(module_id))
+                    valid_module_ids.append(str(module_id))
+                except Module.DoesNotExist:
+                    return JsonResponse({"error": f"Module with ID '{module_id}' does not exist."}, status=404)
+
+            sorted_module_ids = sorted(valid_module_ids)
 
             existing_cart_product = None
-            for cart_product in CartProduct.objects.filter(product=product, cartrelation__client=client):
-                if sorted([module.id for module in cart_product.modules.all()]) == module_ids:
+            cart_products = CartProduct.objects.filter(product=product, cartrelation__client=client).prefetch_related('modules')
+
+            for cart_product in cart_products:
+                cart_product_module_ids = sorted([module.id for module in cart_product.modules.all()])
+                if cart_product_module_ids == sorted_module_ids:
                     existing_cart_product = cart_product
                     break
 
             if existing_cart_product:
                 existing_cart_product.quantity += 1
                 existing_cart_product.save()
+                return JsonResponse({"message": "Product quantity updated in cart."}, status=200)
             else:
                 with transaction.atomic():
                     new_cart_product = CartProduct.objects.create(product=product)
-                    new_cart_product.modules.set(module_ids)
+                    modules_queryset = Module.objects.filter(id__in=valid_module_ids)
+                    new_cart_product.modules.set(modules_queryset)
+                    new_cart_product.save()
+
                     CartRelation.objects.create(client=client, cartProduct=new_cart_product)
 
-            return JsonResponse("success", safe=False)
-        except Exception as e:
-            print(f"Error: {e}")
-            return JsonResponse("failure", safe=False)
-    else:
-        return JsonResponse("failure", safe=False)
+                return JsonResponse({"message": "Product added to cart."}, status=201)
 
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON data."}, status=400)
+        except ObjectDoesNotExist:
+            return JsonResponse({"error": "Associated data does not exist."}, status=400)
+        except Exception as e:
+            print(f"Error in addToCart: {e}")
+            return JsonResponse({"error": "An unexpected error occurred."}, status=500)
+    else:
+        return JsonResponse({"error": "Invalid request method."}, status=405)
 def properCart(cartData, prodIDs):
     proper = True
     index = 0
