@@ -91,6 +91,11 @@ p {
     min-height: 2.5rem; 
 }
 
+.product-details img{
+    height: 10rem;
+    width: auto;
+} 
+
 #totalPriceContainer {
     align-self: flex-end;
     width: 100%;
