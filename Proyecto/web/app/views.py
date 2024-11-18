@@ -23,28 +23,64 @@ from django.db import transaction
 def isUserAuthenticated(user):
     return user.is_authenticated
 
+# views.py
+import random
+from django.shortcuts import render, redirect
+from django.core.exceptions import ImproperlyConfigured
+from .models import Product, Type
+
 def home(request):
     if request.method == "GET":
-        products = {
-            'phones': Product.objects.filter(id__startswith='PN'),
-            'tablets': Product.objects.filter(id__startswith='TB'),
-            'laptops': Product.objects.filter(id__startswith='LP')
+        # 1. Recuperar todos los tipos de productos dinámicamente
+        types = Type.objects.all()
+
+        # 2. Recuperar todos los colores únicos disponibles en los productos
+        available_colors = list(Product.objects.values_list('color', flat=True).distinct())
+
+        # 3. Verificar que haya suficientes colores para asignar a cada tipo
+        if not available_colors or len(available_colors) < types.count():
+            raise ImproperlyConfigured(
+                "No hay suficientes colores únicos disponibles para asignar a cada tipo. "
+                f"Se requieren al menos {types.count()} colores, pero solo hay {len(available_colors)} disponibles."
+            )
+
+        # 4. Mezclar los colores aleatoriamente para asignación
+        random.shuffle(available_colors)
+
+        # 5. Asignar un color único a cada tipo
+        type_color_mapping = {type_obj.id: color for type_obj, color in zip(types, available_colors)}
+
+        # 6. Construir el diccionario de productos filtrados por tipo y color
+        products = {}
+        for type_obj in types:
+            key = type_obj.name.lower()  # 'phones', 'tablets', 'laptops'
+            assigned_color = type_color_mapping[type_obj.id]
+            products[key] = Product.objects.filter(type=type_obj, color=assigned_color)
+
+        # 7. Preparar el contexto para el template
+        context = {
+            'products': products,
         }
 
-        return render(request, "home.html", {'products': products})
+        print(products)
 
-    if request.method == "POST":
+        return render(request, "home.html", context)
+
+    elif request.method == "POST":
+        # Manejo de actualización de usuario según tu lógica actual
         user = request.user
-        user.username = request.POST["username"]
-        user.email = request.POST["email"]
-        user.first_name = request.POST["first_name"]
-        user.last_name = request.POST["last_name"]
+        user.username = request.POST.get("username", user.username)
+        user.email = request.POST.get("email", user.email)
+        user.first_name = request.POST.get("first_name", user.first_name)
+        user.last_name = request.POST.get("last_name", user.last_name)
         user.save()
 
         client = user.client
+        # Asegúrate de actualizar los campos del cliente si es necesario
         client.save()
 
         return redirect("home")
+
 
 
 def logIn(request):
