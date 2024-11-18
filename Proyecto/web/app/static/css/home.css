@@ -32,8 +32,9 @@
   margin-right: 1em;
   transition: transform var(--ease-time) ease-in-out;
   transition: filter var(--ease-time) ease-in-out;
-  margin-right: 20px;
+  margin-right: -50px;
   cursor: pointer;
+  width: 25rem;
 }
 
 .image-stack img:hover + * {
