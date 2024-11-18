@@ -1,22 +1,26 @@
 let selectedPairs = [];
-let selectedColor = 'black';
+let selectedColor = 'black'; // Color predeterminado
 
 function selectModule(elementId, pair) {
   const element = document.querySelector(`.selectable[data-id="${elementId}"]`);
   if (!element) return;
 
+  // Si el módulo ya está seleccionado, lo deseleccionamos y lo eliminamos de selectedPairs
   if (element.classList.contains('moduleSelected')) {
     element.classList.remove('moduleSelected');
     selectedPairs = selectedPairs.filter(item => item.element !== element);
     return;
   }
 
+  // Verificar si hay otro módulo seleccionado del mismo par
   const existingIndex = selectedPairs.findIndex(item => item.pair === pair);
   if (existingIndex !== -1) {
+    // Deseleccionar el módulo previamente seleccionado del mismo par
     selectedPairs[existingIndex].element.classList.remove('moduleSelected');
     selectedPairs.splice(existingIndex, 1);
   }
 
+  // Seleccionar el nuevo módulo
   element.classList.add('moduleSelected');
   selectedPairs.push({ element, pair });
 }
@@ -24,17 +28,21 @@ function selectModule(elementId, pair) {
 function selectColor(color) {
   selectedColor = color;
 
+  // Actualizar la selección visual
   document.querySelectorAll('.circle').forEach(circle => {
     circle.classList.remove('selected');
   });
   document.querySelector(`.circle.${color}`).classList.add('selected');
 
+  // Actualizar la imagen del dispositivo según el color seleccionado
   const deviceImage = document.getElementById('deviceImage');
   let currentSrc = deviceImage.getAttribute('src');
 
+  // Remover cualquier extensión de color existente
   currentSrc = currentSrc.replace(/\.(red|blue|black)\.png$/, '.png');
   currentSrc = currentSrc.replace(/\.png$/, '');
 
+  // Agregar el nuevo color
   const newSrc = `${currentSrc}.${color}.png`;
 
   deviceImage.src = newSrc;
