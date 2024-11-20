@@ -6,7 +6,6 @@
 {% block additionalLinks %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 <script src="{% static 'js/home.js' %}"></script>
-<script src="{% static 'js/homeAnimations.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -14,21 +13,6 @@ Ecomods - Inicio
 {% endblock %}
 
 {% block content %}
-<div class="Animations section">
-  <div id="first_animation" class="animation-section">
-    <h2>Bla Bla Bla</h2>
-    <div class="image-container">
-      <img id="first_image" src="{% static '/images/animations/laptop/0001.png' %}" alt="Primera Animación">
-    </div>
-  </div>
-  <div id="second_animation" class="animation-section">
-    <div class="image-container">
-      <img id="second_image" src="{% static '/images/animations/phone/0001.png' %}" alt="Segunda Animación">
-    </div>
-    <h2>Bla Bla Bla</h2>
-  </div>
-</div>
-
 <div class="Phones section">
   <h1>Phones</h1>
   <div class="image-text-container" data-url="{% url 'products' 'PN' %}">

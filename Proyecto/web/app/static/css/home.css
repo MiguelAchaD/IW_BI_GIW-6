@@ -75,36 +75,3 @@
 .image-text-container:hover .image-description {
   transform: translateX(0);
 }
-
-.Animations {
-  display: flex;
-  flex-direction: column;
-  height: 110vh;
-}
-
-.animation-section {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 50%;
-}
-
-.animation-section h2 {
-  flex: 1;
-  font-size: 2rem;
-  text-align: center;
-}
-
-.image-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-container img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-}
