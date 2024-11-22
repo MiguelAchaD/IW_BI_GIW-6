@@ -17,9 +17,14 @@ Ecomods - Construcción
 <main>
   <h2 class="info">Personaliza tu {{ product.type.name }} {{ product.name }}</h2>
   <div class="selection-wrapper">
-    <img id="deviceImage" class="deviceImage" src="{% static product.media_path %}" alt="{{ product.name }}"
-         data-product-type="{{ product.type.name|lower }}"
-         data-product-name="{{ product.name|lower }}">
+    <img
+      id="deviceImage"
+      class="deviceImage"
+      src="{% static product.media_path %}"
+      alt="{{ product.name }}"
+      data-product-type="{{ product.type.id }}"
+      data-product-name="{{ product.name }}"
+    >
     <div class="color-selector">
       <div class="circle red" onclick="selectColor('red')"></div>
       <div class="circle black" onclick="selectColor('black')"></div>
@@ -33,9 +38,22 @@ Ecomods - Construcción
       </div>
       {% endfor %}
     </div>
-    <button id="add" onclick="addToCart('{{ product.id }}')" data-url="{% url 'addToCart' %}">
+    <button
+      id="add"
+      onclick="addToCart('{{ product.name }}', '{{ product.type.id }}')"
+      data-url="{% url 'addToCart' %}"
+    >
       Añadir al carrito
     </button>
+  </div>
+
+  <div id="popup" class="popup-overlay">
+    <div class="popup-content">
+      <p id="popupMessage"></p>
+      <div id="popupButtons" class="popup-buttons">
+        <button onclick="goToCart()">Ir al carrito</button>
+      </div>
+    </div>
   </div>
 </main>
 {% endblock %}
