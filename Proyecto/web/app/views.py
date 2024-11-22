@@ -17,57 +17,30 @@ from app.templatetags.custom_tags import *
 from app.models import Product, compatibleModules
 from django.http import JsonResponse
 from django.db import transaction
-
-
+from django.core.exceptions import ImproperlyConfigured
+from app import utils
 
 def isUserAuthenticated(user):
     return user.is_authenticated
 
-# views.py
-import random
-from django.shortcuts import render, redirect
-from django.core.exceptions import ImproperlyConfigured
-from .models import Product, Type
 
 def home(request):
     if request.method == "GET":
-        # 1. Recuperar todos los tipos de productos dinámicamente
-        types = Type.objects.all()
+        type_color_mapping = utils.assign_colors_to_types()
 
-        # 2. Recuperar todos los colores únicos disponibles en los productos
-        available_colors = list(Product.objects.values_list('color', flat=True).distinct())
-
-        # 3. Verificar que haya suficientes colores para asignar a cada tipo
-        if not available_colors or len(available_colors) < types.count():
-            raise ImproperlyConfigured(
-                "No hay suficientes colores únicos disponibles para asignar a cada tipo. "
-                f"Se requieren al menos {types.count()} colores, pero solo hay {len(available_colors)} disponibles."
-            )
-
-        # 4. Mezclar los colores aleatoriamente para asignación
-        random.shuffle(available_colors)
-
-        # 5. Asignar un color único a cada tipo
-        type_color_mapping = {type_obj.id: color for type_obj, color in zip(types, available_colors)}
-
-        # 6. Construir el diccionario de productos filtrados por tipo y color
         products = {}
-        for type_obj in types:
-            key = type_obj.name.lower()  # 'phones', 'tablets', 'laptops'
+        for type_obj in Type.objects.all():
+            key = type_obj.name.lower()
             assigned_color = type_color_mapping[type_obj.id]
             products[key] = Product.objects.filter(type=type_obj, color=assigned_color)
 
-        # 7. Preparar el contexto para el template
         context = {
             'products': products,
         }
 
-        print(products)
-
         return render(request, "home.html", context)
 
     elif request.method == "POST":
-        # Manejo de actualización de usuario según tu lógica actual
         user = request.user
         user.username = request.POST.get("username", user.username)
         user.email = request.POST.get("email", user.email)
@@ -76,12 +49,9 @@ def home(request):
         user.save()
 
         client = user.client
-        # Asegúrate de actualizar los campos del cliente si es necesario
         client.save()
 
         return redirect("home")
-
-
 
 def logIn(request):
     if request.method == "GET":
@@ -240,7 +210,7 @@ def products(request, id):
     except Product.DoesNotExist:
         product_type = get_object_or_404(Type, id=id)
     
-    products_of_same_type = Product.objects.filter(type=product_type)
+    products_of_same_type = Product.objects.filter(type=product_type, color="black")
     
     return render(request, "products.html", {
         "type": product_type,
@@ -267,7 +237,7 @@ def updateProfilePicture(request):
 @user_passes_test(isUserAuthenticated, login_url="logIn")
 def productSelect(request):
     if request.method == 'GET':
-        retrievedProducts = Product.objects.filter(name="Medium")[::-1]
+        retrievedProducts = Product.objects.filter(name="Medium", color="black")[::-1]
         return render(request, "finalBuild/deviceSelection.html", {"products" : retrievedProducts})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
@@ -277,7 +247,7 @@ def modelSelect(request, id=None):
             return JsonResponse({"error": "Invalid data"}, status=400)
         
         product = Product.objects.get(id=id)
-        models = Product.objects.filter(type_id=product.type_id)
+        models = Product.objects.filter(type_id=product.type_id, color=product.color)
         return render(request, "finalBuild/modelSelection.html", {"product": product, "models": models})
 
 @user_passes_test(isUserAuthenticated, login_url="logIn")
@@ -356,12 +326,14 @@ def removeFromCart(request, cartProductId):
 def addToCart(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        product_id = data.get('product_id')
+        product_name = data.get('name')
+        product_type_id = data.get('type_id')
+        product_color = data.get('color')
         module_ids = data.get('modules', [])
 
         try:
             client = Client.objects.get(user=request.user)
-            product = Product.objects.get(id=product_id)
+            product = Product.objects.get(name=product_name, type_id=product_type_id, color=product_color)
 
             module_ids = sorted([int(module_id) for module_id in module_ids])
 
