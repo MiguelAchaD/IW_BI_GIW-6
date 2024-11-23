@@ -110,7 +110,7 @@ function closePopup() {
 }
 
 function goToCart() {
-  window.location.href = '/cart/';
+  window.location.href = '/myCart/';
 }
 
 document.addEventListener('DOMContentLoaded', function () {
