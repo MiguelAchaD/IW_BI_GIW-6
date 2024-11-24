@@ -129,11 +129,13 @@ h2.info {
   font-size: 1em;
   border-radius: 5px;
   cursor: pointer;
-  transition: width var(--ease-time) ease;
+  transition: width var(--ease-time) ease, background-color var(--ease-time) ease, border var(--ease-time) ease;
   width: 15rem;
 }
 
 #add:hover {
+  background-color: var(--button-hover);
+  border-color: var(--button-hover);
   width: 30rem;
 }
 
@@ -264,10 +266,9 @@ h2.info {
 }
 
 .popup-buttons button:hover {
-  background-color: var(--color05);  
+  background-color: var(--button-hover);  
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity: 1;}

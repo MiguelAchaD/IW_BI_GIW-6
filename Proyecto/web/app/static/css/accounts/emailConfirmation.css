@@ -55,7 +55,7 @@ button {
 }
 
 button:hover {
-    background-color: rgb(4, 114, 97);
-    border-color: rgb(4, 114, 97);
+    background-color: var(--button-hover);
+    border-color: var(--button-hover);
     width: 400px;
 }

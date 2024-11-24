@@ -14,6 +14,7 @@
   --ease-time2: 0.1s;
   --navHeight: 70px;
   --contentPadding: 10vw;
+  --button-hover: rgb(4, 114, 97);
 }
 
 * {
