@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let tabletDescription = document.getElementById("tabletDescription");
   let laptopDescription = document.getElementById("laptopDescription");
 
+  renderDescriptions(descriptionVisibility);
+
   document.addEventListener("click", function (event) {
     const closestElement = event.target.closest("[data-url]");
     if (closestElement) {
