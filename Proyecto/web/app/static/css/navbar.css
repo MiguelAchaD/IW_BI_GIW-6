@@ -1,5 +1,5 @@
 h1 {
-  margin-left: 10px;
+  margin-left: 0.625rem;
 }
 
 #shoping-cart,
@@ -11,7 +11,7 @@ h1 {
   -o-transition: fill var(--ease-time) ease;
   transition: fill var(--ease-time) ease;
   fill: var(--color07);
-  height: 60px;
+  height: 3.75rem;
 }
 
 #shoping-cart:hover g,
@@ -26,9 +26,9 @@ h1 {
 }
 
 #icon {
-  margin: 8px;
-  height: 40px;
-  width: 40px;
+  margin: 0.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
   display: inline-block;
   transition: transform var(--ease-time) ease;
 }
@@ -83,7 +83,7 @@ h1 {
   visibility: hidden;
   position: absolute;
   background-color: var(--color01);
-  min-width: 160px;
+  min-width: 10rem;
   top: calc(var(--navHeight));
   transition: height var(--ease-time2) ease-in-out,
     visibility var(--ease-time2) ease-in-out,
@@ -91,8 +91,8 @@ h1 {
     border-left var(--ease-time2) ease-in-out,
     border-right var(--ease-time2) ease-in-out;
   align-self: flex-start;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 0.625rem;
+  border-bottom-right-radius: 0.625rem;
 }
 
 #account-info li,
@@ -100,7 +100,7 @@ h1 {
   color: var(--color07);
   display: block;
   padding: 0;
-  margin: 20px 50px 20px 50px;
+  margin: 1.25rem 3.125rem;
 }
 
 form {
@@ -112,27 +112,27 @@ form {
 .content {
   display: flex;
   flex-direction: row;
-  margin: 10px 0 10px 0;
+  margin: 0.625rem 0;
 }
 
 label {
   color: var(--color07);
-  margin-right: 5px;
+  margin-right: 0.3125rem;
 }
 
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px var(--color01) inset;
+  -webkit-box-shadow: 0 0 0 100vmax var(--color01) inset;
   -webkit-text-fill-color: var(--color07);
 }
 
 #save {
   align-self: center;
-  height: 35px;
-  margin-top: 30px;
+  height: 2.1875rem;
+  margin-top: 1.875rem;
   width: 60%;
   background-color: var(--color06);
   border: 1px solid var(--color06);
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   color: var(--color07);
   outline: none;
   font-family: Arial;
@@ -148,20 +148,21 @@ input:-webkit-autofill {
 
 .profile {
   border-radius: 50%;
-  margin-bottom: 30px;
-  height: 80px;
-  width: 80px;
+  margin-bottom: 1.875rem;
+  height: 5rem;
+  width: 5rem;
 }
 
 #profilepic {
   transition: transform var(--ease-time) ease, opacity var(--ease-time) ease;
   opacity: 1;
   transform: translateX(0);
+  margin: 0;
 }
 
 #profilepic.fade-out {
   opacity: 0;
-  transform: translateX(-250px);
+  transform: translateX(-15.625rem);
 }
 
 nav {
@@ -180,19 +181,19 @@ nav {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  padding: 10px;
+  padding: 0.625rem;
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 0.9375rem;
+  right: 1.25rem;
   z-index: 1000;
 }
 
 .hamburger-menu span {
   display: block;
-  width: 25px;
-  height: 3px;
+  width: 1.5625rem;
+  height: 0.1875rem;
   background-color: var(--color07);
-  margin: 4px 0;
+  margin: 0.25rem 0;
   transition: transform 0.3s ease;
 }
 
@@ -213,7 +214,7 @@ nav {
   transition: transform 0.5s ease, opacity 0.5s ease;
   width: auto;
   height: auto;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   border: 1px solid var(--color07);
   background-color: var(--color01);
   display: flex;
@@ -232,16 +233,16 @@ nav {
   list-style-type: none;
   width: 100%;
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
 #profile-pic-menu img {
-  margin: 10px;
+  margin: 0.625rem;
   opacity: 0;
-  width: 50px;
-  height: 50px;
+  width: 3.125rem;
+  height: 3.125rem;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -257,18 +258,18 @@ nav {
 .profile-container {
   display: flex;
   flex-direction: column;
-  width: 90%; 
-  max-width: 500px;  
-  min-width: 280px; 
+  width: 25vw;
+  height: 75vh;
+  min-height: fit-content;
   background-color: var(--color01);
   color: var(--color07);
-  border-radius: 10px;
-  padding: 20px 15px; 
+  border-radius: 0.625rem;
+  padding: 1.25rem 0.9375rem;
   border: 1px solid var(--color07);
   align-items: center;
   position: fixed;
-  top: 25%; 
-  left: 50%;  
+  top: 5vh;
+  left: 50vw;
   transform: translate(-50%, 0) scale(0);
   transform-origin: top center;
   transition: transform 0.5s ease, opacity 0.5s ease;
@@ -282,10 +283,9 @@ nav {
 }
 
 .profile-container form {
-  width: 100%;  
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;  
 }
 
 .profile-container .content {
@@ -294,40 +294,40 @@ nav {
 }
 
 .profile-container .content label {
-  font-size: 1rem;  
-  margin-bottom: 5px; 
+  font-size: 1rem;
+  margin-bottom: 0.3125rem;
 }
 
 .profile-container .content input {
   background-color: var(--color01);
   color: var(--color07);
   border: 1px solid var(--color07);
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   font-size: 1rem;
-  padding: 10px;
-  width: 100%; 
-  box-sizing: border-box;  
-  transition: border-color 0.3s ease;  
+  padding: 0.625rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
 .profile-container .content input:focus {
   border-color: var(--color06);
-  outline: none;  
+  outline: none;
 }
 
 .profile-container #save {
   align-self: center;
-  height: 40px;
-  margin-top: 20px;
-  width: 100%; 
+  height: 2.5rem;
+  margin-top: 1.25rem;
+  width: 100%;
   background-color: var(--color06);
   border: 1px solid var(--color06);
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   color: var(--color07);
   font-family: Arial, sans-serif;
   font-size: 1rem;
-  padding: 10px;
-  box-sizing: border-box;  
+  padding: 0.625rem;
+  box-sizing: border-box;
   transition: background-color var(--ease-time) ease, border var(--ease-time) ease;
 }
 
@@ -338,31 +338,42 @@ nav {
 
 .profile-container .profile {
   border-radius: 50%;
-  height: auto; 
-  width: 40%; 
-  max-width: 150px;  
-  margin-bottom: 15px;
+  height: auto;
+  width: 40%;
+  max-width: 9.375rem;
+  margin-bottom: 0.9375rem;
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    min-width: none;
+    width: 75vw;
+    height: fit-content;
+    padding: 0.9375rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .profile-container {
+    min-width: none;
+    width: 50vw;
+    height: fit-content;
+    padding: 0.9375rem;
+  }
 }
 
 @media (max-width: 768px) {
-
-  .profile-container {
-    width: 80%;
-    padding: 15px;
-    top: 20%;  
-  }
-
   .profile-container .content input {
     font-size: 0.9rem;
   }
 
   .profile-container #save {
-    font-size: 0.9rem;  
-    width: 100%; 
+    font-size: 0.9rem;
+    width: 100%;
   }
 
   .profile-container .profile {
-    width: 50%; 
+    width: 50%;
   }
 
   .hamburger-menu {
@@ -381,12 +392,12 @@ nav {
   }
 
   .navbar.dropdown.active {
-    max-height: 500px;
+    max-height: 31.25rem;
   }
 
   nav {
     flex-direction: column;
-    padding: 10px;
+    padding: 0.625rem;
     align-items: center;
   }
 
@@ -394,11 +405,11 @@ nav {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
   }
 
   .navbar:first-of-type {
-    margin-bottom: 5px;
+    margin-bottom: 0.3125rem;
   }
 
   #account-info,
@@ -413,8 +424,8 @@ nav {
 
   #profile-pic-menu {
     width: auto;
-    max-width: 70px;
-    padding: 10px;
+    max-width: 4.375rem;
+    padding: 0.625rem;
     top: 25%;
     left: 50%;
     transform: translate(-50%, 0) scale(0);
@@ -425,7 +436,7 @@ nav {
   }
 
   #profile-pic-menu ul {
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
   }
 
