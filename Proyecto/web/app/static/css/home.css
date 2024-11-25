@@ -7,7 +7,7 @@
 
 .section-title {
   color: var(--color07);
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5rem;
 }
 
 .image-text-container {
@@ -34,7 +34,7 @@
   transition: filter var(--ease-time) ease-in-out;
   margin-right: 20px;
   cursor: pointer;
-  height: 15em;
+  height: 15rem;
 }
 
 .image-stack img:hover + * {
@@ -59,7 +59,7 @@
   top: 0;
   bottom: 0;
   width: 30%;
-  background-color: var(--color06);
+  background-color: var(--color08);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   color: var(--color07);
@@ -88,7 +88,7 @@
     transition: none;
     transform: none;
     padding: 20px 0;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
     opacity: 1;
     transition: opacity var(--ease-time) ease-in-out;
   }
